@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:klitchyapp/views/homePage.dart';
 import 'package:klitchyapp/views/splashScreen.dart';
 
 void main() {
@@ -18,8 +17,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      // home:  SplashScreen(),
-      home:  HomePage(),
+      home: SplashScreen(),
     );
   }
 }
