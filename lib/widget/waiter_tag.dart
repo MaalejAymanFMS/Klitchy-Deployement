@@ -18,11 +18,14 @@ class WaiterTag extends StatelessWidget {
         ),
       ),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
+          SizedBox(width: 10,),
           CircleAvatar(
             backgroundColor: Colors.blue,
             child: Image.asset("assets/images/$image"),
           ),
+          SizedBox(width: 30,),
           Text(name),
         ],
       ),

@@ -61,10 +61,14 @@ class _GestionDeTableState extends State<GestionDeTable> {
           const SizedBox(
             width: 15,
           ),
-          Column(
+           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              AvailableWaiters(2),
-              const StartPageUI(),
+              Padding(
+                padding: const EdgeInsets.all(15),
+                child: AvailableWaiters(appState.numberOfTables),
+              ),
+              StartPageUI(),
             ],
           )
         ],

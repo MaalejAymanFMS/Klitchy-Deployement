@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:klitchyapp/utils/AppState.dart';
+import 'package:provider/provider.dart';
 
 import '../config/app_colors.dart';
 import '../widget/custom_button.dart';
@@ -19,6 +21,7 @@ class StartPageUIState extends State<StartPageUI> {
 
   @override
   Widget build(BuildContext context) {
+    final appState = Provider.of<AppState>(context);
     return Center(
       child: Row(
         children: [
@@ -40,7 +43,10 @@ class StartPageUIState extends State<StartPageUI> {
               itemBuilder: (BuildContext context, int index) {
                 Widget widget = _gridChildren[index];
                 return GestureDetector(
-                  onDoubleTap: () => _handleDelete(index),
+                  onDoubleTap: () {
+                    _handleDelete(index);
+                    appState.deleteTable();
+                  },
                   onTap: () {
                     showDialog(
                         context: context,
@@ -60,6 +66,7 @@ class StartPageUIState extends State<StartPageUI> {
                               InkWell(
                                   onTap: () {
                                     _handleDelete(index);
+                                    appState.deleteTable();
                                     Navigator.pop(context);
                                   },
                                   child: Text("delete"))
@@ -73,7 +80,7 @@ class StartPageUIState extends State<StartPageUI> {
                     child: Stack(
                       children: [
                         Positioned(
-                          left: 125 , // Center horizontally
+                          left: 125, // Center horizontally
                           top: 70,
                           child: Container(
                             width: 10,
@@ -92,6 +99,7 @@ class StartPageUIState extends State<StartPageUI> {
                           onWillAccept: (data) => data is Widget,
                           onAccept: (data) {
                             _handleAccept(data, index);
+                            appState.addTable();
                           },
                         ),
                       ],
@@ -101,7 +109,9 @@ class StartPageUIState extends State<StartPageUI> {
               },
             ),
           ),
-          const SizedBox(width: 20,),
+          const SizedBox(
+            width: 20,
+          ),
           SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -109,11 +119,15 @@ class StartPageUIState extends State<StartPageUI> {
                 DraggableTable(TableFour(),
                     onDraggableCanceled: (widget) =>
                         _handleDragCancelled(widget)),
-                const SizedBox(height: 100,),
+                const SizedBox(
+                  height: 100,
+                ),
                 DraggableTable(TableEight(90),
                     onDraggableCanceled: (widget) =>
                         _handleDragCancelled(widget)),
-                const SizedBox(height: 100,),
+                const SizedBox(
+                  height: 100,
+                ),
                 DraggableTable(TableEight(0),
                     onDraggableCanceled: (widget) =>
                         _handleDragCancelled(widget)),
