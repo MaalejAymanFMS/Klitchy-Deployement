@@ -9,7 +9,7 @@ class Room extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -17,10 +17,11 @@ class Room extends StatelessWidget {
           CircleAvatar(
             child: Image.asset("assets/images/logo.png"),
           ),
-          SizedBox(width: 10,),
+          const SizedBox(width: 10,),
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(title, style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+              Text(title, style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
               Row(
                 children: [
                   Container(

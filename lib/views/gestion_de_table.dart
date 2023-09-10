@@ -2,6 +2,7 @@ library gestion_de_table;
 
 import 'package:flutter/material.dart';
 import 'package:klitchyapp/config/app_colors.dart';
+import 'package:klitchyapp/widget/available_waiters.dart';
 import 'package:provider/provider.dart';
 import '../utils/AppState.dart';
 import '../widget/drawer/room.dart';
@@ -42,21 +43,30 @@ class _GestionDeTableState extends State<GestionDeTable> {
       body: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Stack(children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 20, left: 5),
-              child: InkWell(
-                  onTap: () => appState.toggleWidget(),
-                  child: const Icon(Icons.menu, color: Colors.white)),
-            ),
-            appState.isWidgetEnabled
-                ? Drawer(
-                    child: LeftDrawer(_handleDrawer),
-                  )
-                : const SizedBox.shrink(),
-          ]),
-          const SizedBox(width: 15,),
-          const StartPageUI()
+          Stack(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 20, left: 5),
+                child: InkWell(
+                    onTap: () => appState.toggleWidget(),
+                    child: const Icon(Icons.menu, color: Colors.white)),
+              ),
+              appState.isWidgetEnabled
+                  ? Drawer(
+                      child: LeftDrawer(_handleDrawer),
+                    )
+                  : const SizedBox.shrink(),
+            ],
+          ),
+          const SizedBox(
+            width: 15,
+          ),
+          Column(
+            children: [
+              AvailableWaiters(2),
+              const StartPageUI(),
+            ],
+          )
         ],
       ),
     );

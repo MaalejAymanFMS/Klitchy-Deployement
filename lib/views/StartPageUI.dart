@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../config/app_colors.dart';
 import '../widget/custom_button.dart';
 import '../widget/tables/table_4.dart';
 import '../widget/tables/table_8.dart';
@@ -13,7 +14,8 @@ class StartPageUI extends StatefulWidget {
 
 class StartPageUIState extends State<StartPageUI> {
   final List<Widget> _newTables = [];
-  final List<Widget> _gridChildren = List.generate(5 * 4, (index) => Container());
+  final List<Widget> _gridChildren =
+      List.generate(5 * 4, (index) => Container());
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,6 @@ class StartPageUIState extends State<StartPageUI> {
           Container(
             height: 150 * 5,
             width: 260 * 4,
-
             decoration: const BoxDecoration(
               color: Color(0xFF0E1227),
               borderRadius: BorderRadius.all(
@@ -69,21 +70,38 @@ class StartPageUIState extends State<StartPageUI> {
                   child: SizedBox(
                     width: 260,
                     height: 260,
-                    child: DragTarget<Widget>(
-                      builder: (BuildContext context,
-                          List<Widget?> accepted, List<dynamic> rejected) {
-                        return widget;
-                      },
-                      onWillAccept: (data) => data is Widget,
-                      onAccept: (data) {
-                        _handleAccept(data, index);
-                      },
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          left: 125 , // Center horizontally
+                          top: 70,
+                          child: Container(
+                            width: 10,
+                            height: 10,
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: AppColors.secondaryTextColor,
+                            ),
+                          ),
+                        ),
+                        DragTarget<Widget>(
+                          builder: (BuildContext context,
+                              List<Widget?> accepted, List<dynamic> rejected) {
+                            return widget;
+                          },
+                          onWillAccept: (data) => data is Widget,
+                          onAccept: (data) {
+                            _handleAccept(data, index);
+                          },
+                        ),
+                      ],
                     ),
                   ),
                 );
               },
             ),
           ),
+          const SizedBox(width: 20,),
           SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -91,9 +109,11 @@ class StartPageUIState extends State<StartPageUI> {
                 DraggableTable(TableFour(),
                     onDraggableCanceled: (widget) =>
                         _handleDragCancelled(widget)),
+                const SizedBox(height: 100,),
                 DraggableTable(TableEight(90),
                     onDraggableCanceled: (widget) =>
                         _handleDragCancelled(widget)),
+                const SizedBox(height: 100,),
                 DraggableTable(TableEight(0),
                     onDraggableCanceled: (widget) =>
                         _handleDragCancelled(widget)),
