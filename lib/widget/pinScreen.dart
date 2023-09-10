@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:klitchyapp/routes/routes.dart';
+
+import 'package:klitchyapp/config/app_colors.dart';
+
 
 class PinScreen extends StatefulWidget {
+  
   @override
   _PinScreenState createState() => _PinScreenState();
 }
@@ -10,7 +13,7 @@ class _PinScreenState extends State<PinScreen> {
   String pin = '';
   int filledCircles = 0;
 
-  void _addToPin(String digit) {
+  void addPin (String digit) {
     setState(() {
       if (pin.length < 4) {
         pin += digit;
@@ -19,7 +22,7 @@ class _PinScreenState extends State<PinScreen> {
     });
   }
 
-  void _removeFromPin() {
+  void removePin() {
     setState(() {
       if (pin.isNotEmpty) {
         pin = pin.substring(0, pin.length - 1);
@@ -32,98 +35,99 @@ class _PinScreenState extends State<PinScreen> {
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
 
-    return Center(
-      child: Card(
-        elevation: 8.0,
-        margin: EdgeInsets.all(16.0),
-        child: Container(
-          padding: const EdgeInsets.all(16.0),
-          width: deviceSize.width * 0.2,
-          height: deviceSize.height * 0.5,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-            const  Text(
-                'Enter Your PIN:',
-                style: TextStyle(fontSize: 20),
-              ),
-              Row(
+    return Card(
+      color: AppColors.tertiaryColor,
+      elevation: 8.0,
+      margin: const EdgeInsets.all(16.0),
+      child: Container(
+        padding: const EdgeInsets.all(16.0),
+        width: deviceSize.width * 0.2,
+        height: deviceSize.height * 0.5,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Text(
+              'Enter personal PIN:',
+              style: TextStyle(fontSize: 20, color: AppColors.lightColor),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                for (int i = 0; i < 4; i++)
+                  Container(
+                    margin: const EdgeInsets.all(8.0),
+                    width: 30,
+                    height: 30,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: i < filledCircles
+                          ? AppColors.greenColor
+                          : AppColors.lightColor,
+                    ),
+                  ),
+              ],
+            ),
+            const SizedBox(height: 20),
+            Container(
+              margin: const EdgeInsets.only(bottom: 10.0),
+              child: Row(
+
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  for (int i = 0; i < 4; i++)
-                    Container(
-                      margin:const EdgeInsets.all(8.0),
-                      width: 30,
-                      height: 30,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: i < filledCircles ? Colors.green : Colors.grey,
-                      ),
-                    ),
+                  
+                  for (int i = 1; i <= 3; i++) keyboardButton('$i'),
                 ],
               ),
-              SizedBox(height: 20),
-              Container(
-                margin: EdgeInsets.only(bottom: 10.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    for (int i = 1; i <= 3; i++)
-                      _buildCustomKeyboardButton('$i'),
-                  ],
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(bottom: 10.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    for (int i = 4; i <= 6; i++)
-                      _buildCustomKeyboardButton('$i'),
-                  ],
-                ),
-              ),
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    for (int i = 7; i <= 9; i++)
-                      _buildCustomKeyboardButton('$i'),
-                  ],
-                ),
-              ),
-              SizedBox(height: 20),
-              Row(
+            ),
+            Container(
+              margin: const EdgeInsets.only(bottom: 10.0),
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      // TODOO
-                      Navigator.pushNamed(context, PageRoutes.gestionDeTable);
 
-                    },
-                    child: Text('Confirm'),
-                  ),
-                  SizedBox(width: 20),
-                  ElevatedButton(
-                    onPressed: () {
-                      _removeFromPin();
-                    },
-                    child: Text('Delete'),
-                  ),
+                children: <Widget>[
+                  for (int i = 4; i <= 6; i++) keyboardButton('$i'),
+
                 ],
               ),
-            ],
-          ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                for (int i = 7; i <= 9; i++) keyboardButton('$i'),
+              ],
+            ),
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    // TODOO impliments services
+                    print(pin);
+                    
+                  },
+                  child: const Text('Confirm', style: const TextStyle(fontSize: 20, color: AppColors.dark01Color)),
+                ),
+                const SizedBox(width: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    removePin();
+                  },
+                  child: const Text('Delete', style: const TextStyle(fontSize: 20, color: AppColors.dark01Color)),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Widget _buildCustomKeyboardButton(String label) {
+  Widget keyboardButton(String label) {
     return ElevatedButton(
-      onPressed: () => _addToPin(label),
-      child: Text(label, style: TextStyle(fontSize: 20)),
+      onPressed: () => addPin(label),
+      child: Text(label, style: const TextStyle(fontSize: 30, color: AppColors.dark01Color)),
+
     );
   }
 }
