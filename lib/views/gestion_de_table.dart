@@ -43,15 +43,19 @@ class _GestionDeTableState extends State<GestionDeTable> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Stack(children: [
-            InkWell(
-                onTap: () => appState.toggleWidget(),
-                child: const Icon(Icons.menu)),
+            Padding(
+              padding: const EdgeInsets.only(top: 20, left: 5),
+              child: InkWell(
+                  onTap: () => appState.toggleWidget(),
+                  child: const Icon(Icons.menu, color: Colors.white)),
+            ),
             appState.isWidgetEnabled
                 ? Drawer(
                     child: LeftDrawer(_handleDrawer),
                   )
                 : const SizedBox.shrink(),
           ]),
+          const SizedBox(width: 15,),
           const StartPageUI()
         ],
       ),

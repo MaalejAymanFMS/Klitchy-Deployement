@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
+import '../../config/app_colors.dart';
+
 class Room extends StatelessWidget {
-  const Room({super.key});
+  final String title;
+  const Room(this.title,{super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,25 +20,25 @@ class Room extends StatelessWidget {
           SizedBox(width: 10,),
           Column(
             children: [
-              Text("Rooms", style: TextStyle(fontWeight: FontWeight.bold)),
+              Text(title, style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
               Row(
                 children: [
                   Container(
                     width: 10,
                     height: 10,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         color: Colors.green,
                         shape: BoxShape.circle
                     ),
                   ),
                   SizedBox(width: 5,),
-                  Text("online", style: TextStyle(fontWeight: FontWeight.normal)),
+                  Text("online", style: TextStyle(fontWeight: FontWeight.normal, color: AppColors.secondaryTextColor)),
                 ],
               ),
             ],
           ),
           Spacer(),
-          Icon(Icons.arrow_forward_ios),
+          Icon(Icons.arrow_forward_ios, color: Colors.white),
         ],
       ),
     );

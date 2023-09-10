@@ -13,7 +13,7 @@ class StartPageUI extends StatefulWidget {
 
 class StartPageUIState extends State<StartPageUI> {
   final List<Widget> _newTables = [];
-  List<Widget> _gridChildren = List.generate(5 * 4, (index) => Container());
+  final List<Widget> _gridChildren = List.generate(5 * 4, (index) => Container());
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,13 @@ class StartPageUIState extends State<StartPageUI> {
           Container(
             height: 150 * 5,
             width: 260 * 4,
-            color: Color(0xFF0E1227),
+
+            decoration: const BoxDecoration(
+              color: Color(0xFF0E1227),
+              borderRadius: BorderRadius.all(
+                Radius.circular(18),
+              ),
+            ),
             child: GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 4,
@@ -33,6 +39,7 @@ class StartPageUIState extends State<StartPageUI> {
               itemBuilder: (BuildContext context, int index) {
                 Widget widget = _gridChildren[index];
                 return GestureDetector(
+                  onDoubleTap: () => _handleDelete(index),
                   onTap: () {
                     showDialog(
                         context: context,
@@ -77,22 +84,20 @@ class StartPageUIState extends State<StartPageUI> {
               },
             ),
           ),
-          Center(
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  DraggableTable(TableFour(),
-                      onDraggableCanceled: (widget) =>
-                          _handleDragCancelled(widget)),
-                  DraggableTable(TableEight(90),
-                      onDraggableCanceled: (widget) =>
-                          _handleDragCancelled(widget)),
-                  DraggableTable(TableEight(0),
-                      onDraggableCanceled: (widget) =>
-                          _handleDragCancelled(widget)),
-                ],
-              ),
+          SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                DraggableTable(TableFour(),
+                    onDraggableCanceled: (widget) =>
+                        _handleDragCancelled(widget)),
+                DraggableTable(TableEight(90),
+                    onDraggableCanceled: (widget) =>
+                        _handleDragCancelled(widget)),
+                DraggableTable(TableEight(0),
+                    onDraggableCanceled: (widget) =>
+                        _handleDragCancelled(widget)),
+              ],
             ),
           ),
         ],

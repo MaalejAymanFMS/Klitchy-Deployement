@@ -29,6 +29,7 @@ class _TopMenuDrawerState extends State<TopMenuDrawer> {
             height: 32,
             child: Icon(
               Icons.menu,
+              color: Colors.white,
             ),
           ),
         ),
@@ -38,11 +39,11 @@ class _TopMenuDrawerState extends State<TopMenuDrawer> {
         const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("klitchy restaurant", style: TextStyle(fontWeight: FontWeight.bold)),
+            Text("klitchy restaurant", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
             SizedBox(
               height: 5,
             ),
-            Text("Restaurant", style: TextStyle(fontWeight: FontWeight.normal)),
+            Text("Restaurant", style: TextStyle(fontWeight: FontWeight.normal, color: AppColors.secondaryTextColor)),
           ],
         )
       ],

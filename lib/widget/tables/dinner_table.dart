@@ -10,11 +10,8 @@ class DinnerTable extends StatelessWidget {
         width: personNumber == 8 ? 176 : 59,
         height: 59,
         decoration: BoxDecoration(
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(2),
-            topRight: Radius.circular(2),
-            bottomLeft: Radius.circular(2),
-            bottomRight: Radius.circular(2),
+          borderRadius: const BorderRadius.all(
+            Radius.circular(2),
           ),
           color: const Color.fromRGBO(39, 45, 75, 1),
           border: Border.all(
