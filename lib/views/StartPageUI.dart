@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:klitchyapp/utils/AppState.dart';
+import 'package:klitchyapp/views/table_order.dart';
 import 'package:provider/provider.dart';
 
 import '../config/app_colors.dart';
@@ -17,8 +18,8 @@ class StartPageUI extends StatefulWidget {
 class StartPageUIState extends State<StartPageUI> {
   final List<Widget> _newTables = [];
   final List<Widget> _gridChildren =
-      List.generate(5 * 4, (index) => Container());
-
+  List.generate(5 * 4, (index) => Container());
+  bool room = true;
   @override
   Widget build(BuildContext context) {
     final appState = Provider.of<AppState>(context);
@@ -34,7 +35,7 @@ class StartPageUIState extends State<StartPageUI> {
                 Radius.circular(18),
               ),
             ),
-            child: GridView.builder(
+            child: room ? GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 4,
                 childAspectRatio: 260 / 150,
@@ -60,6 +61,12 @@ class StartPageUIState extends State<StartPageUI> {
                                   const Spacer(),
                                   CustomButton(
                                     text: "add order",
+                                    onTap: () {
+                                      setState(() {
+                                        room = false;
+                                      });
+                                      Navigator.pop(context);
+                                    },
                                   ),
                                 ])),
                             actions: [
@@ -107,12 +114,12 @@ class StartPageUIState extends State<StartPageUI> {
                   ),
                 );
               },
-            ),
+            ) : TableOrder(),
           ),
           const SizedBox(
             width: 20,
           ),
-          SingleChildScrollView(
+          room ? SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -133,7 +140,7 @@ class StartPageUIState extends State<StartPageUI> {
                         _handleDragCancelled(widget)),
               ],
             ),
-          ),
+          ) : SizedBox.shrink(),
         ],
       ),
     );

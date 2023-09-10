@@ -16,21 +16,31 @@ class AvailableWaiters extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text("Available waiters",
-                style: TextStyle(
-                    fontWeight: FontWeight.bold, color: Colors.white)),
-            Text("$tablesNumber Tables",
-                style: const TextStyle(
-                    fontWeight: FontWeight.normal,
-                    color: AppColors.secondaryTextColor))
+            const Text(
+              "Available waiters",
+              style:
+                  TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+            ),
+            Text(
+              "$tablesNumber Tables",
+              style: const TextStyle(
+                  fontWeight: FontWeight.normal,
+                  color: AppColors.secondaryTextColor),
+            ),
           ],
         ),
-        SizedBox(width: 200,),
-        WaiterTag(AppColors.secondaryTextColor, "JK.png", "Jamel K."),
-        SizedBox(width: 50,),
-        WaiterTag(AppColors.secondaryTextColor, "SA.png", "Samira A."),
-        SizedBox(width: 50,),
-        WaiterTag(AppColors.secondaryTextColor, "MH.png", "Maheb H."),
+        const SizedBox(
+          width: 200,
+        ),
+        const WaiterTag(AppColors.secondaryTextColor, "JK.png", "Jamel K."),
+        const SizedBox(
+          width: 50,
+        ),
+        const WaiterTag(AppColors.secondaryTextColor, "SA.png", "Samira A."),
+        const SizedBox(
+          width: 50,
+        ),
+        const WaiterTag(AppColors.secondaryTextColor, "MH.png", "Maheb H."),
       ],
     );
   }
