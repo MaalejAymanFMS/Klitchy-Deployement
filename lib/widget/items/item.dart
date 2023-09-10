@@ -20,14 +20,18 @@ class Item extends StatefulWidget {
 class ItemState extends State<Item> {
   int numberOfItems = 0;
   void handleMinus() {
-    setState(() {
-      numberOfItems -= 1;
-    });
+    if(numberOfItems > 0) {
+      setState(() {
+        numberOfItems -= 1;
+      });
+    }
   }
   void handlePlus() {
-    setState(() {
-      numberOfItems += 1;
-    });
+    if(numberOfItems < widget.stock) {
+      setState(() {
+        numberOfItems += 1;
+      });
+    }
   }
 
   @override
