@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'package:klitchyapp/config/app_colors.dart';
+
 
 class PinScreen extends StatefulWidget {
   
@@ -81,8 +83,10 @@ class _PinScreenState extends State<PinScreen> {
               margin: const EdgeInsets.only(bottom: 10.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
+
                 children: <Widget>[
                   for (int i = 4; i <= 6; i++) keyboardButton('$i'),
+
                 ],
               ),
             ),
