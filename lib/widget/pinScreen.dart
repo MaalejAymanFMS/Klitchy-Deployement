@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:klitchyapp/routes/routes.dart';
 
 class PinScreen extends StatefulWidget {
   @override
@@ -98,6 +99,7 @@ class _PinScreenState extends State<PinScreen> {
                   ElevatedButton(
                     onPressed: () {
                       // TODOO
+                      Navigator.pushNamed(context, PageRoutes.gestionDeTable);
 
                     },
                     child: Text('Confirm'),
