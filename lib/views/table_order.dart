@@ -71,12 +71,12 @@ class TableOrderState extends State<TableOrder> {
               if (index < listCategories.length) {
                 return listCategories[index];
               } else {
-                return Container(); // Handle out of bounds index
+                return Container();
               }
             },
           ),
         ),
-        Spacer(),
+        const Spacer(),
         const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

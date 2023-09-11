@@ -19,4 +19,7 @@ class AppColors {
   static const Color dark03Color = Color(0xFF2b2b2b);
   static const Color primary15Color = Color(0xFF886cc0);
   static const Color itemsColor = Color(0xFF161A34);
+  static const Color pink = Color(0xFFF178B6);
+  static const Color turquoise = Color(0xFF006C81);
+
 }

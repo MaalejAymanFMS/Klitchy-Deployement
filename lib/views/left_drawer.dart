@@ -32,21 +32,21 @@ class _LeftDrawerState extends State<LeftDrawer> {
         child: Column(
           children: [
             TopMenuDrawer(widget.onTap),
-            SizedBox(
+            const SizedBox(
               height: 40,
             ),
-            Divider(
+            const Divider(
               height: 1,
               thickness: 1,
               color: Colors.black,
             ),
             Rooms(addRoom,_room.length),
-            Divider(
+            const Divider(
               height: 1,
               thickness: 1,
               color: Colors.black,
             ),
-            SizedBox(
+            const SizedBox(
               height: 40,
             ),
             Column(

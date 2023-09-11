@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:klitchyapp/utils/AppState.dart';
+import 'package:klitchyapp/views/right_drawer.dart';
 import 'package:klitchyapp/views/table_order.dart';
 import 'package:provider/provider.dart';
 
@@ -19,7 +20,7 @@ class StartPageUIState extends State<StartPageUI> {
   final List<Widget> _newTables = [];
   final List<Widget> _gridChildren =
   List.generate(5 * 4, (index) => Container());
-  bool room = true;
+  bool room = false;
   @override
   Widget build(BuildContext context) {
     final appState = Provider.of<AppState>(context);
@@ -117,7 +118,7 @@ class StartPageUIState extends State<StartPageUI> {
             ) : TableOrder(),
           ),
           const SizedBox(
-            width: 20,
+            width: 15,
           ),
           room ? SingleChildScrollView(
             child: Column(
@@ -141,6 +142,7 @@ class StartPageUIState extends State<StartPageUI> {
               ],
             ),
           ) : SizedBox.shrink(),
+          !room ? RightDrawer() : SizedBox.shrink(),
         ],
       ),
     );
