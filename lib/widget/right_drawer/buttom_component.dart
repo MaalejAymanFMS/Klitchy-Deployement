@@ -15,61 +15,104 @@ class _ButtomComponentState extends State<ButtomComponent> {
   Widget build(BuildContext context) {
     return Container(
       width: 383,
-      height: 272,
+      height: 252,
       decoration: BoxDecoration(
         color: AppColors.itemsColor,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(10),
       ),
-      child: const Column(
+      child: Column(
         children: [
           Row(
             children: [
-              Row(
-                children: [
-                  Icon(
-                    Icons.remove_circle_outline,
-                    color: AppColors.pink,
-                  ),
-                  Text(
-                    "Discount",
-                    style: TextStyle(color: AppColors.pink),
-                  )
-                ],
+              Container(
+                width: 151.5,
+                height: 41,
+                decoration: BoxDecoration(
+                    border: Border.all(
+                      color: AppColors.primaryColor,
+                      width: 1,
+                    )),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.remove_circle_outline,
+                      color: AppColors.pink,
+                    ),
+                    SizedBox(width: 10,),
+                    Text(
+                      "Discount",
+                      style: TextStyle(color: AppColors.pink),
+                    )
+                  ],
+                ),
               ),
-              Row(
-                children: [
-                  Icon(
-                    Icons.add_card_outlined,
-                    color: AppColors.turquoise,
-                  ),
-                  Text(
-                    "Add amount",
-                    style: TextStyle(color: AppColors.turquoise),
-                  )
-                ],
+              Container(
+                width: 151.5,
+                height: 41,
+                decoration: BoxDecoration(
+                    border: Border.all(
+                      color: AppColors.primaryColor,
+                      width: 1,
+                    )),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.add_card_outlined,
+                      color: AppColors.turquoise,
+                    ),
+                    SizedBox(width: 10,),
+                    Text(
+                      "Add amount",
+                      style: TextStyle(color: AppColors.turquoise),
+                    )
+                  ],
+                ),
               ),
             ],
           ),
-          Row(
-            children: [
-              Text("Subtotal"),
-              Spacer(),
-              Text("0.00 TND"),
-            ],
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Row(
+              children: [
+                Text("Subtotal",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: AppColors.textItems),),
+                Spacer(),
+                Text("0.00 TND",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: AppColors.textItems),),
+              ],
+            ),
           ),
-          Row(
-            children: [
-              Text("TVA 19%"),
-              Spacer(),
-              Text("0.00 TND"),
-            ],
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Row(
+              children: [
+                Text("TVA 19%",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: AppColors.textItems),),
+                Spacer(),
+                Text("0.00 TND",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: AppColors.textItems),),
+              ],
+            ),
           ),
-          Row(
-            children: [
-              Text("Total"),
-              Spacer(),
-              Text("0.00 TND"),
-            ],
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Row(
+              children: [
+                Text("Total",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.white),),
+                Spacer(),
+                Text("0.00 TND",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: AppColors.textItems),),
+              ],
+            ),
           ),
           Spacer(),
           Padding(

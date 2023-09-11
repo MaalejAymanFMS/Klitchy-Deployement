@@ -20,7 +20,7 @@ class StartPageUIState extends State<StartPageUI> {
   final List<Widget> _newTables = [];
   final List<Widget> _gridChildren =
   List.generate(5 * 4, (index) => Container());
-  bool room = false;
+  bool room = true;
   @override
   Widget build(BuildContext context) {
     final appState = Provider.of<AppState>(context);
@@ -115,10 +115,10 @@ class StartPageUIState extends State<StartPageUI> {
                   ),
                 );
               },
-            ) : TableOrder(),
+            ) : const TableOrder(),
           ),
-          const SizedBox(
-            width: 15,
+          SizedBox(
+            width: appState.isWidgetEnabled ? 12 : 287,
           ),
           room ? SingleChildScrollView(
             child: Column(
