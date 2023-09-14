@@ -2,7 +2,9 @@ library gestion_de_table;
 
 import 'package:flutter/material.dart';
 import 'package:klitchyapp/config/app_colors.dart';
+import 'package:klitchyapp/utils/size_utils.dart';
 import 'package:klitchyapp/widget/available_waiters.dart';
+import 'package:klitchyapp/widget/current_waiter.dart';
 import 'package:provider/provider.dart';
 import '../utils/AppState.dart';
 import '../widget/drawer/room.dart';
@@ -46,7 +48,7 @@ class _GestionDeTableState extends State<GestionDeTable> {
           Stack(
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 20, left: 5),
+                padding: EdgeInsets.only(top: 20.v, left: 5.h),
                 child: InkWell(
                     onTap: () => appState.toggleWidget(),
                     child: const Icon(Icons.menu, color: Colors.white)),
@@ -58,17 +60,23 @@ class _GestionDeTableState extends State<GestionDeTable> {
                   : const SizedBox.shrink(),
             ],
           ),
-          const SizedBox(
-            width: 15,
+          SizedBox(
+            width: 15.h,
           ),
            Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
                 padding: const EdgeInsets.all(15),
-                child: AvailableWaiters(appState.numberOfTables),
+                child: Row(
+                  children: [
+                    AvailableWaiters(appState.numberOfTables),
+                    SizedBox(width: 200.h,),
+                    const CurrentWaiter()
+                  ],
+                ),
               ),
-              StartPageUI(),
+              const StartPageUI(),
             ],
           )
         ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:klitchyapp/utils/size_utils.dart';
 
 import '../../config/app_colors.dart';
 
@@ -11,19 +12,23 @@ class Rooms extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+      padding: EdgeInsets.symmetric(vertical: 5.v, horizontal: 10.h),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Column(
             children: [
-              const Text("Rooms",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold, color: Colors.white)),
-              Text("$numberOfRooms rooms",
-                  style: const TextStyle(
-                      fontWeight: FontWeight.normal,
-                      color: AppColors.secondaryTextColor)),
+              const Text(
+                "Rooms",
+                style:
+                    TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+              ),
+              Text(
+                "$numberOfRooms rooms",
+                style: const TextStyle(
+                    fontWeight: FontWeight.normal,
+                    color: AppColors.secondaryTextColor),
+              ),
             ],
           ),
           const Spacer(),

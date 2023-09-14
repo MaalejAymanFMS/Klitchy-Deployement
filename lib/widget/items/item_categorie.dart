@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:klitchyapp/utils/size_utils.dart';
 
 import '../../config/app_colors.dart';
 
@@ -17,8 +18,8 @@ class ItemCategorie extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 267,
-      height: 123,
+      width: 267.h,
+      height: 123.v,
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.circular(10),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:klitchyapp/utils/size_utils.dart';
 import 'package:klitchyapp/widget/waiter_tag.dart';
 
 import '../config/app_colors.dart';
@@ -29,16 +30,16 @@ class AvailableWaiters extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(
-          width: 200,
+        SizedBox(
+          width: 200.h,
         ),
         const WaiterTag(AppColors.secondaryTextColor, "JK.png", "Jamel K."),
-        const SizedBox(
-          width: 50,
+         SizedBox(
+          width: 50.h,
         ),
         const WaiterTag(AppColors.secondaryTextColor, "SA.png", "Samira A."),
-        const SizedBox(
-          width: 50,
+        SizedBox(
+          width: 50.h,
         ),
         const WaiterTag(AppColors.secondaryTextColor, "MH.png", "Maheb H."),
       ],

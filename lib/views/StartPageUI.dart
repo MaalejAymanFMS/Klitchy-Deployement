@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:klitchyapp/utils/AppState.dart';
+import 'package:klitchyapp/utils/size_utils.dart';
 import 'package:klitchyapp/views/right_drawer.dart';
 import 'package:klitchyapp/views/table_order.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +21,7 @@ class StartPageUIState extends State<StartPageUI> {
   final List<Widget> _newTables = [];
   final List<Widget> _gridChildren =
   List.generate(5 * 4, (index) => Container());
-  bool room = true;
+  bool room = false;
   @override
   Widget build(BuildContext context) {
     final appState = Provider.of<AppState>(context);
@@ -28,8 +29,8 @@ class StartPageUIState extends State<StartPageUI> {
       child: Row(
         children: [
           Container(
-            height: 150 * 5,
-            width: 260 * 4,
+            height: 150.v * 5,
+            width: 260.h * 4,
             decoration: const BoxDecoration(
               color: Color(0xFF0E1227),
               borderRadius: BorderRadius.all(
@@ -37,9 +38,9 @@ class StartPageUIState extends State<StartPageUI> {
               ),
             ),
             child: room ? GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 4,
-                childAspectRatio: 260 / 150,
+                childAspectRatio: 260.h / 150.v,
               ),
               itemCount: 5 * 4,
               itemBuilder: (BuildContext context, int index) {
@@ -56,7 +57,7 @@ class StartPageUIState extends State<StartPageUI> {
                           return AlertDialog(
                             title: Text("Table menu"),
                             content: Container(
-                                height: 300,
+                                height: 300.v,
                                 child: Column(children: [
                                   Text("table number: ${index + 1}"),
                                   const Spacer(),
@@ -83,16 +84,16 @@ class StartPageUIState extends State<StartPageUI> {
                         });
                   },
                   child: SizedBox(
-                    width: 260,
-                    height: 260,
+                    width: 260.h,
+                    height: 260.v,
                     child: Stack(
                       children: [
                         Positioned(
-                          left: 125, // Center horizontally
-                          top: 70,
+                          left: 125.h,
+                          top: 70.v,
                           child: Container(
-                            width: 10,
-                            height: 10,
+                            width: 10.h,
+                            height: 10.v,
                             decoration: const BoxDecoration(
                               shape: BoxShape.circle,
                               color: AppColors.secondaryTextColor,
@@ -118,7 +119,7 @@ class StartPageUIState extends State<StartPageUI> {
             ) : const TableOrder(),
           ),
           SizedBox(
-            width: appState.isWidgetEnabled ? 12 : 287,
+            width: appState.isWidgetEnabled ? 12.h : MediaQuery.of(context).size.width / 5.85.h,
           ),
           room ? SingleChildScrollView(
             child: Column(
@@ -127,22 +128,22 @@ class StartPageUIState extends State<StartPageUI> {
                 DraggableTable(TableFour(),
                     onDraggableCanceled: (widget) =>
                         _handleDragCancelled(widget)),
-                const SizedBox(
-                  height: 100,
+                SizedBox(
+                  height: 100.v,
                 ),
                 DraggableTable(TableEight(90),
                     onDraggableCanceled: (widget) =>
                         _handleDragCancelled(widget)),
-                const SizedBox(
-                  height: 100,
+                SizedBox(
+                  height: 100.v,
                 ),
                 DraggableTable(TableEight(0),
                     onDraggableCanceled: (widget) =>
                         _handleDragCancelled(widget)),
               ],
             ),
-          ) : SizedBox.shrink(),
-          !room ? RightDrawer() : SizedBox.shrink(),
+          ) : const SizedBox.shrink(),
+          !room ? RightDrawer() : const SizedBox.shrink(),
         ],
       ),
     );

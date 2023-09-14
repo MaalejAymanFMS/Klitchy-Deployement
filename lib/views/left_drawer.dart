@@ -2,7 +2,6 @@ part of gestion_de_table;
 
 class LeftDrawer extends StatefulWidget {
   final Function()? onTap;
-
   const LeftDrawer(this.onTap, {super.key});
 
   @override
@@ -22,32 +21,33 @@ class _LeftDrawerState extends State<LeftDrawer> {
     });
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width / 5.6,
       color: AppColors.primaryColor,
       child: Padding(
-        padding: const EdgeInsets.only(top: 10.0),
+        padding: EdgeInsets.only(top: 10.v),
         child: Column(
           children: [
             TopMenuDrawer(widget.onTap),
-            const SizedBox(
-              height: 40,
+            SizedBox(
+              height: 40.v,
             ),
-            const Divider(
-              height: 1,
+            Divider(
+              height: 1.v,
               thickness: 1,
               color: Colors.black,
             ),
             Rooms(addRoom,_room.length),
-            const Divider(
-              height: 1,
+            Divider(
+              height: 1.v,
               thickness: 1,
               color: Colors.black,
             ),
-            const SizedBox(
-              height: 40,
+            SizedBox(
+              height: 40.v,
             ),
             Column(
               children: _room.map((room) {

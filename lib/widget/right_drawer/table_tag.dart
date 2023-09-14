@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:klitchyapp/utils/size_utils.dart';
 
 import '../../config/app_colors.dart';
 
@@ -13,8 +14,8 @@ class _TableTagState extends State<TableTag> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 381,
-      height: 94,
+      width: 383.h,
+      height: 94.v,
       decoration: BoxDecoration(
         color: AppColors.itemsColor,
         borderRadius: BorderRadius.circular(8),
@@ -23,34 +24,38 @@ class _TableTagState extends State<TableTag> {
         children: [
           Container(
             decoration: BoxDecoration(
-                border: Border.all(
-              color: AppColors.primaryColor,
-              width: 1,
-            )),
-            child: const Row(
+              border: Border.all(
+                color: AppColors.primaryColor,
+                width: 1.h,
+              ),
+            ),
+            child: Row(
               children: [
                 Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Table 2",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.white),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "Samira A.",
-                        style: TextStyle(color: AppColors.secondaryTextColor),
-                      )
-                    ],
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    width: 137.h,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "Table 2",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.white),
+                        ),
+                        SizedBox(
+                          height: 10.v,
+                        ),
+                        const Text(
+                          "Samira A.",
+                          style: TextStyle(color: AppColors.secondaryTextColor),
+                        )
+                      ],
+                    ),
                   ),
                 ),
-                Icon(
+                const Icon(
                   Icons.keyboard_arrow_down_outlined,
                   color: AppColors.secondaryTextColor,
                 )
@@ -58,12 +63,12 @@ class _TableTagState extends State<TableTag> {
             ),
           ),
           Container(
-            width: 66,
-            height: 94,
+            width: 66.h,
+            height: 94.v,
             decoration: BoxDecoration(
                 border: Border.all(
               color: AppColors.primaryColor,
-              width: 1,
+              width: 1.h,
             )),
             child: Image.asset(
               "assets/images/tag.png",
@@ -71,12 +76,12 @@ class _TableTagState extends State<TableTag> {
             ),
           ),
           Container(
-            width: 66,
-            height: 94,
+            width: 66.h,
+            height: 94.v,
             decoration: BoxDecoration(
               border: Border.all(
                 color: AppColors.primaryColor,
-                width: 1,
+                width: 1.h,
               ),
             ),
             child: Image.asset(
@@ -85,8 +90,8 @@ class _TableTagState extends State<TableTag> {
             ),
           ),
           Container(
-            width: 66,
-            height: 94,
+            width: 66.h,
+            height: 94.v,
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.only(
                 topRight: Radius.circular(8),
@@ -94,7 +99,7 @@ class _TableTagState extends State<TableTag> {
               ),
               border: Border.all(
                 color: AppColors.primaryColor,
-                width: 1,
+                width: 1.h,
               ),
               color: AppColors.redColor,
             ),

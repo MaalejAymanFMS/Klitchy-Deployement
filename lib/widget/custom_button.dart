@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:klitchyapp/config/app_colors.dart';
+import 'package:klitchyapp/utils/size_utils.dart';
 
 
 class CustomButton extends StatelessWidget {
@@ -55,10 +56,10 @@ class CustomButton extends StatelessWidget {
         children: [
           if (icon != null)
             Padding(
-              padding: const EdgeInsetsDirectional.only(start: 30.0),
+              padding: EdgeInsetsDirectional.only(start: 30.h),
               child: Image.asset(
                 icon!,
-                height: 18,
+                height: 18.v,
               ),
             ),
           if (icon != null)
