@@ -115,7 +115,9 @@ class ItemState extends State<Item> {
                   width: 28.h,
                   height: 28.v,
                   child: InkWell(
-                    onTap: () => handleMinus(),
+                    onTap: () { handleMinus();
+                      appState.deleteOrder(numberOfItems, OrderComponent(number: numberOfItems, name: widget.name, price: widget.price));
+                      },
                     child: const Icon(
                       Icons.remove,
                       color: Colors.white,

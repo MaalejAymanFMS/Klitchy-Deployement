@@ -28,30 +28,31 @@ class AppState extends ChangeNotifier {
   List<OrderComponent> get orders => _orders;
   void addOrder(int number, OrderComponent orderWidget) {
     if (number > 0) {
-      // Find the existing orderWidget in the set
       final existingWidgetIndex = _orders.indexWhere(
             (widget) =>
         widget.name == orderWidget.name &&
             widget.price == orderWidget.price,
       );
-
       if (existingWidgetIndex != -1) {
-        // Update the number of the existing orderWidget
         _orders.elementAt(existingWidgetIndex).number = number;
       } else {
-        // Add the new orderWidget to the set
         _orders.add(orderWidget);
       }
-
       notifyListeners();
     }
   }
 
-
-
-
-  void deleteOrder(OrderComponent orderWidget) {
-    _orders.remove(orderWidget);
+  void deleteOrder(int number, OrderComponent orderWidget) {
+    final existingWidgetIndex = _orders.indexWhere(
+          (widget) =>
+      widget.name == orderWidget.name &&
+          widget.price == orderWidget.price,
+    );
+    if (existingWidgetIndex != -1 && number > 0 ) {
+      _orders.elementAt(existingWidgetIndex).number = number;
+    } else {
+      _orders.removeAt(existingWidgetIndex);
+    }
     notifyListeners();
   }
 

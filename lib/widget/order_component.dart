@@ -30,7 +30,7 @@ class OrderComponent extends StatelessWidget {
                 ),
                 child: Image.asset("assets/images/shawarma.png"),
               ),
-              const Spacer(),
+              SizedBox(width: 30.h,),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

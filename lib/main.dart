@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:klitchyapp/routes/routes.dart';
 import 'package:klitchyapp/utils/AppState.dart';
 import 'package:klitchyapp/views/full_screen_mode.dart';
-import 'package:klitchyapp/views/gestion_de_table.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -19,7 +18,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => AppState(),
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Klitchy',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
