@@ -39,7 +39,7 @@ dependencies:
   intl: ^0.18.0
   http: any
   provider: any
-  device_info_plus: ^9.0.3
+  get_it: any
 
 dev_dependencies:
   flutter_test:

@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:klitchyapp/routes/routes.dart';
 import 'package:klitchyapp/utils/AppState.dart';
+import 'package:klitchyapp/utils/locator.dart';
 import 'package:klitchyapp/views/full_screen_mode.dart';
 import 'package:provider/provider.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  setupLocator();
   runApp(const MyApp());
 }
 

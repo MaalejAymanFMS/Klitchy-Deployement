@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:klitchyapp/utils/size_utils.dart';
-import 'package:klitchyapp/views/right_drawer.dart';
 import 'package:klitchyapp/widget/items/item_categorie.dart';
 
 import '../config/app_colors.dart';
+import '../utils/locator.dart';
+import '../viewmodels/table_order_interactor.dart';
 import '../widget/items/item.dart';
 
 class TableOrder extends StatefulWidget {
@@ -13,6 +14,12 @@ class TableOrder extends StatefulWidget {
   TableOrderState createState() => TableOrderState();
 }
 class TableOrderState extends State<TableOrder> {
+  final interactor = getIt<TableOrderInteractor>();
+  @override
+  void initState() {
+    interactor.retrieveCategories();
+    super.initState();
+  }
   List<Widget> listCategories = [
     const ItemCategorie(
         name: "Starters", color: Colors.blue, numberOfItems: 14),
