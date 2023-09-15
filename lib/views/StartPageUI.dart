@@ -21,7 +21,7 @@ class StartPageUIState extends State<StartPageUI> {
   final List<Widget> _newTables = [];
   final List<Widget> _gridChildren =
   List.generate(5 * 4, (index) => Container());
-  bool room = false;
+  bool room = true;
   @override
   Widget build(BuildContext context) {
     final appState = Provider.of<AppState>(context);
@@ -55,8 +55,8 @@ class StartPageUIState extends State<StartPageUI> {
                         context: context,
                         builder: (_) {
                           return AlertDialog(
-                            title: Text("Table menu"),
-                            content: Container(
+                            title: const Text("Table menu"),
+                            content: SizedBox(
                                 height: 300.v,
                                 child: Column(children: [
                                   Text("table number: ${index + 1}"),
@@ -78,7 +78,7 @@ class StartPageUIState extends State<StartPageUI> {
                                     appState.deleteTable();
                                     Navigator.pop(context);
                                   },
-                                  child: Text("delete"))
+                                  child: const Text("delete"))
                             ],
                           );
                         });

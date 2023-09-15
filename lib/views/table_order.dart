@@ -40,7 +40,7 @@ class TableOrderState extends State<TableOrder> {
   ];
   List<Widget> listItems = [
     const Item(
-      name: "Soda",
+      name: "Beef",
       price: 4.5,
       stock: 10,
     ),
@@ -50,52 +50,52 @@ class TableOrderState extends State<TableOrder> {
       stock: 10,
     ),
     const Item(
-      name: "Soda",
+      name: "Sandwish thon",
       price: 4.5,
       stock: 10,
     ),
     const Item(
-      name: "Soda",
+      name: "Sandwish shawarma",
       price: 4.5,
       stock: 10,
     ),
     const Item(
-      name: "Soda",
+      name: "Plat escalope",
       price: 4.5,
       stock: 10,
     ),
     const Item(
-      name: "Soda",
+      name: "Pizza neptune",
       price: 4.5,
       stock: 10,
     ),
     const Item(
-      name: "Soda",
+      name: "Pizza margarita",
       price: 4.5,
       stock: 10,
     ),
     const Item(
-      name: "Soda",
+      name: "Pizza turc",
       price: 4.5,
       stock: 10,
     ),
     const Item(
-      name: "Soda",
+      name: "Makloub escalope",
       price: 4.5,
       stock: 10,
     ),
     const Item(
-      name: "Soda",
+      name: "Makloub thon",
       price: 4.5,
       stock: 10,
     ),
     const Item(
-      name: "Soda",
+      name: "Mlewi",
       price: 4.5,
       stock: 10,
     ),
     const Item(
-      name: "Soda",
+      name: "Sardina",
       price: 4.5,
       stock: 10,
     ),

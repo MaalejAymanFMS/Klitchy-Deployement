@@ -51,7 +51,7 @@ class _RightDrawerState extends State<RightDrawer> {
                       ),
                     ],
                   )
-                : Text("asba"),
+                : SizedBox.shrink(),
             Spacer(),
             ButtomComponent()
           ],
