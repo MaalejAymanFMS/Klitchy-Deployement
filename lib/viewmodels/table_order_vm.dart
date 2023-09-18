@@ -42,12 +42,15 @@ class TablOrderPageState extends State<TablOrderPage> implements TableOrderInter
         return data;
       } else {
         print("HTTP request failed with status code ${response.statusCode}");
+        print("Response body: ${response.body}");
         return Categories(); // or handle the error in a different way
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
       print("An error occurred: $e");
+      print(stackTrace); // Print the stack trace for more details
       return Categories(); // or handle the error in a different way
     }
+
   }
 
 }
