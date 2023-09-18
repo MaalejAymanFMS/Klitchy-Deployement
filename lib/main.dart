@@ -4,6 +4,7 @@ import 'package:klitchyapp/routes/routes.dart';
 import 'package:klitchyapp/utils/AppState.dart';
 import 'package:klitchyapp/utils/locator.dart';
 import 'package:klitchyapp/views/full_screen_mode.dart';
+import 'package:klitchyapp/views/splashScreen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: FullScreenMode(),
+        home: SplashScreen(),
         routes: PageRoutes().routes(),
         debugShowCheckedModeBanner: false,
       ),
