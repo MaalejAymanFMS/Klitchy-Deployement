@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:klitchyapp/config/app_colors.dart';
 import 'package:klitchyapp/utils/size_utils.dart';
+import 'package:klitchyapp/widget/Customalert.dart';
 import 'package:klitchyapp/widget/customSwitchButton.dart';
 import 'package:klitchyapp/widget/pinScreen.dart';
 
@@ -51,7 +52,7 @@ class _HomePageState extends State<HomePage> {
             top: 300.v,
             child: isUserLogin
                 ? PinScreen()
-                : PinScreen(),
+                : Customalert(),
           ),
         ],
       ),

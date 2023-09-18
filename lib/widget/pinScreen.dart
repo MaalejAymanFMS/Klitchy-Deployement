@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:klitchyapp/config/app_colors.dart';
+import 'package:klitchyapp/views/gestion_de_table.dart';
 
 
 class PinScreen extends StatefulWidget {
@@ -103,6 +104,8 @@ class _PinScreenState extends State<PinScreen> {
                 ElevatedButton(
                   onPressed: () {
                     // TODOO impliments services
+                                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => GestionDeTable() ));
+
                     print(pin);
                     
                   },
@@ -111,7 +114,7 @@ class _PinScreenState extends State<PinScreen> {
                 const SizedBox(width: 20),
                 ElevatedButton(
                   onPressed: () {
-                    removePin();
+                    
                   },
                   child: const Text('Delete', style: const TextStyle(fontSize: 20, color: AppColors.dark01Color)),
                 ),
