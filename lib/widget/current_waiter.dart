@@ -1,34 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:klitchyapp/utils/size_utils.dart';
 
-import '../../config/app_colors.dart';
+import '../config/app_colors.dart';
 
-class Room extends StatelessWidget {
-  final String title;
-
-  const Room(this.title, {super.key});
+class CurrentWaiter extends StatelessWidget {
+  const CurrentWaiter({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 5.v, horizontal: 10.h),
+    return SizedBox(
+      width: 200.h,
+      height: 50.v,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CircleAvatar(
-            child: Image.asset("assets/images/logo.png"),
+            child: Image.asset("assets/images/waiter.png"),
           ),
           SizedBox(
-            width: 10.h,
+            width: 19.h,
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                title,
-                style: const TextStyle(
-                    fontWeight: FontWeight.bold, color: Colors.white),
+              const Text(
+                "Dhea",
+                style:
+                    TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
               ),
               Row(
                 children: [
@@ -41,7 +39,7 @@ class Room extends StatelessWidget {
                   SizedBox(
                     width: 5.h,
                   ),
-                  const Text("online",
+                  const Text("Active Now",
                       style: TextStyle(
                           fontWeight: FontWeight.normal,
                           color: AppColors.secondaryTextColor)),
@@ -50,7 +48,11 @@ class Room extends StatelessWidget {
             ],
           ),
           const Spacer(),
-          const Icon(Icons.arrow_forward_ios, color: Colors.white),
+          const Icon(
+            Icons.keyboard_arrow_down,
+            color: AppColors.secondaryTextColor,
+            size: 24,
+          ),
         ],
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:klitchyapp/utils/size_utils.dart';
 
 class WaiterTag extends StatelessWidget {
   final Color backgroundColor;
@@ -9,8 +10,8 @@ class WaiterTag extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 175,
-      height: 48,
+      width: 175.h,
+      height: 48.v,
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: const BorderRadius.all(
@@ -18,11 +19,21 @@ class WaiterTag extends StatelessWidget {
         ),
       ),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          CircleAvatar(
-            backgroundColor: Colors.blue,
+          SizedBox(width: 10.h,),
+          Container(
+            width: 35.h,
+            height: 35.v,
+            decoration: const BoxDecoration(
+              color: Colors.blue,
+              borderRadius: BorderRadius.all(
+                Radius.circular(35),
+              ),
+            ),
             child: Image.asset("assets/images/$image"),
           ),
+          SizedBox(width: 30.h,),
           Text(name),
         ],
       ),

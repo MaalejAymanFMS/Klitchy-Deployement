@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:klitchyapp/utils/size_utils.dart';
 import 'package:klitchyapp/widget/waiter_tag.dart';
 
 import '../config/app_colors.dart';
@@ -11,22 +12,36 @@ class AvailableWaiters extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text("Available waiters",
-                style: TextStyle(
-                    fontWeight: FontWeight.bold, color: Colors.white)),
-            Text("$tablesNumber Tables",
-                style: const TextStyle(
-                    fontWeight: FontWeight.normal,
-                    color: AppColors.secondaryTextColor))
+            const Text(
+              "Available waiters",
+              style:
+                  TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+            ),
+            Text(
+              "$tablesNumber Tables",
+              style: const TextStyle(
+                  fontWeight: FontWeight.normal,
+                  color: AppColors.secondaryTextColor),
+            ),
           ],
         ),
-        WaiterTag(AppColors.secondaryTextColor, "JK.png", "Jamel K."),
-        WaiterTag(AppColors.secondaryTextColor, "SA.png", "Samira A."),
-        WaiterTag(AppColors.secondaryTextColor, "MH.png", "Maheb H."),
+        SizedBox(
+          width: 200.h,
+        ),
+        const WaiterTag(AppColors.secondaryTextColor, "JK.png", "Jamel K."),
+         SizedBox(
+          width: 50.h,
+        ),
+        const WaiterTag(AppColors.secondaryTextColor, "SA.png", "Samira A."),
+        SizedBox(
+          width: 50.h,
+        ),
+        const WaiterTag(AppColors.secondaryTextColor, "MH.png", "Maheb H."),
       ],
     );
   }
