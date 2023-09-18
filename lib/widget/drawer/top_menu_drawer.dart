@@ -24,26 +24,26 @@ class _TopMenuDrawerState extends State<TopMenuDrawer> {
       children: [
         InkWell(
           onTap: () => appState.toggleWidget(),
-          child: const SizedBox(
-            width: 32,
-            height: 32,
-            child: Icon(
+          child: SizedBox(
+            width: 32.h,
+            height: 32.v,
+            child: const Icon(
               Icons.menu,
               color: Colors.white,
             ),
           ),
         ),
-        const SizedBox(
-          width: 10,
+        SizedBox(
+          width: 10.h,
         ),
-        const Column(
+        Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("klitchy restaurant", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+            const Text("klitchy restaurant", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
             SizedBox(
-              height: 5,
+              height: 5.v,
             ),
-            Text("Restaurant", style: TextStyle(fontWeight: FontWeight.normal, color: AppColors.secondaryTextColor)),
+            const Text("Restaurant", style: TextStyle(fontWeight: FontWeight.normal, color: AppColors.secondaryTextColor)),
           ],
         )
       ],

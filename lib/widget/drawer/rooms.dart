@@ -1,25 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:klitchyapp/utils/size_utils.dart';
 
 import '../../config/app_colors.dart';
 
 class Rooms extends StatelessWidget {
-  const Rooms({super.key});
+  final Function() onTap;
+  final int numberOfRooms;
+
+  const Rooms(this.onTap, this.numberOfRooms, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 5.v, horizontal: 10.h),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Column(
             children: [
-              Text("Rooms", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
-              Text("4 rooms", style: TextStyle(fontWeight: FontWeight.normal, color: AppColors.secondaryTextColor)),
+              const Text(
+                "Rooms",
+                style:
+                    TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+              ),
+              Text(
+                "$numberOfRooms rooms",
+                style: const TextStyle(
+                    fontWeight: FontWeight.normal,
+                    color: AppColors.secondaryTextColor),
+              ),
             ],
           ),
-          Spacer(),
-          Icon(Icons.add, color: Colors.white),
+          const Spacer(),
+          InkWell(
+            onTap: onTap,
+            child: const Icon(Icons.add, color: Colors.white),
+          ),
         ],
       ),
     );

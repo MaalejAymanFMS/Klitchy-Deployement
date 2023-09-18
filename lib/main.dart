@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:klitchyapp/routes/routes.dart';
 import 'package:klitchyapp/utils/AppState.dart';
-import 'package:klitchyapp/views/splashScreen.dart';
+import 'package:klitchyapp/utils/locator.dart';
+import 'package:klitchyapp/views/full_screen_mode.dart';
 import 'package:provider/provider.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  setupLocator();
   runApp(const MyApp());
 }
 
@@ -17,12 +21,12 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => AppState(),
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Klitchy',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: SplashScreen(),
+        home: FullScreenMode(),
         routes: PageRoutes().routes(),
         debugShowCheckedModeBanner: false,
       ),

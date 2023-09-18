@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:klitchyapp/config/app_colors.dart';
+import 'package:klitchyapp/utils/size_utils.dart';
 import 'package:klitchyapp/widget/customSwitchButton.dart';
 import 'package:klitchyapp/widget/pinScreen.dart';
 
@@ -24,17 +25,17 @@ class _HomePageState extends State<HomePage> {
     
   
           Positioned(
-            top: 50.0,
+            top: 50.v,
             child: Image.asset(
               'assets/images/logo.png', 
-              width: 100.0,
-              height: 100.0, 
+              width: 100.h,
+              height: 100.v,
             ),
           ),
 
           // Switch Button with "USER LOGIN" and "PIN LOGIN" labels
           Positioned(
-            top: 200.0,
+            top: 200.v,
             child: CustomSwitchButton(
               initialValue: isUserLogin,
               onChanged: (bool value) {
@@ -47,13 +48,11 @@ class _HomePageState extends State<HomePage> {
 
          
           Positioned(
-            top: 300.0, // Adjust vertical position as needed
+            top: 300.v,
             child: isUserLogin
                 ? PinScreen()
                 : PinScreen(),
           ),
-
-          // Additional Widgets (if needed)
         ],
       ),
     );

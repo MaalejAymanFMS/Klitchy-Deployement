@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:klitchyapp/utils/size_utils.dart';
 
 import 'chair.dart';
 import 'dinner_table.dart';
@@ -9,25 +10,25 @@ class TableFour extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 256,
-      height: 141,
+      width: 256.h,
+      height: 141.v,
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Chair(270),
-            const SizedBox(height: 5),
+            SizedBox(height: 5.v),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Chair(180),
-                const SizedBox(width: 5),
+                SizedBox(width: 5.h),
                 DinnerTable(4),
-                const SizedBox(width: 5),
+                SizedBox(width: 5.h),
                 Chair(0),
               ],
             ),
-            const SizedBox(height: 5),
+            SizedBox(height: 5.v),
             Chair(90),
           ],
         ),
