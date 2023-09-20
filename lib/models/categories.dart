@@ -1,19 +1,19 @@
 class Categories {
-  List<Data>? data;
+  List<Categorie>? data;
 
   Categories({this.data});
 
   factory Categories.fromJson(Map<String, dynamic>? json) {
     return Categories(
-      data: (json?['data'] as List?)?.map((e) => Data.fromJson(e)).toList(),
+      data: (json?['data'] as List?)?.map((e) => Categorie.fromJson(e)).toList(),
     );
   }
 }
-class Data {
+class Categorie {
   String? name;
-  Data({this.name});
-  factory Data.fromJson(Map<String, dynamic>? json) {
-    return Data(
+  Categorie({this.name});
+  factory Categorie.fromJson(Map<String, dynamic>? json) {
+    return Categorie(
 
         name: json?['name'],
     );

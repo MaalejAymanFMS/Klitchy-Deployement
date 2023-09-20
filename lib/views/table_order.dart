@@ -1,8 +1,11 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:klitchyapp/utils/size_utils.dart';
 import 'package:klitchyapp/widget/items/item_categorie.dart';
 
 import '../config/app_colors.dart';
+import '../models/categories.dart';
 import '../utils/locator.dart';
 import '../viewmodels/table_order_interactor.dart';
 import '../widget/items/item.dart';
@@ -15,29 +18,40 @@ class TableOrder extends StatefulWidget {
 }
 class TableOrderState extends State<TableOrder> {
   final interactor = getIt<TableOrderInteractor>();
+  List<Categorie> listCategories = [];
+  Future<void> fetchCategories() async {
+    try {
+      final categorieResponse = await interactor.retrieveCategories();
+      setState(() {
+        listCategories = categorieResponse.data!;
+      });
+    } catch (e) {
+      print("catched error: $e");
+    }
+  }
   @override
   void initState() {
-    interactor.retrieveCategories();
+    fetchCategories();
     super.initState();
   }
-  List<Widget> listCategories = [
-    const ItemCategorie(
-        name: "Starters", color: Colors.blue, numberOfItems: 14),
-    const ItemCategorie(
-        name: "Starters", color: Colors.blue, numberOfItems: 14),
-    const ItemCategorie(
-        name: "Starters", color: Colors.blue, numberOfItems: 14),
-    const ItemCategorie(
-        name: "Starters", color: Colors.blue, numberOfItems: 14),
-    const ItemCategorie(
-        name: "Starters", color: Colors.blue, numberOfItems: 14),
-    const ItemCategorie(
-        name: "Starters", color: Colors.blue, numberOfItems: 14),
-    const ItemCategorie(
-        name: "Starters", color: Colors.blue, numberOfItems: 14),
-    const ItemCategorie(
-        name: "Starters", color: Colors.blue, numberOfItems: 14),
-  ];
+  // List<Widget> listCategories = [
+  //   const ItemCategorie(
+  //       name: "Starters", color: Colors.blue, numberOfItems: 14),
+  //   const ItemCategorie(
+  //       name: "Starters", color: Colors.blue, numberOfItems: 14),
+  //   const ItemCategorie(
+  //       name: "Starters", color: Colors.blue, numberOfItems: 14),
+  //   const ItemCategorie(
+  //       name: "Starters", color: Colors.blue, numberOfItems: 14),
+  //   const ItemCategorie(
+  //       name: "Starters", color: Colors.blue, numberOfItems: 14),
+  //   const ItemCategorie(
+  //       name: "Starters", color: Colors.blue, numberOfItems: 14),
+  //   const ItemCategorie(
+  //       name: "Starters", color: Colors.blue, numberOfItems: 14),
+  //   const ItemCategorie(
+  //       name: "Starters", color: Colors.blue, numberOfItems: 14),
+  // ];
   List<Widget> listItems = [
     const Item(
       name: "Beef",
@@ -100,6 +114,14 @@ class TableOrderState extends State<TableOrder> {
       stock: 10,
     ),
   ];
+  Color getRandomColor() {
+    final random = Random();
+    final r = random.nextInt(256);
+    final g = random.nextInt(256);
+    final b = random.nextInt(256);
+
+    return Color.fromARGB(255, r, g, b);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -124,7 +146,7 @@ class TableOrderState extends State<TableOrder> {
             itemCount: listCategories.length,
             itemBuilder: (BuildContext context, int index) {
               if (index < listCategories.length) {
-                return listCategories[index];
+                return ItemCategorie(name: listCategories[index].name!, color: getRandomColor(), numberOfItems: 14);
               } else {
                 return Container();
               }

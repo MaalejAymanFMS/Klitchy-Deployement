@@ -29,8 +29,8 @@ class StartPageUIState extends State<StartPageUI> {
       child: Row(
         children: [
           Container(
-            height: 150.v * 5,
-            width: 260.h * 4,
+            height: (150 * 5).v,
+            width: (260 * 4).h,
             decoration: const BoxDecoration(
               color: Color(0xFF0E1227),
               borderRadius: BorderRadius.all(
