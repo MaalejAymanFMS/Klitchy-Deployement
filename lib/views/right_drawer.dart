@@ -36,24 +36,25 @@ class _RightDrawerState extends State<RightDrawer> {
         child: Column(
           children: [
             TableTag(),
-            appState.orders.isNotEmpty
-                ? Column(
-                    children: [
-                      const Text(
-                        "Items",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      SingleChildScrollView(
-                        child: Column(
-                          children:
-                          appState.orders.map((order) => order).toList()
-                        ),
-                      ),
-                    ],
-                  )
-                : SizedBox.shrink(),
-            Spacer(),
-            ButtomComponent()
+            Expanded(
+              child: appState.orders.isNotEmpty
+                  ? SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const Text(
+                      "Items",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    Column(
+                      children:
+                      appState.orders.map((order) => order).toList(),
+                    ),
+                  ],
+                ),
+              )
+                  : SizedBox.shrink(),
+            ),
+            ButtomComponent(),
           ],
         ),
       ),
