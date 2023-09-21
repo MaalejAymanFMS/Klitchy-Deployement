@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:klitchyapp/utils/AppState.dart';
 import 'package:klitchyapp/utils/size_utils.dart';
 
 import '../../config/app_colors.dart';
 
 class TableTag extends StatefulWidget {
-  const TableTag({super.key});
+  final AppState appState;
+  const TableTag(this.appState,{super.key});
 
   @override
   State<TableTag> createState() => _TableTagState();
@@ -89,23 +91,28 @@ class _TableTagState extends State<TableTag> {
               color: AppColors.secondaryTextColor,
             ),
           ),
-          Container(
-            width: 66.h,
-            height: 94.v,
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.only(
-                topRight: Radius.circular(8),
-                bottomRight: Radius.circular(8),
+          InkWell(
+            onTap: () {
+              widget.appState.deleteAllOrders();
+            },
+            child: Container(
+              width: 66.h,
+              height: 94.v,
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.only(
+                  topRight: Radius.circular(8),
+                  bottomRight: Radius.circular(8),
+                ),
+                border: Border.all(
+                  color: AppColors.primaryColor,
+                  width: 1.h,
+                ),
+                color: AppColors.redColor,
               ),
-              border: Border.all(
-                color: AppColors.primaryColor,
-                width: 1.h,
+              child: Image.asset(
+                "assets/images/trash.png",
+                color: Colors.white,
               ),
-              color: AppColors.redColor,
-            ),
-            child: Image.asset(
-              "assets/images/trash.png",
-              color: Colors.white,
             ),
           ),
         ],

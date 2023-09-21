@@ -35,7 +35,7 @@ class _RightDrawerState extends State<RightDrawer> {
         padding: EdgeInsets.symmetric(vertical: 10.v),
         child: Column(
           children: [
-            TableTag(),
+            TableTag(appState),
             Expanded(
               child: appState.orders.isNotEmpty
                   ? SingleChildScrollView(

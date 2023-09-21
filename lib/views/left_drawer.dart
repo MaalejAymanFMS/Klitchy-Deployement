@@ -9,15 +9,16 @@ class LeftDrawer extends StatefulWidget {
 }
 
 class _LeftDrawerState extends State<LeftDrawer> {
+  final TextEditingController roomNameController = TextEditingController();
   List<Widget> _room = [
-    Room("Terrace"),
-    Room("Main dinning"),
-    Room("Pool bar"),
+    // Room("Terrace"),
+    // Room("Main dinning"),
+    // Room("Pool bar"),
   ];
 
   void addRoom() {
     setState(() {
-      _room.add(Room("new room"));
+      _room.add(Room(roomNameController.text));
     });
   }
 
@@ -40,7 +41,7 @@ class _LeftDrawerState extends State<LeftDrawer> {
               thickness: 1,
               color: Colors.black,
             ),
-            Rooms(addRoom,_room.length),
+            Rooms(addRoom,_room.length, roomNameController),
             Divider(
               height: 1.v,
               thickness: 1,
