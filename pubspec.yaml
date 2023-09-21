@@ -41,6 +41,7 @@ dependencies:
   dio: ^5.3.2
   provider: any
   get_it: any
+  virtual_keyboard_2: ^0.0.2
 
 dev_dependencies:
   flutter_test:

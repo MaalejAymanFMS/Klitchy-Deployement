@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../config/app_colors.dart';
+
 class EntryField extends StatelessWidget {
   final String? hintText;
   final String? initialValue;
@@ -65,7 +67,8 @@ class EntryField extends StatelessWidget {
               borderSide: BorderSide.none,
             ),
             hintText: hintText ?? '',
-            hintStyle: Theme.of(context).textTheme.bodySmall,
+            hintStyle: const TextStyle(color: AppColors.secondaryTextColor, ),
+            // Theme.of(context).textTheme.bodySmall,
             contentPadding: const EdgeInsets.symmetric(
               horizontal: 22,
               vertical: 20,

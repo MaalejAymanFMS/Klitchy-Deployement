@@ -10,10 +10,8 @@ class LeftDrawer extends StatefulWidget {
 
 class _LeftDrawerState extends State<LeftDrawer> {
   final TextEditingController roomNameController = TextEditingController();
-  List<Widget> _room = [
-    // Room("Terrace"),
-    // Room("Main dinning"),
-    // Room("Pool bar"),
+  final List<Widget> _room = [
+    const Room("Main room"),
   ];
 
   void addRoom() {
