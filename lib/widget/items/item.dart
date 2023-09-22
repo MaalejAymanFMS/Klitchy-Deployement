@@ -4,18 +4,19 @@ import 'package:provider/provider.dart';
 
 import '../../config/app_colors.dart';
 import '../../utils/AppState.dart';
-import '../../views/right_drawer.dart';
 import '../order_component.dart';
 class Item extends StatefulWidget {
   final String name;
   final double price;
   final int stock;
+  final String image;
 
   const Item({
     Key? key,
     required this.name,
     required this.price,
     required this.stock,
+    required this.image,
   }) : super(key: key);
 
   @override
@@ -60,10 +61,10 @@ class ItemState extends State<Item> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  widget.name,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, color: Colors.white),
-                ),
+                      widget.name,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.white),
+                    ),
                 SizedBox(
                   height: 10.v,
                 ),

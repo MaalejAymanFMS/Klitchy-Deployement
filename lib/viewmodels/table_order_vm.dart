@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:klitchyapp/models/categories.dart';
+import 'package:klitchyapp/models/items.dart';
 import 'package:klitchyapp/viewmodels/table_order_interactor.dart';
 
 import '../utils/constants.dart';
@@ -38,19 +39,48 @@ class TablOrderPageState extends State<TablOrderPage> implements TableOrderInter
       if (response.statusCode == 200) {
         final jsonResponse = json.decode(response.body);
         final data = Categories.fromJson(jsonResponse);
-        print(data);
         return data;
       } else {
-        print("HTTP request failed with status code ${response.statusCode}");
-        print("Response body: ${response.body}");
-        return Categories(); // or handle the error in a different way
+        return Categories();
       }
-    } catch (e, stackTrace) {
-      print("An error occurred: $e");
-      print(stackTrace); // Print the stack trace for more details
-      return Categories(); // or handle the error in a different way
+    } catch (e) {
+      return Categories();
     }
 
   }
+
+  @override
+  Future<Items> retrieveItems(Map<String, dynamic>? params) async {
+    final headers = {
+      "Content-Type": "application/json; charset=utf-8",
+      "Accept": "application/json; charset=utf-8",
+      "Authorization": "Token 82ad2e094492b3a:f24396cdd3d1c46"
+    };
+
+    // Create the Uri
+    final Uri uri = Uri.parse("$baseUrl/resource/Item");
+
+    // Convert the filters to a JSON string
+    final filters = params?['filters'];
+    final filtersJson = json.encode(filters);
+
+    // Create the query parameters map
+    final Map<String, String> queryParams = {
+      "fields": json.encode(params?['fields']),
+      "filters": filtersJson,
+    };
+
+    final response = await http.get(uri.replace(queryParameters: queryParams), headers: headers);
+    print(response.statusCode);
+    print(uri.replace(queryParameters: queryParams));
+    if (response.statusCode == 200) {
+      final jsonResponse = json.decode(response.body);
+      final data = Items.fromJson(jsonResponse);
+      return data;
+    } else {
+      return Items();
+    }
+  }
+
 
 }

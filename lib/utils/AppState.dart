@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:klitchyapp/models/items.dart';
 import 'package:klitchyapp/widget/order_component.dart';
 class AppState extends ChangeNotifier {
   //toggle the drawer
@@ -60,8 +61,20 @@ class AppState extends ChangeNotifier {
     for(var i = 0; i < _orders.length; i++) {
       _orders.elementAt(i).number = 0;
     }
-    // _orders = [];
     notifyListeners();
   }
 
+  // categories
+  List<Item> _categorieClicked = [];
+  List<Item> get categorieClicked => _categorieClicked;
+
+  void clickOpenCategorie(List<Item> list) {
+
+    _categorieClicked = list;
+    notifyListeners();
+  }
+  void clickCloseCategorie() {
+    _categorieClicked = [];
+    notifyListeners();
+  }
 }

@@ -39,7 +39,7 @@ class _LeftDrawerState extends State<LeftDrawer> {
               thickness: 1,
               color: Colors.black,
             ),
-            Rooms(addRoom,_room.length, roomNameController),
+            RoomVM(addRoom,_room.length, roomNameController),
             Divider(
               height: 1.v,
               thickness: 1,
