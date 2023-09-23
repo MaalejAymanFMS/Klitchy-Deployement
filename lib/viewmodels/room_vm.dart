@@ -60,12 +60,12 @@ class RoomVMState extends State<RoomVM> implements RoomInteractor{
 
     final Uri uri = Uri.parse("$baseUrl/resource/Restaurant%20Object");
 
-    // final filters = params['filters'];
-    // final filtersJson = json.encode(filters);
+    final filters = params['filters'];
+    final filtersJson = json.encode(filters);
 
     final Map<String, String> queryParams = {
       "fields": json.encode(params['fields']),
-      // "filters": filtersJson,
+      "filters": filtersJson,
     };
 
     final response = await http.get(uri.replace(queryParameters: queryParams), headers: headers);

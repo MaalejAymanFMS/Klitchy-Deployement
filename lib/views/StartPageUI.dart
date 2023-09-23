@@ -57,7 +57,7 @@ class StartPageUIState extends State<StartPageUI> {
 
     Map<String, dynamic> params = {
       "fields": ["name","description","data_style"],
-      "filters" : [["room_description", "LIKE", "%${widget.name}%"]]
+      "filters" : [["room_description", "LIKE", "%${widget.name}%"],["type","LIKE","Table"]]
     };
     var response = await interactor.retrieveListOfTables(params);
     print("this is america: ${response.data}");

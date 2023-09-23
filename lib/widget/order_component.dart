@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:klitchyapp/utils/AppState.dart';
+import 'package:klitchyapp/utils/constants.dart';
 import 'package:klitchyapp/utils/size_utils.dart';
 import 'package:provider/provider.dart';
 
@@ -8,10 +9,16 @@ class OrderComponent extends StatelessWidget {
   int number;
   final String name;
   final double price;
-  OrderComponent({Key? key, required this.number, required this.name, required this.price}) : super (key: key);
+  final String image;
+  OrderComponent({Key? key, required this.number, required this.name, required this.price, required this.image}) : super (key: key);
 
   @override
   Widget build(BuildContext context) {
+    final headers = {
+      "Content-Type": "application/json; charset=utf-8",
+      "Accept": "application/json; charset=utf-8",
+      "Authorization": "Token 82ad2e094492b3a:f24396cdd3d1c46"
+    };
     return Consumer<AppState>(
       builder: (context, order, child) {
         return
@@ -30,7 +37,7 @@ class OrderComponent extends StatelessWidget {
                       Radius.circular(7),
                     ),
                   ),
-                  child: Image.asset("assets/images/shawarma.png"),
+                  child: image.isEmpty ? Image.asset("assets/images/shawarma.png") : Image.network("$baseUrlImage$image", headers: headers),
                 ),
                 SizedBox(width: 30.h,),
                 Column(

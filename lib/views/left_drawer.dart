@@ -23,14 +23,15 @@ class _LeftDrawerState extends State<LeftDrawer> {
 
   void fetchRooms() async {
     Map<String, dynamic> params = {
-      "fields": ["name","room_description", "type"],
+      "fields": ["name","description", "type"],
+      "filters": [["type", "LIKE", "Room"]],
     };
     var response = await interactor.getAllRooms(params);
     for (var i = 0; i < response.data!.length; i++) {
       if(response.data![i].type == 'Room') {
         setState(() {
           _room.add(
-              Room(response.data![i].room_description!,
+              Room(response.data![i].description!,
                   response.data![i].name!));
         });
       }

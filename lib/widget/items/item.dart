@@ -97,7 +97,7 @@ class ItemState extends State<Item> {
                   child: InkWell(
                     onTap: () { handlePlus();
 
-                    appState.addOrder(numberOfItems, OrderComponent(number: numberOfItems, name: widget.name, price: widget.price));
+                    appState.addOrder(numberOfItems, OrderComponent(number: numberOfItems, name: widget.name, price: widget.price, image: widget.image,));
                     },
                     child: const Icon(
                       Icons.add,
@@ -117,7 +117,7 @@ class ItemState extends State<Item> {
                   height: 28.v,
                   child: InkWell(
                     onTap: () { handleMinus();
-                      appState.deleteOrder(numberOfItems, OrderComponent(number: numberOfItems, name: widget.name, price: widget.price));
+                      appState.deleteOrder(numberOfItems, OrderComponent(number: numberOfItems, name: widget.name, price: widget.price, image: widget.image,));
                       },
                     child: const Icon(
                       Icons.remove,

@@ -22,10 +22,19 @@ class ItemCategorie extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Map<String, dynamic> params = {
-          "fields": ["item_name","image","standard_rate"],
-          "filters": [["item_group", "LIKE", "%$name%"]],
-        };
+        Map<String, dynamic> params = {};
+        if(name != "All Item Groups") {
+           params = {
+            "fields": ["item_name", "image", "standard_rate"],
+            "filters": [["item_group", "LIKE", "%$name%"]],
+            "limit_page_length": "None"
+          };
+        } else {
+          params = {
+            "fields": ["item_name", "image", "standard_rate"],
+            "limit_page_length": "None"
+          };
+        }
         onTap(params);
       },
       child: Container(
