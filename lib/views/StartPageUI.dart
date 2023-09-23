@@ -39,7 +39,7 @@ class StartPageUIState extends State<StartPageUI> {
       "type": "Table",
       "room": roomID,
       "no_of_seats": numberOfSeats,
-      "minimum_seating": 2,
+      "minimum_seating": numberOfSeats,
       "description": description,
       "color": "#1579d0",
       "data_style": "{\"x\":$x,\"y\":$y,\"width\":\"94.5454px\",\"height\":\"100px\",\"background-color\":\"#1579d0\"}",
