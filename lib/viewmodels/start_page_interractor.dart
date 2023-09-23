@@ -1,5 +1,6 @@
 import '../models/tables.dart';
 
 abstract class StartPageInterractor {
-  Future<Table> addTable(Map<String, dynamic> body);
+  Future<AddTable> addTable(Map<String, dynamic> body);
+  Future<ListTables> retrieveListOfTables(Map<String, dynamic> params);
 }

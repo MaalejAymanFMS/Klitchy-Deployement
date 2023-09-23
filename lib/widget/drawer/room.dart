@@ -5,8 +5,9 @@ import '../../config/app_colors.dart';
 
 class Room extends StatelessWidget {
   final String title;
+  final String id;
 
-  const Room(this.title, {super.key});
+  const Room(this.title, this.id, {super.key});
 
   @override
   Widget build(BuildContext context) {

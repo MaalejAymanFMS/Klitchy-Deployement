@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:klitchyapp/config/app_colors.dart';
 import 'package:klitchyapp/utils/size_utils.dart';
 import 'package:klitchyapp/viewmodels/room_vm.dart';
+import 'package:klitchyapp/viewmodels/start_page_vm.dart';
 import 'package:klitchyapp/widget/available_waiters.dart';
 import 'package:klitchyapp/widget/current_waiter.dart';
 import 'package:provider/provider.dart';
@@ -58,7 +59,7 @@ class _GestionDeTableState extends State<GestionDeTable> {
               ),
               appState.isWidgetEnabled
                   ? Drawer(
-                      child: LeftDrawer(_handleDrawer),
+                      child: LeftDrawer(_handleDrawer,appState),
                     )
                   : const SizedBox.shrink(),
             ],
@@ -79,7 +80,7 @@ class _GestionDeTableState extends State<GestionDeTable> {
                   ],
                 ),
               ),
-              const StartPageUI(),
+              StartPageVM(name: appState.choosenRoom["name"] ?? "name", id: appState.choosenRoom["id"] ?? "id",),
             ],
           )
         ],

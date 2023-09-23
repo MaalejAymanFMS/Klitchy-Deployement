@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-import '../views/StartPageUI.dart';
 import '../views/gestion_de_table.dart';
 
 class PageRoutes {
@@ -9,7 +7,7 @@ class PageRoutes {
 
   Map<String, WidgetBuilder> routes() {
     return {
-      startPage: (context) => const StartPageUI(),
+      // startPage: (context) => const StartPageUI(),
       gestionDeTable: (context) => const GestionDeTable(),
     };
   }

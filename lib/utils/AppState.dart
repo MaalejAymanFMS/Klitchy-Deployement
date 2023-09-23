@@ -77,4 +77,17 @@ class AppState extends ChangeNotifier {
     _categorieClicked = [];
     notifyListeners();
   }
+
+  // room
+
+  Map<String, dynamic> _choosenRoom = {};
+  Map<String, dynamic> get choosenRoom => _choosenRoom;
+
+  void chooseRoom(String name, String id) {
+    _choosenRoom = {
+      "name" : name,
+      "id": id,
+    };
+    notifyListeners();
+  }
 }

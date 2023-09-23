@@ -1,17 +1,23 @@
+import 'dart:js_interop';
+
 import 'package:flutter/material.dart';
 import 'package:klitchyapp/utils/AppState.dart';
 import 'package:klitchyapp/utils/size_utils.dart';
+import 'package:klitchyapp/viewmodels/start_page_interractor.dart';
 import 'package:klitchyapp/views/right_drawer.dart';
 import 'package:klitchyapp/views/table_order.dart';
 import 'package:provider/provider.dart';
 
 import '../config/app_colors.dart';
+import '../utils/locator.dart';
 import '../widget/custom_button.dart';
 import '../widget/tables/table_4.dart';
 import '../widget/tables/table_8.dart';
 
 class StartPageUI extends StatefulWidget {
-  const StartPageUI({Key? key}) : super(key: key);
+  final String name;
+  final String id;
+  const StartPageUI({Key? key, required this.name, required this.id}) : super(key: key);
 
   @override
   StartPageUIState createState() => StartPageUIState();
@@ -19,9 +25,74 @@ class StartPageUI extends StatefulWidget {
 
 class StartPageUIState extends State<StartPageUI> {
   final List<Widget> _newTables = [];
-  final List<Widget> _gridChildren =
+  late List<Widget> _gridChildren =
   List.generate(5 * 4, (index) => Container());
+
   bool room = true;
+  final interactor = getIt<StartPageInterractor>();
+
+  void addTable(String description, int x, int y, int numberOfSeats, String roomDescription, String roomID) async {
+    Map<String, dynamic> body = {
+      "owner": "pos@gameprod.com",
+      "idx": 0,
+      "docstatus": 0,
+      "type": "Table",
+      "room": roomID,
+      "no_of_seats": numberOfSeats,
+      "minimum_seating": 2,
+      "description": description,
+      "color": "#1579d0",
+      "data_style": "{\"x\":$x,\"y\":$y,\"width\":\"94.5454px\",\"height\":\"100px\",\"background-color\":\"#1579d0\"}",
+      "current_user": "pos@gameprod.com",
+      "room_description": roomDescription,
+      "shape": "Square",
+      "doctype": "Restaurant Object",
+      "status_managed": [],
+      "production_center_group": []
+    };
+    var response = await interactor.addTable(body);
+  }
+
+  void fetchTables() async {
+
+    Map<String, dynamic> params = {
+      "fields": ["name","description","data_style"],
+      "filters" : [["room_description", "LIKE", "%${widget.name}%"]]
+    };
+    var response = await interactor.retrieveListOfTables(params);
+    print("this is america: ${response.data}");
+    if(response.data![0].description!.isNotEmpty) {
+      setState(() {
+        _gridChildren =
+            List.generate(5 * 4, (index) => Container());
+      });
+      debugPrint(response.data![0].description);
+      setState(() {
+        for (var i = 0; i < response.data!.length; i++) {
+          List<String> parts = response.data![i].description!.split('-');
+
+          if (parts[0] == "T4") {
+            _gridChildren[int.tryParse(parts[1])!] = const TableFour();
+          }
+          if (parts[0] == "T8" && parts[2] == "90") {
+            _gridChildren[int.tryParse(parts[1])!] = const TableEight(90);
+          }
+          if (parts[0] == "T8" && parts[2] == "0") {
+            _gridChildren[int.tryParse(parts[1])!] = const TableEight(0);
+          }
+        }
+      });
+    }
+  }
+  @override
+  void initState() {
+    super.initState();
+  }
+  @override
+  void didChangeDependencies() {
+    fetchTables();
+    super.didChangeDependencies();
+  }
   @override
   Widget build(BuildContext context) {
     final appState = Provider.of<AppState>(context);
@@ -153,6 +224,14 @@ class StartPageUIState extends State<StartPageUI> {
     setState(() {
       _gridChildren[index] = data;
     });
+    if (data is TableEight && data.rotation == 0) {
+      addTable("T8-$index-0", index, index, 8, widget.name, widget.id);
+    } else if (data is TableFour) {
+      addTable("T4-$index-0", index, index, 4, widget.name, widget.id);
+    } else if (data is TableEight && data.rotation == 90) {
+      addTable("T8-$index-90", index, index, 8, widget.name, widget.id);
+    }
+
   }
 
   void _handleDragCancelled(Widget widget) {

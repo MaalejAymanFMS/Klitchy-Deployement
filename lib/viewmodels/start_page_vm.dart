@@ -8,7 +8,9 @@ import 'package:klitchyapp/views/StartPageUI.dart';
 
 import '../utils/constants.dart';
 class StartPageVM extends StatefulWidget {
-  const StartPageVM({Key? key}) : super(key: key);
+  final String name;
+  final String id;
+  const StartPageVM({Key? key, required this.name,required this.id,}) : super(key: key);
 
   @override
   StartPageVMState createState() => StartPageVMState();
@@ -18,28 +20,60 @@ class StartPageVMState extends State<StartPageVM> implements StartPageInterracto
 
   @override
   Widget build(BuildContext context) {
-    return const StartPageUI();
+    return StartPageUI(name: widget.name, id: widget.id,);
   }
 
   @override
-  Future<tb.Table> addTable(Map<String, dynamic> body) async {
+  Future<tb.AddTable> addTable(Map<String, dynamic> body) async {
     final headers = {
       "Content-Type": "application/json; charset=utf-8",
       "Accept": "application/json; charset=utf-8",
       "Authorization": "Token 82ad2e094492b3a:f24396cdd3d1c46"
     };
     final response = await http
-        .post(Uri.parse("$baseUrl/api/login"),
+        .post(Uri.parse("$baseUrl/resource/Restaurant%20Object"),
         headers: headers, body: json.encode(body));
     print(response.statusCode);
 
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body);
-      final data = tb.Table.fromJson(jsonResponse);
+      final data = tb.AddTable.fromJson(jsonResponse);
       return data;
     } else {
       final jsonResponse = json.decode(response.body);
-      final data = tb.Table.fromJson(jsonResponse);
+      final data = tb.AddTable.fromJson(jsonResponse);
+      return data;
+    }
+  }
+
+  @override
+  Future<tb.ListTables> retrieveListOfTables(Map<String, dynamic> params) async {
+    final headers = {
+      "Content-Type": "application/json; charset=utf-8",
+      "Accept": "application/json; charset=utf-8",
+      "Authorization": "Token 82ad2e094492b3a:f24396cdd3d1c46"
+    };
+
+    final Uri uri = Uri.parse("$baseUrl/resource/Restaurant%20Object");
+
+    final filters = params['filters'];
+    final filtersJson = json.encode(filters);
+
+    final Map<String, String> queryParams = {
+      "fields": json.encode(params['fields']),
+      "filters": filtersJson,
+    };
+
+    final response = await http.get(uri.replace(queryParameters: queryParams), headers: headers);
+    print("hdhi: ${response.statusCode}");
+    print(uri.replace(queryParameters: queryParams));
+    if (response.statusCode == 200) {
+      final jsonResponse = json.decode(response.body);
+      final data = tb.ListTables.fromJson(jsonResponse);
+      return data;
+    } else {
+      final jsonResponse = json.decode(response.body);
+      final data = tb.ListTables.fromJson(jsonResponse);
       return data;
     }
   }
