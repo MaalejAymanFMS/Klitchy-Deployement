@@ -49,4 +49,36 @@ class RoomVMState extends State<RoomVM> implements RoomInteractor{
       return data;
     }
   }
+
+  @override
+  Future<ListRooms> getAllRooms(Map<String, dynamic> params) async {
+    final headers = {
+      "Content-Type": "application/json; charset=utf-8",
+      "Accept": "application/json; charset=utf-8",
+      "Authorization": "Token 82ad2e094492b3a:f24396cdd3d1c46"
+    };
+
+    final Uri uri = Uri.parse("$baseUrl/resource/Restaurant%20Object");
+
+    // final filters = params['filters'];
+    // final filtersJson = json.encode(filters);
+
+    final Map<String, String> queryParams = {
+      "fields": json.encode(params['fields']),
+      // "filters": filtersJson,
+    };
+
+    final response = await http.get(uri.replace(queryParameters: queryParams), headers: headers);
+    print(response.statusCode);
+    print(uri.replace(queryParameters: queryParams));
+    if (response.statusCode == 200) {
+      final jsonResponse = json.decode(response.body);
+      final data = ListRooms.fromJson(jsonResponse);
+      return data;
+    } else {
+      final jsonResponse = json.decode(response.body);
+      final data = ListRooms.fromJson(jsonResponse);
+      return data;
+    }
+  }
 }

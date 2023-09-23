@@ -87,3 +87,14 @@ class Room {
     );
   }
 }
+
+class ListRooms {
+  List<Room>? data;
+
+  ListRooms({this.data});
+
+  factory ListRooms.fromJson(Map<String, dynamic>? json) {
+    return ListRooms(
+      data: (json?['data'] as List?)?.map((e) => Room.fromJson(e)).toList(),
+    );  }
+}

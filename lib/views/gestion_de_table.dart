@@ -8,6 +8,8 @@ import 'package:klitchyapp/widget/available_waiters.dart';
 import 'package:klitchyapp/widget/current_waiter.dart';
 import 'package:provider/provider.dart';
 import '../utils/AppState.dart';
+import '../utils/locator.dart';
+import '../viewmodels/room_interactor.dart';
 import '../widget/drawer/room.dart';
 import '../widget/drawer/rooms.dart';
 import 'StartPageUI.dart';

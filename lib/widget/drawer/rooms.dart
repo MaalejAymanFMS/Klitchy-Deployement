@@ -83,6 +83,7 @@ class RoomsState extends State<Rooms> {
                                             "docstatus": 0,
                                             "type": "Room",
                                             "description": widget.roomNameControllr.text,
+                                            "room_description": widget.roomNameControllr.text,
                                             "current_user": "pos@gameprod.com", // we need to change this with the email of the current waiter
                                             "doctype": "Restaurant Object"
                                           };

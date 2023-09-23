@@ -57,14 +57,11 @@ class TablOrderPageState extends State<TablOrderPage> implements TableOrderInter
       "Authorization": "Token 82ad2e094492b3a:f24396cdd3d1c46"
     };
 
-    // Create the Uri
     final Uri uri = Uri.parse("$baseUrl/resource/Item");
 
-    // Convert the filters to a JSON string
     final filters = params?['filters'];
     final filtersJson = json.encode(filters);
 
-    // Create the query parameters map
     final Map<String, String> queryParams = {
       "fields": json.encode(params?['fields']),
       "filters": filtersJson,

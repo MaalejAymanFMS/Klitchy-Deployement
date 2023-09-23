@@ -10,14 +10,32 @@ class LeftDrawer extends StatefulWidget {
 
 class _LeftDrawerState extends State<LeftDrawer> {
   final TextEditingController roomNameController = TextEditingController();
-  final List<Widget> _room = [
-    const Room("Main room"),
+  final interactor = getIt<RoomInteractor>();
+  List<Widget> _room = [
+    // const Room("Main room"),
   ];
 
   void addRoom() {
     setState(() {
       _room.add(Room(roomNameController.text));
     });
+  }
+
+  void fetchRooms() async {
+    Map<String, dynamic> params = {
+      "fields" : ["name","room_description"],
+    };
+    var response = await interactor.getAllRooms(params);
+    for(var i = 0; i < response.data!.length ; i++) {
+      setState(() {
+        _room.add(Room(response.data![i].room_description!));
+      });
+    }
+  }
+  @override
+  void initState() {
+    fetchRooms();
+    super.initState();
   }
 
 
