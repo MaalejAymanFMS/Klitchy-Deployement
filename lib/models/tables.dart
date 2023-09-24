@@ -99,3 +99,14 @@ class Table {
     );
   }
 }
+
+class DeleteTable {
+  String? message;
+  DeleteTable({this.message});
+
+  factory DeleteTable.fromJson(Map<String, dynamic>? json) {
+    return DeleteTable(
+      message: json?["message"],
+    );
+  }
+}

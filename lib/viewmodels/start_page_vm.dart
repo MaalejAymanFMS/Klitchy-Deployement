@@ -77,4 +77,27 @@ class StartPageVMState extends State<StartPageVM> implements StartPageInterracto
       return data;
     }
   }
+
+  @override
+  Future<tb.DeleteTable> deleteTable(String id) async {
+    final headers = {
+      "Content-Type": "application/json; charset=utf-8",
+      "Accept": "application/json; charset=utf-8",
+      "Authorization": "Token 82ad2e094492b3a:f24396cdd3d1c46"
+    };
+    final response = await http
+        .delete(Uri.parse("$baseUrl/resource/Restaurant%20Object/$id"),
+        headers: headers);
+    print(response.statusCode);
+
+    if (response.statusCode == 202) {
+      final jsonResponse = json.decode(response.body);
+      final data = tb.DeleteTable.fromJson(jsonResponse);
+      return data;
+    } else {
+      final jsonResponse = json.decode(response.body);
+      final data = tb.DeleteTable.fromJson(jsonResponse);
+      return data;
+    }
+  }
 }

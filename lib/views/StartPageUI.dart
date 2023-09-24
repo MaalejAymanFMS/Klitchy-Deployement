@@ -1,6 +1,7 @@
 import 'dart:js_interop';
 
 import 'package:flutter/material.dart';
+import 'package:klitchyapp/models/tables.dart';
 import 'package:klitchyapp/utils/AppState.dart';
 import 'package:klitchyapp/utils/size_utils.dart';
 import 'package:klitchyapp/viewmodels/start_page_interractor.dart';
@@ -26,7 +27,7 @@ class StartPageUI extends StatefulWidget {
 class StartPageUIState extends State<StartPageUI> {
   final List<Widget> _newTables = [];
   late List<Widget> _gridChildren =
-  List.generate(5 * 4, (index) => Container());
+  List.generate(7 * 6, (index) => Container());
 
   bool room = true;
   final interactor = getIt<StartPageInterractor>();
@@ -60,25 +61,23 @@ class StartPageUIState extends State<StartPageUI> {
       "filters" : [["room_description", "LIKE", "%${widget.name}%"],["type","LIKE","Table"]]
     };
     var response = await interactor.retrieveListOfTables(params);
-    print("this is america: ${response.data}");
-    if(response.data![0].description!.isNotEmpty) {
+    if(response.data!.isNotEmpty) {
       setState(() {
         _gridChildren =
-            List.generate(5 * 4, (index) => Container());
+            List.generate(7 * 6, (index) => Container());
       });
-      debugPrint(response.data![0].description);
       setState(() {
         for (var i = 0; i < response.data!.length; i++) {
           List<String> parts = response.data![i].description!.split('-');
 
           if (parts[0] == "T4") {
-            _gridChildren[int.tryParse(parts[1])!] = const TableFour();
+            _gridChildren[int.tryParse(parts[1])!] = TableFour(id: response.data![i].name,);
           }
           if (parts[0] == "T8" && parts[2] == "90") {
-            _gridChildren[int.tryParse(parts[1])!] = const TableEight(90);
+            _gridChildren[int.tryParse(parts[1])!] = TableEight(rotation:90, id: response.data![i].name,);
           }
           if (parts[0] == "T8" && parts[2] == "0") {
-            _gridChildren[int.tryParse(parts[1])!] = const TableEight(0);
+            _gridChildren[int.tryParse(parts[1])!] = TableEight(rotation: 0, id: response.data![i].name,);
           }
         }
       });
@@ -110,15 +109,15 @@ class StartPageUIState extends State<StartPageUI> {
             ),
             child: room ? GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 4,
-                childAspectRatio: 260.h / 150.v,
+                crossAxisCount: 6,
+                childAspectRatio: 130.h / 75.v,
               ),
-              itemCount: 5 * 4,
+              itemCount: 7 * 6,
               itemBuilder: (BuildContext context, int index) {
                 Widget widget = _gridChildren[index];
                 return GestureDetector(
                   onDoubleTap: () {
-                    _handleDelete(index);
+                    _handleDelete(index, widget);
                     appState.deleteTable();
                   },
                   onTap: () {
@@ -145,7 +144,7 @@ class StartPageUIState extends State<StartPageUI> {
                             actions: [
                               InkWell(
                                   onTap: () {
-                                    _handleDelete(index);
+                                    _handleDelete(index, widget);
                                     appState.deleteTable();
                                     Navigator.pop(context);
                                   },
@@ -155,16 +154,16 @@ class StartPageUIState extends State<StartPageUI> {
                         });
                   },
                   child: SizedBox(
-                    width: 260.h,
-                    height: 260.v,
+                    width: 130.h,
+                    height: 130.v,
                     child: Stack(
                       children: [
                         Positioned(
-                          left: 125.h,
-                          top: 70.v,
+                          left: 52.5.h,
+                          top: 35.v,
                           child: Container(
-                            width: 10.h,
-                            height: 10.v,
+                            width: 5.h,
+                            height: 5.v,
                             decoration: const BoxDecoration(
                               shape: BoxShape.circle,
                               color: AppColors.secondaryTextColor,
@@ -202,13 +201,13 @@ class StartPageUIState extends State<StartPageUI> {
                 SizedBox(
                   height: 100.v,
                 ),
-                DraggableTable(TableEight(90),
+                DraggableTable(TableEight(rotation: 90),
                     onDraggableCanceled: (widget) =>
                         _handleDragCancelled(widget)),
                 SizedBox(
                   height: 100.v,
                 ),
-                DraggableTable(TableEight(0),
+                DraggableTable(TableEight(rotation: 0),
                     onDraggableCanceled: (widget) =>
                         _handleDragCancelled(widget)),
               ],
@@ -240,10 +239,21 @@ class StartPageUIState extends State<StartPageUI> {
     });
   }
 
-  void _handleDelete(int index) {
+  void _handleDelete(int index, Widget data) async {
+    DeleteTable? res;
+    if(data is TableEight && data.rotation == 0) {
+      res = await interactor.deleteTable(data.id!);
+    } else if(data is TableEight && data.rotation == 90) {
+      res = await interactor.deleteTable(data.id!);
+    } else if (data is TableFour) {
+      res = await interactor.deleteTable(data.id!);
+    }
     setState(() {
-      _gridChildren[index] = Container();
+      if (res?.message == "ok") {
+        _gridChildren[index] = Container();
+      }
     });
+
   }
 }
 
