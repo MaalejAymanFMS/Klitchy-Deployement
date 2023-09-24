@@ -5,15 +5,20 @@ import 'dinner_table.dart';
 
 class TableEight extends StatelessWidget {
   final double rotation;
-  const TableEight(this.rotation,{super.key});
+  final String? id;
+  const TableEight(
+      {Key? key,
+        required this.rotation,
+        this.id,})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return RotationTransition(
       turns: AlwaysStoppedAnimation(rotation / 360),
       child: Container(
-        width: 256,
-        height: 141,
+        width: 128,
+        height: 70.5,
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -23,32 +28,32 @@ class TableEight extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Chair(270),
-                  const SizedBox(width: 22),
+                  const SizedBox(width: 11),
                   Chair(270),
-                  const SizedBox(width: 22),
+                  const SizedBox(width: 11),
                   Chair(270),
                 ],
               ),
-              const SizedBox(height: 5),
+              const SizedBox(height: 2.5),
               // Table with 1 chair on the left, 1 chair on the right
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Chair(180),
-                  const SizedBox(width: 5),
+                  const SizedBox(width: 2.5),
                   DinnerTable(8),
-                  const SizedBox(width: 5),
+                  const SizedBox(width: 2.5),
                   Chair(0),
                 ],
               ),
-              const SizedBox(height: 5),
+              const SizedBox(height: 2.5),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Chair(90),
-                  const SizedBox(width: 22),
+                  const SizedBox(width: 11),
                   Chair(90),
-                  const SizedBox(width: 22),
+                  const SizedBox(width: 11),
                   Chair(90),
                 ],
               ),

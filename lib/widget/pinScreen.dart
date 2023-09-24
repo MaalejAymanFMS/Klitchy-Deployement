@@ -63,6 +63,7 @@ class _PinScreenState extends State<PinScreen> {
                           ? AppColors.greenColor
                           : AppColors.lightColor,
                     ),
+                    child: Center(child: Text(pin.length > i ? pin[i] : '')),
                   ),
               ],
             ),
@@ -111,7 +112,10 @@ class _PinScreenState extends State<PinScreen> {
                 ),
                 const SizedBox(width: 20),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    removePin();
+                  },
+
                   child: const Text('Delete',
                       style: const TextStyle(
                           fontSize: 20, color: AppColors.dark01Color)),

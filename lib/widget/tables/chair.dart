@@ -9,8 +9,8 @@ class Chair extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        width: 35.h,
-        height: 36.v,
+        width: 17.5.h,
+        height: 18.v,
         child: Stack(children: <Widget>[
           Positioned(
               top: 0,
@@ -18,8 +18,8 @@ class Chair extends StatelessWidget {
               child: RotationTransition(
                 turns: AlwaysStoppedAnimation(rotation / 360),
                 child: Container(
-                    width: 35.h,
-                    height: 36.v,
+                    width: 17.5.h,
+                    height: 18.v,
                     decoration: const BoxDecoration(
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(0),
@@ -31,16 +31,16 @@ class Chair extends StatelessWidget {
                     )),
               )),
           Positioned(
-            top: 5.v,
-            left: 4.h,
+            top: 2.5.v,
+            left: 2.h,
             child: Container(
-              width: 27.h,
-              height: 27.v,
+              width: 13.5.h,
+              height: 13.5.v,
               decoration: BoxDecoration(
                 color: const Color.fromRGBO(81, 87, 118, 1),
                 border: Border.all(
                   color: const Color.fromRGBO(124, 133, 175, 1),
-                  width: 1.h,
+                  width: 0.5.h,
                 ),
                 borderRadius: const BorderRadius.all(
                   Radius.circular(27),
@@ -49,18 +49,18 @@ class Chair extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: 12.v,
-            left: 11.h,
+            top: 6.v,
+            left: 5.5.h,
             child: Text(
               'P1',
               textAlign: TextAlign.left,
               style: TextStyle(
                   color: const Color.fromRGBO(255, 255, 255, 1),
                   fontFamily: 'SF Pro Display',
-                  fontSize: 12,
+                  fontSize: 6,
                   letterSpacing: 0,
                   fontWeight: FontWeight.normal,
-                  height: 1.v),
+                  height: 0.5.v),
             ),
           ),
         ]));
