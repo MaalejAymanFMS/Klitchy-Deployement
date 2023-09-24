@@ -159,11 +159,11 @@ class StartPageUIState extends State<StartPageUI> {
                     child: Stack(
                       children: [
                         Positioned(
-                          left: 52.5.h,
+                          left: 70.h,
                           top: 35.v,
                           child: Container(
-                            width: 5.h,
-                            height: 5.v,
+                            width: 10.h,
+                            height: 10.v,
                             decoration: const BoxDecoration(
                               shape: BoxShape.circle,
                               color: AppColors.secondaryTextColor,
