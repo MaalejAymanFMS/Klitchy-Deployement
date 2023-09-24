@@ -14,25 +14,25 @@ class TableFour extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 128.h,
-      height: 70.5.v,
+      width: 128,
+      height: 70.5,
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Chair(270),
-            SizedBox(height: 2.5.v),
+            const SizedBox(height: 2.5),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Chair(180),
-                SizedBox(width: 2.5.h),
+                const SizedBox(width: 2.5),
                 DinnerTable(4),
-                SizedBox(width: 2.5.h),
+                const SizedBox(width: 2.5),
                 Chair(0),
               ],
             ),
-            SizedBox(height: 2.5.v),
+            const SizedBox(height: 2.5),
             Chair(90),
           ],
         ),

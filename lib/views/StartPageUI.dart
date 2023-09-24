@@ -159,8 +159,8 @@ class StartPageUIState extends State<StartPageUI> {
                     child: Stack(
                       children: [
                         Positioned(
-                          left: 70.h,
-                          top: 35.v,
+                          left: 68.h,
+                          top: 32.5.v,
                           child: Container(
                             width: 10.h,
                             height: 10.v,
