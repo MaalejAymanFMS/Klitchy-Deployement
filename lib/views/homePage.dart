@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:klitchyapp/config/app_colors.dart';
+import 'package:klitchyapp/models/Waiter.dart';
 import 'package:klitchyapp/utils/size_utils.dart';
-import 'package:klitchyapp/widget/Customalert.dart';
+import 'package:klitchyapp/widget/WaitersScreeen.dart';
 import 'package:klitchyapp/widget/customSwitchButton.dart';
 import 'package:klitchyapp/widget/pinScreen.dart';
 
@@ -14,7 +15,96 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool isUserLogin = true;
-
+  final List<Waiter> waiters = [
+    Waiter(name: 'John Doe', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane a', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane e', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane e', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane Smith', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane e', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane r', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane a', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane q', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane fq', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane e', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane d', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane e', image: 'assets/images/waiter.png'),
+    Waiter(name: 'Jane e', image: 'assets/images/waiter.png'),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,8 +141,8 @@ class _HomePageState extends State<HomePage> {
           Positioned(
             top: 300.v,
             child: isUserLogin
-                ? PinScreen()
-                : Customalert(),
+                ? WaitersScreeen(waiters: waiters)
+                : PinScreen(),
           ),
         ],
       ),
