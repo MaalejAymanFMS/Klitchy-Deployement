@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:klitchyapp/widget/KeyboardWidget.dart';
 
 class WaiterWidget extends StatelessWidget {
   final String name;
@@ -22,7 +21,6 @@ class WaiterWidget extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  KeyboardWidget(),
                   Image.asset(
                     imageAsset,
                     width: 100,

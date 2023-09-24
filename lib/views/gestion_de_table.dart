@@ -74,7 +74,7 @@ class _GestionDeTableState extends State<GestionDeTable> {
                 padding: const EdgeInsets.all(15),
                 child: Row(
                   children: [
-                    AvailableWaiters(appState.numberOfTables),
+                    AvailableWaiters(appState.numberOfTables, appState.choosenRoom["name"] ?? "choose Room"),
                     SizedBox(width: 200.h,),
                     const CurrentWaiter()
                   ],

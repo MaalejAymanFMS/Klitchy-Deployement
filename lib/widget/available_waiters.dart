@@ -6,8 +6,9 @@ import '../config/app_colors.dart';
 
 class AvailableWaiters extends StatelessWidget {
   final int tablesNumber;
+  final String? roomName;
 
-  const AvailableWaiters(this.tablesNumber, {super.key});
+  const AvailableWaiters(this.tablesNumber, this.roomName, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class AvailableWaiters extends StatelessWidget {
                   TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
             ),
             Text(
-              "$tablesNumber Tables",
+              "$roomName : $tablesNumber Tables",
               style: const TextStyle(
                   fontWeight: FontWeight.normal,
                   color: AppColors.secondaryTextColor),

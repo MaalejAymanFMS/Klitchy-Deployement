@@ -65,8 +65,6 @@ class StartPageVMState extends State<StartPageVM> implements StartPageInterracto
     };
 
     final response = await http.get(uri.replace(queryParameters: queryParams), headers: headers);
-    print("hdhi: ${response.statusCode}");
-    print(uri.replace(queryParameters: queryParams));
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body);
       final data = tb.ListTables.fromJson(jsonResponse);

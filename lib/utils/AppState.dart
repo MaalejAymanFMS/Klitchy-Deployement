@@ -19,8 +19,10 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
   void deleteTable() {
-    _numberOfTables -= 1;
-    notifyListeners();
+    if(_numberOfTables > 0) {
+      _numberOfTables -= 1;
+      notifyListeners();
+    }
   }
 
 
