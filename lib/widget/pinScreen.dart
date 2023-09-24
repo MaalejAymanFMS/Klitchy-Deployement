@@ -115,6 +115,7 @@ class _PinScreenState extends State<PinScreen> {
                   onPressed: () {
                     removePin();
                   },
+
                   child: const Text('Delete',
                       style: const TextStyle(
                           fontSize: 20, color: AppColors.dark01Color)),
