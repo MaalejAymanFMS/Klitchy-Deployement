@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:klitchyapp/utils/size_utils.dart';
-
 import 'chair.dart';
 import 'dinner_table.dart';
 

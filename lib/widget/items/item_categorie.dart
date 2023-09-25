@@ -60,7 +60,7 @@ class ItemCategorie extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 "$numberOfItems Items",
-                style: const TextStyle(color: AppColors.secondaryTextColor),
+                style: const TextStyle(color: Colors.white),
               ),
             ),
           ],

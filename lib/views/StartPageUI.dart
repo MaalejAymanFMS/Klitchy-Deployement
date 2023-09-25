@@ -1,5 +1,3 @@
-import 'dart:js_interop';
-
 import 'package:flutter/material.dart';
 import 'package:klitchyapp/models/tables.dart';
 import 'package:klitchyapp/utils/AppState.dart';
@@ -51,7 +49,7 @@ class StartPageUIState extends State<StartPageUI> {
       "status_managed": [],
       "production_center_group": []
     };
-    var response = await interactor.addTable(body);
+    await interactor.addTable(body);
   }
 
   void fetchTables() async {

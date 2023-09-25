@@ -90,7 +90,7 @@ class TableOrderState extends State<TableOrder> {
             itemCount: listCategories.length,
             itemBuilder: (BuildContext context, int index) {
               if (index < listCategories.length) {
-                return ItemCategorie(name: listCategories[index].name!, color: getRandomColor(), numberOfItems: 14, onTap: fetchItems,);
+                return ItemCategorie(name: listCategories[index].name!, color: Colors.blueGrey, numberOfItems: 14, onTap: fetchItems,);
               } else {
                 return Container();
               }
