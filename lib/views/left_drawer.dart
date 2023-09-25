@@ -14,10 +14,11 @@ class _LeftDrawerState extends State<LeftDrawer> {
   final TextEditingController roomNameController = TextEditingController();
   final interactor = getIt<RoomInteractor>();
   List<Room> _room = [];
+  String id = '';
 
   void addRoom() {
     setState(() {
-      _room.add(Room(roomNameController.text, ""));
+      _room.add(Room(roomNameController.text, id));
     });
   }
 
@@ -45,6 +46,12 @@ class _LeftDrawerState extends State<LeftDrawer> {
     super.initState();
   }
 
+  void handleIdChange(String newId) {
+    setState(() {
+      id = newId;
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +74,7 @@ class _LeftDrawerState extends State<LeftDrawer> {
               thickness: 1,
               color: Colors.black,
             ),
-            RoomVM(addRoom, _room.length, roomNameController),
+            RoomVM(addRoom, _room.length, roomNameController, handleIdChange),
             Divider(
               height: 1.v,
               thickness: 1,

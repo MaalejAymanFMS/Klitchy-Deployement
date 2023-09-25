@@ -12,8 +12,10 @@ class Rooms extends StatefulWidget {
   final Function() onTap;
   final int numberOfRooms;
   final TextEditingController roomNameControllr;
+  final Function(String) onIdChanged;
 
-  const Rooms(this.onTap, this.numberOfRooms, this.roomNameControllr,
+
+  const Rooms(this.onTap, this.numberOfRooms, this.roomNameControllr, this.onIdChanged,
       {super.key});
 
   @override
@@ -90,6 +92,7 @@ class RoomsState extends State<Rooms> {
                                           final response =
                                               await interactor.addRoom(body);
                                           if (response.data.name!.isNotEmpty) {
+                                            widget.onIdChanged(response.data.name!);
                                             widget.onTap();
                                             setState(() => _isLoading = false);
                                             Navigator.pop(context);

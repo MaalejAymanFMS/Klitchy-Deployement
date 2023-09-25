@@ -63,7 +63,7 @@ class _PinScreenState extends State<PinScreen> {
                           ? AppColors.greenColor
                           : AppColors.lightColor,
                     ),
-                    child: Center(child: Text(pin.length > i ? pin[i] : '')),
+                    child: Center(child: Text(pin.length > i ? '*' : '')),
                   ),
               ],
             ),
@@ -98,12 +98,19 @@ class _PinScreenState extends State<PinScreen> {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    // TODOO impliments services
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => GestionDeTable()));
-
+                    if(pin == "1111") {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => GestionDeTable()));
+                    } else {
+                      setState(() {
+                        if (pin.isNotEmpty) {
+                          pin = '';
+                          filledCircles = pin.length;
+                        }
+                      });
+                    }
                     print(pin);
                   },
                   child: const Text('Confirm',
