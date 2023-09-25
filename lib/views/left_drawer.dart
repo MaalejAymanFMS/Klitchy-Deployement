@@ -36,6 +36,7 @@ class _LeftDrawerState extends State<LeftDrawer> {
         });
       }
     }
+    widget.appState.chooseRoom(_room[0].title, _room[0].id);
   }
 
   @override
@@ -80,7 +81,6 @@ class _LeftDrawerState extends State<LeftDrawer> {
                 return InkWell(onTap: () {
                   widget.appState.chooseRoom(room.title, room.id);
                   print(widget.appState.choosenRoom);
-                  print("asba");
                 },
                     child: room);
               }).toList(),
