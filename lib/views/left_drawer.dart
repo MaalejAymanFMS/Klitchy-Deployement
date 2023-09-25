@@ -18,7 +18,9 @@ class _LeftDrawerState extends State<LeftDrawer> {
 
   void addRoom() {
     setState(() {
-      _room.add(Room(roomNameController.text, id));
+      _room.insert(0,Room(roomNameController.text, id));
+      widget.appState.chooseRoom(_room[0].title, _room[0].id);
+      widget.appState.setNumberOfTables(0);
     });
   }
 

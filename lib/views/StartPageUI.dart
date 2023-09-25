@@ -88,6 +88,12 @@ class StartPageUIState extends State<StartPageUI> {
           }
         }
       });
+    } else {
+      setState(() {
+        _gridChildren =
+            List.generate(7 * 6, (index) => Container());
+        widget.appState.setNumberOfTables(0);
+      });
     }
   }
   @override
