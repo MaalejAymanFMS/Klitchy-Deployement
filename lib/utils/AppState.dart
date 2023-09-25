@@ -14,6 +14,11 @@ class AppState extends ChangeNotifier {
   //number of tables
   int _numberOfTables = 0;
   int get  numberOfTables => _numberOfTables;
+
+  void setNumberOfTables(int number) {
+    _numberOfTables = number;
+    notifyListeners();
+  }
   void addTable() {
     _numberOfTables += 1;
     notifyListeners();

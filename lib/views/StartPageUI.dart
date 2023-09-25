@@ -16,7 +16,8 @@ import '../widget/tables/table_8.dart';
 class StartPageUI extends StatefulWidget {
   final String name;
   final String id;
-  const StartPageUI({Key? key, required this.name, required this.id}) : super(key: key);
+  final AppState appState;
+  const StartPageUI({Key? key, required this.name, required this.id, required this.appState}) : super(key: key);
 
   @override
   StartPageUIState createState() => StartPageUIState();
@@ -29,6 +30,7 @@ class StartPageUIState extends State<StartPageUI> {
 
   bool room = true;
   final interactor = getIt<StartPageInterractor>();
+
 
   void addTable(String description, int x, int y, int numberOfSeats, String roomDescription, String roomID) async {
     Map<String, dynamic> body = {
@@ -60,6 +62,13 @@ class StartPageUIState extends State<StartPageUI> {
     };
     var response = await interactor.retrieveListOfTables(params);
     if(response.data!.isNotEmpty) {
+      if(widget.appState.numberOfTables > response.data!.length) {
+        widget.appState.setNumberOfTables(response.data!.length);
+      }
+      for(var i = widget.appState.numberOfTables; i < response.data!.length ; i++) {
+        widget.appState.addTable();
+      }
+
       setState(() {
         _gridChildren =
             List.generate(7 * 6, (index) => Container());
