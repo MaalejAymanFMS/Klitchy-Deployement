@@ -15,10 +15,11 @@ class _LeftDrawerState extends State<LeftDrawer> {
   final interactor = getIt<RoomInteractor>();
   List<Room> _room = [];
   String id = '';
+  int selectedRoomIndex = 0;
 
   void addRoom() {
     setState(() {
-      _room.insert(0,Room(roomNameController.text, id));
+      _room.insert(0,Room(roomNameController.text, id, true));
       widget.appState.chooseRoom(_room[0].title, _room[0].id);
       widget.appState.setNumberOfTables(0);
     });
@@ -35,7 +36,7 @@ class _LeftDrawerState extends State<LeftDrawer> {
         setState(() {
           _room.add(
               Room(response.data![i].description!,
-                  response.data![i].name!));
+                  response.data![i].name!, false));
         });
       }
     }
@@ -86,14 +87,25 @@ class _LeftDrawerState extends State<LeftDrawer> {
               height: 40.v,
             ),
             Column(
-              children: _room.map((room) {
-                return InkWell(onTap: () {
-                  widget.appState.chooseRoom(room.title, room.id);
-                  print(widget.appState.choosenRoom);
-                },
-                    child: room);
+              children: _room.asMap().entries.map((entry) {
+                final index = entry.key;
+                final room = entry.value;
+                return InkWell(
+                  onTap: () {
+                    setState(() {
+                      selectedRoomIndex = index; // Update the selected room index
+                    });
+                    widget.appState.chooseRoom(room.title, room.id);
+                    print(widget.appState.choosenRoom);
+                  },
+                  child: Room(
+                    room.title,
+                    room.id,
+                    selectedRoomIndex == index, // Pass isSelected
+                  ),
+                );
               }).toList(),
-            )
+            ),
           ],
         ),
       ),
