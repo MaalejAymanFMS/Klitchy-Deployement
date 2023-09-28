@@ -42,12 +42,18 @@ class TableOrderState extends State<TableOrder> {
     try {
       debugPrint("$params");
       final itemResponse = await interactor.retrieveItems(params);
-      debugPrint("${itemResponse.data![0].itemName}");
-      appState.clickOpenCategorie(itemResponse.data!);
-      setState(() {
-        click = true;
-        listItems = appState.categorieClicked;
-      });
+      if(itemResponse.data!.isNotEmpty) {
+        appState.clickOpenCategorie(itemResponse.data!);
+        setState(() {
+          click = true;
+          listItems = appState.categorieClicked;
+        });
+      } else {
+        setState(() {
+          click = true;
+          listItems = [];
+        });
+      }
     } catch (e) {
       debugPrint("catched error: $e");
     }
