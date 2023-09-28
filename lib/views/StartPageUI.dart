@@ -78,13 +78,13 @@ class StartPageUIState extends State<StartPageUI> {
           List<String> parts = response.data![i].description!.split('-');
 
           if (parts[0] == "T4") {
-            _gridChildren[int.tryParse(parts[1])!] = TableFour(id: response.data![i].name,);
+            _gridChildren[int.tryParse(parts[1])!] = TableFour(id: response.data![i].name, name: response.data![i].description!,);
           }
           if (parts[0] == "T8" && parts[2] == "90") {
-            _gridChildren[int.tryParse(parts[1])!] = TableEight(rotation:90, id: response.data![i].name,);
+            _gridChildren[int.tryParse(parts[1])!] = TableEight(rotation:90, id: response.data![i].name, name: response.data![i].description!);
           }
           if (parts[0] == "T8" && parts[2] == "0") {
-            _gridChildren[int.tryParse(parts[1])!] = TableEight(rotation: 0, id: response.data![i].name,);
+            _gridChildren[int.tryParse(parts[1])!] = TableEight(rotation: 0, id: response.data![i].name, name: response.data![i].description!);
           }
         }
       });
@@ -128,75 +128,87 @@ class StartPageUIState extends State<StartPageUI> {
               itemCount: 7 * 6,
               itemBuilder: (BuildContext context, int index) {
                 Widget widget = _gridChildren[index];
-                return GestureDetector(
-                  onDoubleTap: () {
-                    _handleDelete(index, widget);
-                    appState.deleteTable();
-                  },
-                  onTap: () {
-                    showDialog(
-                        context: context,
-                        builder: (_) {
-                          return AlertDialog(
-                            title: const Text("Table menu"),
-                            content: SizedBox(
-                                height: 300.v,
-                                child: Column(children: [
-                                  Text("table number: ${index + 1}"),
-                                  const Spacer(),
-                                  CustomButton(
-                                    text: "add order",
-                                    onTap: () {
-                                      setState(() {
-                                        room = false;
-                                      });
-                                      Navigator.pop(context);
-                                    },
-                                  ),
-                                ])),
-                            actions: [
-                              InkWell(
-                                  onTap: () {
-                                    _handleDelete(index, widget);
-                                    appState.deleteTable();
-                                    Navigator.pop(context);
-                                  },
-                                  child: const Text("delete"))
-                            ],
-                          );
-                        });
-                  },
-                  child: SizedBox(
-                    width: 130.h,
-                    height: 130.v,
-                    child: Stack(
-                      children: [
-                        Positioned(
-                          left: 68.h,
-                          top: 32.5.v,
-                          child: Container(
-                            width: 10.h,
-                            height: 10.v,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: AppColors.secondaryTextColor,
+                String tableName = '';
+                if(widget is TableFour){
+                  tableName = widget.name!;
+                }
+                if(widget is TableEight){
+                  tableName = widget.name!;
+                }
+                return Stack(
+                  children: [
+                    GestureDetector(
+                      onDoubleTap: () {
+                        _handleDelete(index, widget);
+                        appState.deleteTable();
+                      },
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (_) {
+                              return AlertDialog(
+                                title: const Text("Table menu"),
+                                content: SizedBox(
+                                    height: 300.v,
+                                    child: Column(children: [
+                                      Text("table number: ${index + 1}"),
+                                      const Spacer(),
+                                      CustomButton(
+                                        text: "add order",
+                                        onTap: () {
+                                          setState(() {
+                                            room = false;
+                                          });
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                    ])),
+                                actions: [
+                                  InkWell(
+                                      onTap: () {
+                                        _handleDelete(index, widget);
+                                        appState.deleteTable();
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text("delete"))
+                                ],
+                              );
+                            });
+                      },
+                      child: SizedBox(
+                        width: 130.h,
+                        height: 130.v,
+                        child: Stack(
+                          children: [
+                            Positioned(
+                              left: 68.h,
+                              top: 32.5.v,
+                              child: Container(
+                                width: 10.h,
+                                height: 10.v,
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: AppColors.secondaryTextColor,
+                                ),
+                              ),
                             ),
-                          ),
+                            DragTarget<Widget>(
+                              builder: (BuildContext context,
+                                  List<Widget?> accepted, List<dynamic> rejected) {
+                                return widget;
+                              },
+                              onWillAccept: (data) => data is Widget,
+                              onAccept: (data) {
+                                _handleAccept(data, index);
+                                appState.addTable();
+                              },
+                            ),
+                          ],
                         ),
-                        DragTarget<Widget>(
-                          builder: (BuildContext context,
-                              List<Widget?> accepted, List<dynamic> rejected) {
-                            return widget;
-                          },
-                          onWillAccept: (data) => data is Widget,
-                          onAccept: (data) {
-                            _handleAccept(data, index);
-                            appState.addTable();
-                          },
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
+                    Text(tableName, style: const TextStyle(color: Colors.white),),
+                  ],
                 );
               },
             ) : const TableOrder(),
@@ -208,7 +220,7 @@ class StartPageUIState extends State<StartPageUI> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                DraggableTable(TableFour(),
+                DraggableTable(TableFour(name: '',),
                     onDraggableCanceled: (widget) =>
                         _handleDragCancelled(widget)),
                 SizedBox(

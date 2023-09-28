@@ -4,9 +4,11 @@ import 'dinner_table.dart';
 
 class TableFour extends StatelessWidget {
   final String? id;
+  final String? name;
   const TableFour(
       {Key? key,
-        this.id,})
+        this.id,
+        this.name,})
       : super(key: key);
 
   @override

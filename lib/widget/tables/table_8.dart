@@ -6,10 +6,12 @@ import 'dinner_table.dart';
 class TableEight extends StatelessWidget {
   final double rotation;
   final String? id;
+  final String? name;
   const TableEight(
       {Key? key,
         required this.rotation,
-        this.id,})
+        this.id,
+      this.name})
       : super(key: key);
 
   @override
