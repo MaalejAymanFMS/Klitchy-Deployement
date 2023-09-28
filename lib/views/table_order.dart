@@ -19,11 +19,14 @@ class TableOrder extends StatefulWidget {
   @override
   TableOrderState createState() => TableOrderState();
 }
+
 class TableOrderState extends State<TableOrder> {
   final interactor = getIt<TableOrderInteractor>();
   List<Categorie> listCategories = [];
   List<itm.Item> listItems = [];
   bool click = false;
+  int selectedCategoryIndex = -1;
+
   Future<void> fetchCategories() async {
     try {
       final categorieResponse = await interactor.retrieveCategories();
@@ -45,10 +48,11 @@ class TableOrderState extends State<TableOrder> {
         click = true;
         listItems = appState.categorieClicked;
       });
-    } catch(e) {
+    } catch (e) {
       debugPrint("catched error: $e");
     }
   }
+
   late AppState appState;
 
   @override
@@ -56,15 +60,6 @@ class TableOrderState extends State<TableOrder> {
     appState = Provider.of<AppState>(context, listen: false);
     fetchCategories();
     super.initState();
-  }
-
-  Color getRandomColor() {
-    final random = Random();
-    final r = random.nextInt(256);
-    final g = random.nextInt(256);
-    final b = random.nextInt(256);
-
-    return Color.fromARGB(255, r, g, b);
   }
 
   @override
@@ -90,7 +85,22 @@ class TableOrderState extends State<TableOrder> {
             itemCount: listCategories.length,
             itemBuilder: (BuildContext context, int index) {
               if (index < listCategories.length) {
-                return ItemCategorie(name: listCategories[index].name!, color: Colors.blueGrey, numberOfItems: 14, onTap: fetchItems,);
+                return ItemCategorie(
+                  name: listCategories[index].name!,
+                  color: selectedCategoryIndex == index
+                      ? Colors.red
+                      : Colors.blueGrey,
+                  numberOfItems: 14,
+                  onTap: (params) {
+                    fetchItems(params);
+                    setState(() {
+                      if (selectedCategoryIndex != index) {
+                        selectedCategoryIndex = index; // Update the selected category index
+                      }
+                    });
+                  },
+                  isSelected: selectedCategoryIndex == index,
+                );
               } else {
                 return Container();
               }
@@ -129,7 +139,12 @@ class TableOrderState extends State<TableOrder> {
             itemCount: listItems.length,
             itemBuilder: (BuildContext context, int index) {
               if (index < listItems.length) {
-                return Item(name: listItems[index].itemName!,price : listItems[index].standardRate!,stock: 14, image: listItems[index].image!,);
+                return Item(
+                  name: listItems[index].itemName!,
+                  price: listItems[index].standardRate!,
+                  stock: 14,
+                  image: listItems[index].image!,
+                );
               } else {
                 return Container();
               }
