@@ -2,11 +2,16 @@ library right_drawer;
 
 import 'package:flutter/material.dart';
 import 'package:klitchyapp/utils/size_utils.dart';
+import 'package:klitchyapp/widget/custom_button.dart';
 import 'package:klitchyapp/widget/right_drawer/buttom_component.dart';
 import 'package:klitchyapp/widget/right_drawer/table_tag.dart';
 import 'package:provider/provider.dart';
+import 'package:virtual_keyboard_2/virtual_keyboard_2.dart';
 
+import '../config/app_colors.dart';
 import '../utils/AppState.dart';
+import '../widget/entry_field.dart';
+import '../widget/order_component.dart';
 class RightDrawer extends StatefulWidget {
   const RightDrawer({
     Key? key,
@@ -18,7 +23,7 @@ class RightDrawer extends StatefulWidget {
 
 
 class _RightDrawerState extends State<RightDrawer> {
-
+  final TextEditingController orderNote = TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -46,18 +51,78 @@ class _RightDrawerState extends State<RightDrawer> {
                       style: TextStyle(color: Colors.white),
                     ),
                     Column(
-                      children:
-                      appState.orders.map((order) => order).toList(),
+                      children: appState.orders.map((order) {
+                        return InkWell(
+                          onTap: () {
+                            showOrderDetails(order, appState);
+                          },
+                          child: order,
+                        );
+                      }).toList(),
                     ),
                   ],
                 ),
               )
-                  : SizedBox.shrink(),
+                  : const SizedBox.shrink(),
             ),
-            ButtomComponent(),
+            const ButtomComponent(),
           ],
         ),
       ),
+    );
+  }
+  void showOrderDetails(OrderComponent order, AppState appState) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(order.name),
+          content: SizedBox(
+            height: 550.v,
+            child: Column(
+              children: [
+                EntryField(
+                  label: "Note",
+                  hintText: "note",
+                  controller: orderNote,
+                ),
+                SizedBox(
+                  height: 100.v,
+                ),
+                CustomButton(
+                  text: "add note",
+                  onTap: () {
+                    appState.updateOrderNote(order.name, orderNote.text);
+                    orderNote.clear();
+                    Navigator.pop(context);
+                  },
+                ),
+                const Spacer(),
+                Container(
+                  color: AppColors.itemsColor,
+                  child: VirtualKeyboard(
+                      height: 300.v,
+                      textColor: Colors.white,
+                      type: VirtualKeyboardType.Alphanumeric,
+                      textController: orderNote),
+                ),
+                SizedBox(
+                  height: 20.v,
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Close'),
+              onPressed: () {
+                orderNote.clear();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

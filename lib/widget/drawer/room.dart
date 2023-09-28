@@ -14,8 +14,8 @@ class Room extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: isSelected ? Colors.red.withOpacity(0.2) : Colors.transparent, // Set background color based on isSelected
-        borderRadius: BorderRadius.circular(10), // Add rounded corners
+        color: isSelected ? Colors.red.withOpacity(0.2) : Colors.transparent,
+        borderRadius: BorderRadius.circular(10),
       ),
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 5.v, horizontal: 10.h),

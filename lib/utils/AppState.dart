@@ -71,6 +71,14 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
+  void updateOrderNote(String orderName, String newNote) {
+    final orderToUpdate = _orders.firstWhere(
+          (order) => order.name == orderName,
+    );
+    orderToUpdate.note = newNote;
+    notifyListeners();
+    }
+
   // categories
   List<Item> _categorieClicked = [];
   List<Item> get categorieClicked => _categorieClicked;

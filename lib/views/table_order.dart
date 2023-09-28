@@ -95,7 +95,7 @@ class TableOrderState extends State<TableOrder> {
                     fetchItems(params);
                     setState(() {
                       if (selectedCategoryIndex != index) {
-                        selectedCategoryIndex = index; // Update the selected category index
+                        selectedCategoryIndex = index;
                       }
                     });
                   },
