@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:klitchyapp/config/app_colors.dart';
 import 'package:klitchyapp/views/gestion_de_table.dart';
 
+
 class PinScreen extends StatefulWidget {
+  
   @override
   _PinScreenState createState() => _PinScreenState();
 }
@@ -12,7 +14,7 @@ class _PinScreenState extends State<PinScreen> {
   String pin = '';
   int filledCircles = 0;
 
-  void addPin(String digit) {
+  void addPin (String digit) {
     setState(() {
       if (pin.length < 4) {
         pin += digit;
@@ -73,63 +75,75 @@ class _PinScreenState extends State<PinScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  for (int i = 1; i <= 3; i++) keyboardButton('$i'),
+                  for (int i = 0; i < 4; i++)
+                    Container(
+                      margin: const EdgeInsets.all(8.0),
+                      width: 30,
+                      height: 30,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: i < filledCircles
+                            ? AppColors.greenColor
+                            : AppColors.lightColor,
+                      ),
+                    ),
                 ],
               ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(bottom: 10.0),
-              child: Row(
+              const SizedBox(height: 20),
+              Container(
+                margin: const EdgeInsets.only(bottom: 10.0),
+                child: Row(
+    
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    
+                    for (int i = 1; i <= 3; i++) keyboardButton('$i'),
+                  ],
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(bottom: 10.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+    
+                  children: <Widget>[
+                    for (int i = 4; i <= 6; i++) keyboardButton('$i'),
+    
+                  ],
+                ),
+              ),
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  for (int i = 4; i <= 6; i++) keyboardButton('$i'),
+                  for (int i = 7; i <= 9; i++) keyboardButton('$i'),
                 ],
               ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                for (int i = 7; i <= 9; i++) keyboardButton('$i'),
-              ],
-            ),
-            const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    if(pin == "1111") {
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => GestionDeTable()));
-                    } else {
-                      setState(() {
-                        if (pin.isNotEmpty) {
-                          pin = '';
-                          filledCircles = pin.length;
-                        }
-                      });
-                    }
-                    print(pin);
-                  },
-                  child: const Text('Confirm',
-                      style: const TextStyle(
-                          fontSize: 20, color: AppColors.dark01Color)),
-                ),
-                const SizedBox(width: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    removePin();
-                  },
 
-                  child: const Text('Delete',
-                      style: const TextStyle(
-                          fontSize: 20, color: AppColors.dark01Color)),
-                ),
-              ],
-            ),
-          ],
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      // TODOO impliments services
+                                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => GestionDeTable() ));
+    
+                      print(pin);
+                      
+                    },
+                    child: const Text('Confirm', style: const TextStyle(fontSize: 20, color: AppColors.dark01Color)),
+                  ),
+                  const SizedBox(width: 20),
+                  ElevatedButton(
+                    onPressed: () {
+                      
+                    },
+                    child: const Text('Delete', style: const TextStyle(fontSize: 20, color: AppColors.dark01Color)),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -138,8 +152,8 @@ class _PinScreenState extends State<PinScreen> {
   Widget keyboardButton(String label) {
     return ElevatedButton(
       onPressed: () => addPin(label),
-      child: Text(label,
-          style: const TextStyle(fontSize: 30, color: AppColors.dark01Color)),
+      child: Text(label, style: const TextStyle(fontSize: 30, color: AppColors.dark01Color)),
+
     );
   }
 }
