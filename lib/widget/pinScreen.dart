@@ -36,23 +36,43 @@ class _PinScreenState extends State<PinScreen> {
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
 
-    return SingleChildScrollView(
-      child: Card(
-        color: AppColors.tertiaryColor,
-        elevation: 8.0,
-        margin: const EdgeInsets.all(16.0),
-        child: Container(
-          padding: const EdgeInsets.all(16.0),
-          width: deviceSize.width * 0.2,
-          height: deviceSize.height * 0.5,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const Text(
-                'Enter personal PIN:',
-                style: TextStyle(fontSize: 20, color: AppColors.lightColor),
-              ),
-              Row(
+    return Card(
+      color: AppColors.tertiaryColor,
+      elevation: 8.0,
+      margin: const EdgeInsets.all(16.0),
+      child: Container(
+        padding: const EdgeInsets.all(16.0),
+        width: deviceSize.width * 0.2,
+        height: deviceSize.height * 0.5,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Text(
+              'Enter personal PIN:',
+              style: TextStyle(fontSize: 20, color: AppColors.lightColor),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                for (int i = 0; i < 4; i++)
+                  Container(
+                    margin: const EdgeInsets.all(8.0),
+                    width: 30,
+                    height: 30,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: i < filledCircles
+                          ? AppColors.greenColor
+                          : AppColors.lightColor,
+                    ),
+                    child: Center(child: Text(pin.length > i ? '*' : '')),
+                  ),
+              ],
+            ),
+            const SizedBox(height: 20),
+            Container(
+              margin: const EdgeInsets.only(bottom: 10.0),
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   for (int i = 0; i < 4; i++)
@@ -98,6 +118,7 @@ class _PinScreenState extends State<PinScreen> {
                   for (int i = 7; i <= 9; i++) keyboardButton('$i'),
                 ],
               ),
+
               const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

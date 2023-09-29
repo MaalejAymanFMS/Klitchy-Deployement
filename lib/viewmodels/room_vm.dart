@@ -11,8 +11,9 @@ class RoomVM extends StatefulWidget {
   final Function() onTap;
   final int numberOfRooms;
   final TextEditingController roomNameControllr;
+  final Function(String) onIdChanged;
 
-  const RoomVM(this.onTap, this.numberOfRooms, this.roomNameControllr,
+  const RoomVM(this.onTap, this.numberOfRooms, this.roomNameControllr, this.onIdChanged,
       {super.key});
 
   @override
@@ -22,7 +23,7 @@ class RoomVM extends StatefulWidget {
 class RoomVMState extends State<RoomVM> implements RoomInteractor{
   @override
   Widget build(BuildContext context) {
-    return RM.Rooms(widget.onTap, widget.numberOfRooms, widget.roomNameControllr);
+    return RM.Rooms(widget.onTap, widget.numberOfRooms, widget.roomNameControllr, widget.onIdChanged);
   }
 
   @override

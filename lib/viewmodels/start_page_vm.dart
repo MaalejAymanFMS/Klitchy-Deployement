@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:klitchyapp/models/tables.dart' as tb;
+import 'package:klitchyapp/utils/AppState.dart';
 import 'package:klitchyapp/viewmodels/start_page_interractor.dart';
 import 'package:http/http.dart' as http;
 import 'package:klitchyapp/views/StartPageUI.dart';
@@ -10,7 +11,9 @@ import '../utils/constants.dart';
 class StartPageVM extends StatefulWidget {
   final String name;
   final String id;
-  const StartPageVM({Key? key, required this.name,required this.id,}) : super(key: key);
+  final AppState appState;
+  final bool room;
+  const StartPageVM({Key? key, required this.name,required this.id, required this.appState, required this.room}) : super(key: key);
 
   @override
   StartPageVMState createState() => StartPageVMState();
@@ -20,7 +23,7 @@ class StartPageVMState extends State<StartPageVM> implements StartPageInterracto
 
   @override
   Widget build(BuildContext context) {
-    return StartPageUI(name: widget.name, id: widget.id,);
+    return StartPageUI(name: widget.name, id: widget.id, appState: widget.appState, room: widget.room,);
   }
 
   @override

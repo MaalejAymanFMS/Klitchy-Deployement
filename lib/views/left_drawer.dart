@@ -14,10 +14,14 @@ class _LeftDrawerState extends State<LeftDrawer> {
   final TextEditingController roomNameController = TextEditingController();
   final interactor = getIt<RoomInteractor>();
   List<Room> _room = [];
+  String id = '';
+  int selectedRoomIndex = 0;
 
   void addRoom() {
     setState(() {
-      _room.add(Room(roomNameController.text, ""));
+      _room.insert(0,Room(roomNameController.text, id, true));
+      widget.appState.chooseRoom(_room[0].title, _room[0].id);
+      widget.appState.setNumberOfTables(0);
     });
   }
 
@@ -32,16 +36,23 @@ class _LeftDrawerState extends State<LeftDrawer> {
         setState(() {
           _room.add(
               Room(response.data![i].description!,
-                  response.data![i].name!));
+                  response.data![i].name!, false));
         });
       }
     }
+    widget.appState.chooseRoom(_room[0].title, _room[0].id);
   }
 
   @override
   void initState() {
     fetchRooms();
     super.initState();
+  }
+
+  void handleIdChange(String newId) {
+    setState(() {
+      id = newId;
+    });
   }
 
 
@@ -66,7 +77,7 @@ class _LeftDrawerState extends State<LeftDrawer> {
               thickness: 1,
               color: Colors.black,
             ),
-            RoomVM(addRoom, _room.length, roomNameController),
+            RoomVM(addRoom, _room.length, roomNameController, handleIdChange),
             Divider(
               height: 1.v,
               thickness: 1,
@@ -76,15 +87,26 @@ class _LeftDrawerState extends State<LeftDrawer> {
               height: 40.v,
             ),
             Column(
-              children: _room.map((room) {
-                return InkWell(onTap: () {
-                  widget.appState.chooseRoom(room.title, room.id);
-                  print(widget.appState.choosenRoom);
-                  print("asba");
-                },
-                    child: room);
+              children: _room.asMap().entries.map((entry) {
+                final index = entry.key;
+                final room = entry.value;
+                return InkWell(
+                  onTap: () {
+                    setState(() {
+                      selectedRoomIndex = index;
+                    });
+                    widget.appState.chooseRoom(room.title, room.id);
+                    widget.appState.switchRoom();
+                    print(widget.appState.choosenRoom);
+                  },
+                  child: Room(
+                    room.title,
+                    room.id,
+                    selectedRoomIndex == index, // Pass isSelected
+                  ),
+                );
               }).toList(),
-            )
+            ),
           ],
         ),
       ),

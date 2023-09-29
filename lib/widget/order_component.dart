@@ -10,7 +10,9 @@ class OrderComponent extends StatelessWidget {
   final String name;
   final double price;
   final String image;
-  OrderComponent({Key? key, required this.number, required this.name, required this.price, required this.image}) : super (key: key);
+  String? note;
+  OrderComponent({Key? key, required this.number, required this.name, required this.price, required this.image, this.note,}) : super (key: key);
+
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +39,9 @@ class OrderComponent extends StatelessWidget {
                       Radius.circular(7),
                     ),
                   ),
-                  child: image.isEmpty ? Image.asset("assets/images/shawarma.png") : Image.network("$baseUrlImage$image", headers: headers),
+                  child: image != "null image" && image.isNotEmpty
+                      ? Image.network("$baseUrlImage$image", headers: headers)
+                      : Image.asset("assets/images/shawarma.png"),
                 ),
                 SizedBox(width: 30.h,),
                 Column(
@@ -48,9 +52,9 @@ class OrderComponent extends StatelessWidget {
                       style: const TextStyle(
                           fontWeight: FontWeight.bold, color: Colors.white),
                     ),
-                    const Text(
-                      "No tomato, extra spicy",
-                      style: TextStyle(
+                    Text(
+                      note ?? '',
+                      style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           color: AppColors.secondaryTextColor),
                     ),

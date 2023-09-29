@@ -60,11 +60,15 @@ class ItemState extends State<Item> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                      widget.name,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.white),
-                    ),
+                SizedBox(
+                  width: 150,
+                  child: Text(
+                        widget.name,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.white),
+                    maxLines: 2,
+                      ),
+                ),
                 SizedBox(
                   height: 10.v,
                 ),
@@ -75,19 +79,19 @@ class ItemState extends State<Item> {
               ],
             ),
             const Spacer(),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "${widget.stock}",
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, color: Colors.white),
-                ),
-              ],
-            ),
-            SizedBox(
-              width: 10.h,
-            ),
+            // Column(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: [
+            //     Text(
+            //       "${widget.stock}",
+            //       style: const TextStyle(
+            //           fontWeight: FontWeight.bold, color: Colors.white),
+            //     ),
+            //   ],
+            // ),
+            // SizedBox(
+            //   width: 10.h,
+            // ),
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [

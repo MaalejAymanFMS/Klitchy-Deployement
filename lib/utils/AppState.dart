@@ -14,6 +14,11 @@ class AppState extends ChangeNotifier {
   //number of tables
   int _numberOfTables = 0;
   int get  numberOfTables => _numberOfTables;
+
+  void setNumberOfTables(int number) {
+    _numberOfTables = number;
+    notifyListeners();
+  }
   void addTable() {
     _numberOfTables += 1;
     notifyListeners();
@@ -66,6 +71,14 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
+  void updateOrderNote(String orderName, String newNote) {
+    final orderToUpdate = _orders.firstWhere(
+          (order) => order.name == orderName,
+    );
+    orderToUpdate.note = newNote;
+    notifyListeners();
+    }
+
   // categories
   List<Item> _categorieClicked = [];
   List<Item> get categorieClicked => _categorieClicked;
@@ -90,6 +103,17 @@ class AppState extends ChangeNotifier {
       "name" : name,
       "id": id,
     };
+    notifyListeners();
+  }
+
+  bool _room = true;
+  bool get room => _room;
+  void switchRoom() {
+    _room = true;
+    notifyListeners();
+  }
+  void switchOrder() {
+    _room = false;
     notifyListeners();
   }
 }

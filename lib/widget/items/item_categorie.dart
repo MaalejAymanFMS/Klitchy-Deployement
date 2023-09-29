@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:klitchyapp/utils/size_utils.dart';
 
-import '../../config/app_colors.dart';
-import '../../utils/AppState.dart';
-
 class ItemCategorie extends StatelessWidget {
   final String name;
   final Color color;
   final int numberOfItems;
   final Function(Map<String, dynamic> params) onTap;
+  final bool isSelected;
 
   const ItemCategorie(
       {Key? key,
       required this.name,
       required this.color,
       required this.numberOfItems,
-      required this.onTap,})
+      required this.onTap,
+      required this.isSelected,})
       : super(key: key);
 
   @override
@@ -56,13 +55,13 @@ class ItemCategorie extends StatelessWidget {
               ),
             ),
             const Spacer(),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                "$numberOfItems Items",
-                style: const TextStyle(color: AppColors.secondaryTextColor),
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: Text(
+            //     "$numberOfItems Items",
+            //     style: const TextStyle(color: Colors.white),
+            //   ),
+            // ),
           ],
         ),
       ),

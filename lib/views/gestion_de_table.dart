@@ -29,6 +29,7 @@ class GestionDeTable extends StatefulWidget {
 bool? isDrawerOpen;
 
 class _GestionDeTableState extends State<GestionDeTable> {
+
   void _handleDrawer() {
     setState(() {
       isDrawerOpen = !isDrawerOpen!;
@@ -80,7 +81,7 @@ class _GestionDeTableState extends State<GestionDeTable> {
                   ],
                 ),
               ),
-              StartPageVM(name: appState.choosenRoom["name"] ?? "name", id: appState.choosenRoom["id"] ?? "id",),
+              StartPageVM(name: appState.choosenRoom["name"] ?? "name", id: appState.choosenRoom["id"] ?? "id", appState: appState, room: appState.room),
             ],
           )
         ],

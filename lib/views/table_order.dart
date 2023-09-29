@@ -19,11 +19,15 @@ class TableOrder extends StatefulWidget {
   @override
   TableOrderState createState() => TableOrderState();
 }
+
 class TableOrderState extends State<TableOrder> {
   final interactor = getIt<TableOrderInteractor>();
   List<Categorie> listCategories = [];
   List<itm.Item> listItems = [];
   bool click = false;
+  int selectedCategoryIndex = -1;
+  String categorieName = "";
+
   Future<void> fetchCategories() async {
     try {
       final categorieResponse = await interactor.retrieveCategories();
@@ -39,16 +43,23 @@ class TableOrderState extends State<TableOrder> {
     try {
       debugPrint("$params");
       final itemResponse = await interactor.retrieveItems(params);
-      debugPrint("${itemResponse.data![0].itemName}");
-      appState.clickOpenCategorie(itemResponse.data!);
-      setState(() {
-        click = true;
-        listItems = appState.categorieClicked;
-      });
-    } catch(e) {
+      if(itemResponse.data!.isNotEmpty) {
+        appState.clickOpenCategorie(itemResponse.data!);
+        setState(() {
+          click = true;
+          listItems = appState.categorieClicked;
+        });
+      } else {
+        setState(() {
+          click = true;
+          listItems = [];
+        });
+      }
+    } catch (e) {
       debugPrint("catched error: $e");
     }
   }
+
   late AppState appState;
 
   @override
@@ -56,15 +67,6 @@ class TableOrderState extends State<TableOrder> {
     appState = Provider.of<AppState>(context, listen: false);
     fetchCategories();
     super.initState();
-  }
-
-  Color getRandomColor() {
-    final random = Random();
-    final r = random.nextInt(256);
-    final g = random.nextInt(256);
-    final b = random.nextInt(256);
-
-    return Color.fromARGB(255, r, g, b);
   }
 
   @override
@@ -90,7 +92,23 @@ class TableOrderState extends State<TableOrder> {
             itemCount: listCategories.length,
             itemBuilder: (BuildContext context, int index) {
               if (index < listCategories.length) {
-                return ItemCategorie(name: listCategories[index].name!, color: getRandomColor(), numberOfItems: 14, onTap: fetchItems,);
+                return ItemCategorie(
+                  name: listCategories[index].name!,
+                  color: selectedCategoryIndex == index
+                      ? Colors.red
+                      : Colors.blueGrey,
+                  numberOfItems: 14,
+                  onTap: (params) {
+                    fetchItems(params);
+                    setState(() {
+                      if (selectedCategoryIndex != index) {
+                        selectedCategoryIndex = index;
+                        categorieName = listCategories[index].name!;
+                      }
+                    });
+                  },
+                  isSelected: selectedCategoryIndex == index,
+                );
               } else {
                 return Container();
               }
@@ -101,17 +119,17 @@ class TableOrderState extends State<TableOrder> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              "Find items in drinks",
+            Text(
+              "Find items in $categorieName",
               style:
-                  TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+                  const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
             ),
             SizedBox(
               height: 10.v,
             ),
-            const Text(
-              "24 Variation",
-              style: TextStyle(color: AppColors.secondaryTextColor),
+            Text(
+              "${listItems.length} Variation",
+              style: const TextStyle(color: AppColors.secondaryTextColor),
             ),
           ],
         ),
@@ -129,7 +147,12 @@ class TableOrderState extends State<TableOrder> {
             itemCount: listItems.length,
             itemBuilder: (BuildContext context, int index) {
               if (index < listItems.length) {
-                return Item(name: listItems[index].itemName!,price : listItems[index].standardRate!,stock: 14, image: listItems[index].image!,);
+                return Item(
+                  name: listItems[index].itemName!,
+                  price: listItems[index].standardRate!,
+                  stock: 14,
+                  image: listItems[index].image!,
+                );
               } else {
                 return Container();
               }

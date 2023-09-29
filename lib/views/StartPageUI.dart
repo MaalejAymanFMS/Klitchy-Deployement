@@ -1,5 +1,3 @@
-import 'dart:js_interop';
-
 import 'package:flutter/material.dart';
 import 'package:klitchyapp/models/tables.dart';
 import 'package:klitchyapp/utils/AppState.dart';
@@ -18,7 +16,9 @@ import '../widget/tables/table_8.dart';
 class StartPageUI extends StatefulWidget {
   final String name;
   final String id;
-  const StartPageUI({Key? key, required this.name, required this.id}) : super(key: key);
+  final AppState appState;
+  late final bool room;
+  StartPageUI({Key? key, required this.name, required this.id, required this.appState, required this.room}) : super(key: key);
 
   @override
   StartPageUIState createState() => StartPageUIState();
@@ -29,8 +29,8 @@ class StartPageUIState extends State<StartPageUI> {
   late List<Widget> _gridChildren =
   List.generate(7 * 6, (index) => Container());
 
-  bool room = true;
   final interactor = getIt<StartPageInterractor>();
+
 
   void addTable(String description, int x, int y, int numberOfSeats, String roomDescription, String roomID) async {
     Map<String, dynamic> body = {
@@ -51,7 +51,7 @@ class StartPageUIState extends State<StartPageUI> {
       "status_managed": [],
       "production_center_group": []
     };
-    var response = await interactor.addTable(body);
+    await interactor.addTable(body);
   }
 
   void fetchTables() async {
@@ -62,6 +62,13 @@ class StartPageUIState extends State<StartPageUI> {
     };
     var response = await interactor.retrieveListOfTables(params);
     if(response.data!.isNotEmpty) {
+      if(widget.appState.numberOfTables > response.data!.length) {
+        widget.appState.setNumberOfTables(response.data!.length);
+      }
+      for(var i = widget.appState.numberOfTables; i < response.data!.length ; i++) {
+        widget.appState.addTable();
+      }
+
       setState(() {
         _gridChildren =
             List.generate(7 * 6, (index) => Container());
@@ -71,15 +78,21 @@ class StartPageUIState extends State<StartPageUI> {
           List<String> parts = response.data![i].description!.split('-');
 
           if (parts[0] == "T4") {
-            _gridChildren[int.tryParse(parts[1])!] = TableFour(id: response.data![i].name,);
+            _gridChildren[int.tryParse(parts[1])!] = TableFour(id: response.data![i].name, name: response.data![i].description!,);
           }
           if (parts[0] == "T8" && parts[2] == "90") {
-            _gridChildren[int.tryParse(parts[1])!] = TableEight(rotation:90, id: response.data![i].name,);
+            _gridChildren[int.tryParse(parts[1])!] = TableEight(rotation:90, id: response.data![i].name, name: response.data![i].description!);
           }
           if (parts[0] == "T8" && parts[2] == "0") {
-            _gridChildren[int.tryParse(parts[1])!] = TableEight(rotation: 0, id: response.data![i].name,);
+            _gridChildren[int.tryParse(parts[1])!] = TableEight(rotation: 0, id: response.data![i].name, name: response.data![i].description!);
           }
         }
+      });
+    } else {
+      setState(() {
+        _gridChildren =
+            List.generate(7 * 6, (index) => Container());
+        widget.appState.setNumberOfTables(0);
       });
     }
   }
@@ -107,7 +120,7 @@ class StartPageUIState extends State<StartPageUI> {
                 Radius.circular(18),
               ),
             ),
-            child: room ? GridView.builder(
+            child: widget.room ? GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 6,
                 childAspectRatio: 130.h / 75.v,
@@ -115,75 +128,85 @@ class StartPageUIState extends State<StartPageUI> {
               itemCount: 7 * 6,
               itemBuilder: (BuildContext context, int index) {
                 Widget widget = _gridChildren[index];
-                return GestureDetector(
-                  onDoubleTap: () {
-                    _handleDelete(index, widget);
-                    appState.deleteTable();
-                  },
-                  onTap: () {
-                    showDialog(
-                        context: context,
-                        builder: (_) {
-                          return AlertDialog(
-                            title: const Text("Table menu"),
-                            content: SizedBox(
-                                height: 300.v,
-                                child: Column(children: [
-                                  Text("table number: ${index + 1}"),
-                                  const Spacer(),
-                                  CustomButton(
-                                    text: "add order",
-                                    onTap: () {
-                                      setState(() {
-                                        room = false;
-                                      });
-                                      Navigator.pop(context);
-                                    },
-                                  ),
-                                ])),
-                            actions: [
-                              InkWell(
-                                  onTap: () {
-                                    _handleDelete(index, widget);
-                                    appState.deleteTable();
-                                    Navigator.pop(context);
-                                  },
-                                  child: const Text("delete"))
-                            ],
-                          );
-                        });
-                  },
-                  child: SizedBox(
-                    width: 130.h,
-                    height: 130.v,
-                    child: Stack(
-                      children: [
-                        Positioned(
-                          left: 70.h,
-                          top: 35.v,
-                          child: Container(
-                            width: 10.h,
-                            height: 10.v,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: AppColors.secondaryTextColor,
+                String tableName = '';
+                if(widget is TableFour){
+                  tableName = widget.name!;
+                }
+                if(widget is TableEight){
+                  tableName = widget.name!;
+                }
+                return Stack(
+                  children: [
+                    GestureDetector(
+                      onDoubleTap: () {
+                        _handleDelete(index, widget);
+                        appState.deleteTable();
+                      },
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (_) {
+                              return AlertDialog(
+                                title: const Text("Table menu"),
+                                content: SizedBox(
+                                    height: 300.v,
+                                    child: Column(children: [
+                                      Text("table number: ${index + 1}"),
+                                      const Spacer(),
+                                      CustomButton(
+                                        text: "add order",
+                                        onTap: () {
+                                          this.widget.appState.switchOrder();
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                    ])),
+                                actions: [
+                                  InkWell(
+                                      onTap: () {
+                                        _handleDelete(index, widget);
+                                        appState.deleteTable();
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text("delete"))
+                                ],
+                              );
+                            });
+                      },
+                      child: SizedBox(
+                        width: 130.h,
+                        height: 130.v,
+                        child: Stack(
+                          children: [
+                            Positioned(
+                              left: 68.h,
+                              top: 32.5.v,
+                              child: Container(
+                                width: 10.h,
+                                height: 10.v,
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: AppColors.secondaryTextColor,
+                                ),
+                              ),
                             ),
-                          ),
+                            DragTarget<Widget>(
+                              builder: (BuildContext context,
+                                  List<Widget?> accepted, List<dynamic> rejected) {
+                                return widget;
+                              },
+                              onWillAccept: (data) => data is Widget,
+                              onAccept: (data) {
+                                _handleAccept(data, index);
+                                appState.addTable();
+                              },
+                            ),
+                          ],
                         ),
-                        DragTarget<Widget>(
-                          builder: (BuildContext context,
-                              List<Widget?> accepted, List<dynamic> rejected) {
-                            return widget;
-                          },
-                          onWillAccept: (data) => data is Widget,
-                          onAccept: (data) {
-                            _handleAccept(data, index);
-                            appState.addTable();
-                          },
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
+                    Text(tableName, style: const TextStyle(color: Colors.white),),
+                  ],
                 );
               },
             ) : const TableOrder(),
@@ -191,11 +214,11 @@ class StartPageUIState extends State<StartPageUI> {
           SizedBox(
             width: appState.isWidgetEnabled ? 12.h : MediaQuery.of(context).size.width / 5.85.h,
           ),
-          room ? SingleChildScrollView(
+          widget.room ? SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                DraggableTable(TableFour(),
+                DraggableTable(TableFour(name: '',),
                     onDraggableCanceled: (widget) =>
                         _handleDragCancelled(widget)),
                 SizedBox(
@@ -213,7 +236,7 @@ class StartPageUIState extends State<StartPageUI> {
               ],
             ),
           ) : const SizedBox.shrink(),
-          !room ? RightDrawer() : const SizedBox.shrink(),
+          !widget.room ? RightDrawer() : const SizedBox.shrink(),
         ],
       ),
     );
