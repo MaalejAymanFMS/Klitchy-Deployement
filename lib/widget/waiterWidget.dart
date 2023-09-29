@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:klitchyapp/config/app_colors.dart';
+import 'package:klitchyapp/views/gestion_de_table.dart';
 import 'package:virtual_keyboard_2/virtual_keyboard_2.dart';
+import 'package:http/http.dart' as http;
 
 class CustomKeyboardButton extends StatelessWidget {
   final String text;
@@ -14,16 +18,16 @@ class CustomKeyboardButton extends StatelessWidget {
       onPressed: onPressed,
       child: Text(
         text,
-        style: TextStyle(fontSize: 18), 
+        style: TextStyle(fontSize: 18),
       ),
       style: ElevatedButton.styleFrom(
-        primary: Colors.blue, 
-        onPrimary: Colors.white, 
+        primary: Colors.blue,
+        onPrimary: Colors.white,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10), 
+          borderRadius: BorderRadius.circular(10),
         ),
-        padding: EdgeInsets.all(10), 
-        minimumSize: Size(50, 50), 
+        padding: EdgeInsets.all(10),
+        minimumSize: Size(50, 50),
       ),
     );
   }
@@ -32,11 +36,68 @@ class CustomKeyboardButton extends StatelessWidget {
 class WaiterWidget extends StatefulWidget {
   final String name;
   final String imageAsset;
-
-  WaiterWidget({required this.name, required this.imageAsset});
+  final String email;
+  
+  WaiterWidget(
+      {required this.name, required this.imageAsset, required this.email});
 
   @override
   _WaiterWidgetState createState() => _WaiterWidgetState();
+}
+
+String emailBody = "";
+String PasswordBody = "";
+int? statusCode;
+Future<int> login(emailBody, PasswordBody) async {
+  final url =
+      Uri.parse('https://erpnext-141144-0.cloudclusters.net/api/method/login');
+
+  // Create the request body
+  final Map<String, String> requestBody = {
+    "usr": emailBody,
+    "pwd": PasswordBody,
+  };
+
+  // Send the POST request
+  final response = await http.post(
+    url,
+    headers: {
+      // Add any headers if needed
+      'Content-Type': 'application/json', // Set the content type to JSON
+    },
+    body: jsonEncode(requestBody), // Encode the body as JSON
+  );
+
+  if (response.statusCode == 200) {
+    // Request was successful, handle the response here
+   statusCode = response.statusCode;
+    return response.statusCode;
+  } else {
+    // Request failed, handle the error here
+    print('Error: ${response.statusCode}');
+    statusCode = response.statusCode;
+    return response.statusCode;
+  }
+}
+
+Future<void> showBadPasswordAlert(BuildContext context) async {
+  return showDialog<void>(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Bad Password'),
+        content: Text('The password you entered is incorrect.'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('OK'),
+          ),
+        ],
+      );
+    },
+  );
 }
 
 class _WaiterWidgetState extends State<WaiterWidget> {
@@ -53,13 +114,15 @@ class _WaiterWidgetState extends State<WaiterWidget> {
           builder: (BuildContext context) {
             return AlertDialog(
               scrollable: true,
-              title: Text('Enter your password ${widget.name}',style: TextStyle(color: AppColors.whiteColor) ,),
-              backgroundColor: AppColors.primaryColor, 
+              title: Text(
+                'Enter your password ${widget.name}',
+                style: TextStyle(color: AppColors.whiteColor),
+              ),
+              backgroundColor: AppColors.primaryColor,
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                
                   VirtualKeyboard(
                     height: 350,
                     textColor: Colors.white,
@@ -80,11 +143,25 @@ class _WaiterWidgetState extends State<WaiterWidget> {
                         },
                         child: Text('Close'),
                       ),
-                      SizedBox(width: 15), 
+                      SizedBox(width: 15),
                       CustomKeyboardButton(
                         text: 'Login',
-                        onPressed: () {
-                          print(_textEditingController.text);
+                        onPressed: () async{
+                          emailBody = widget.email;
+                          PasswordBody = _textEditingController.text;
+                          final int result;
+
+                         result = await login(emailBody, PasswordBody);
+                          if (result == 200){
+                            print(result);
+ Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => GestionDeTable() ));
+                          }else if(result == 401){
+ showBadPasswordAlert(context);
+                          }else{
+print("brr nayek");
+                          }
+                        
+                         
                         },
                       ),
                     ],

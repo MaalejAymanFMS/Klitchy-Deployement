@@ -24,14 +24,18 @@ height: deviceSize.height*0.6,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             for (int i = 0; i < waiters.length; i += 6)
+            
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   for (int j = i; j < i + 6 && j < waiters.length; j++)
                     WaiterWidget(
                       name: waiters[j].name,
+                       email: waiters[j].email,
                       imageAsset: waiters[j].image,
+                         
                     ),
+                 
                 ],
               ),
             SizedBox(height: 20), // Add spacing after all rows
