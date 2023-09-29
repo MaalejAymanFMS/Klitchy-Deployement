@@ -84,7 +84,6 @@ class _HomePageState extends State<HomePage> {
               initialValue: isUserLogin,
               onChanged: (bool value) {
                 setState(() {
-                  
                   isUserLogin = value;
                 });
               },

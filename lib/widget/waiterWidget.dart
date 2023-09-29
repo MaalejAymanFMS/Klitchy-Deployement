@@ -37,7 +37,7 @@ class WaiterWidget extends StatefulWidget {
   final String name;
   final String imageAsset;
   final String email;
-  
+
   WaiterWidget(
       {required this.name, required this.imageAsset, required this.email});
 
@@ -70,7 +70,7 @@ Future<int> login(emailBody, PasswordBody) async {
 
   if (response.statusCode == 200) {
     // Request was successful, handle the response here
-   statusCode = response.statusCode;
+    statusCode = response.statusCode;
     return response.statusCode;
   } else {
     // Request failed, handle the error here
@@ -146,22 +146,23 @@ class _WaiterWidgetState extends State<WaiterWidget> {
                       SizedBox(width: 15),
                       CustomKeyboardButton(
                         text: 'Login',
-                        onPressed: () async{
+                        onPressed: () async {
                           emailBody = widget.email;
                           PasswordBody = _textEditingController.text;
                           final int result;
 
-                         result = await login(emailBody, PasswordBody);
-                          if (result == 200){
+                          result = await login(emailBody, PasswordBody);
+                          if (result == 200) {
                             print(result);
- Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => GestionDeTable() ));
-                          }else if(result == 401){
- showBadPasswordAlert(context);
-                          }else{
-print("brr nayek");
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => GestionDeTable()));
+                          } else if (result == 401) {
+                            showBadPasswordAlert(context);
+                          } else {
+                            print("brr nayek");
                           }
-                        
-                         
                         },
                       ),
                     ],

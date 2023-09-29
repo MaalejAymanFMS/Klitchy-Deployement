@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:klitchyapp/models/Waiter.dart';
 import 'package:klitchyapp/widget/waiterWidget.dart';
 
-
-
 class WaitersScreeen extends StatelessWidget {
   final List<Waiter> waiters;
 
@@ -14,8 +12,8 @@ class WaitersScreeen extends StatelessWidget {
     final deviceSize = MediaQuery.of(context).size;
     return Container(
       transformAlignment: Alignment.topLeft,
-width: deviceSize.width *0.9,
-height: deviceSize.height*0.6,
+      width: deviceSize.width * 0.9,
+      height: deviceSize.height * 0.6,
 
       color: Color(0xFF060C18), // Set the background color
       child: SingleChildScrollView(
@@ -24,18 +22,15 @@ height: deviceSize.height*0.6,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             for (int i = 0; i < waiters.length; i += 6)
-            
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   for (int j = i; j < i + 6 && j < waiters.length; j++)
                     WaiterWidget(
                       name: waiters[j].name,
-                       email: waiters[j].email,
+                      email: waiters[j].email,
                       imageAsset: waiters[j].image,
-                         
                     ),
-                 
                 ],
               ),
             SizedBox(height: 20), // Add spacing after all rows
