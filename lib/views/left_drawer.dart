@@ -93,9 +93,10 @@ class _LeftDrawerState extends State<LeftDrawer> {
                 return InkWell(
                   onTap: () {
                     setState(() {
-                      selectedRoomIndex = index; // Update the selected room index
+                      selectedRoomIndex = index;
                     });
                     widget.appState.chooseRoom(room.title, room.id);
+                    widget.appState.switchRoom();
                     print(widget.appState.choosenRoom);
                   },
                   child: Room(

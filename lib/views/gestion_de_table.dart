@@ -81,7 +81,7 @@ class _GestionDeTableState extends State<GestionDeTable> {
                   ],
                 ),
               ),
-              StartPageVM(name: appState.choosenRoom["name"] ?? "name", id: appState.choosenRoom["id"] ?? "id", appState: appState,),
+              StartPageVM(name: appState.choosenRoom["name"] ?? "name", id: appState.choosenRoom["id"] ?? "id", appState: appState, room: appState.room),
             ],
           )
         ],

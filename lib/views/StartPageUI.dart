@@ -17,7 +17,8 @@ class StartPageUI extends StatefulWidget {
   final String name;
   final String id;
   final AppState appState;
-  const StartPageUI({Key? key, required this.name, required this.id, required this.appState}) : super(key: key);
+  late final bool room;
+  StartPageUI({Key? key, required this.name, required this.id, required this.appState, required this.room}) : super(key: key);
 
   @override
   StartPageUIState createState() => StartPageUIState();
@@ -28,7 +29,7 @@ class StartPageUIState extends State<StartPageUI> {
   late List<Widget> _gridChildren =
   List.generate(7 * 6, (index) => Container());
 
-  bool room = true;
+  // bool room = true;
   final interactor = getIt<StartPageInterractor>();
 
 
@@ -120,7 +121,7 @@ class StartPageUIState extends State<StartPageUI> {
                 Radius.circular(18),
               ),
             ),
-            child: room ? GridView.builder(
+            child: widget.room ? GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 6,
                 childAspectRatio: 130.h / 75.v,
@@ -156,9 +157,10 @@ class StartPageUIState extends State<StartPageUI> {
                                       CustomButton(
                                         text: "add order",
                                         onTap: () {
-                                          setState(() {
-                                            room = false;
-                                          });
+                                          // setState(() {
+                                          //   this.widget.room = false;
+                                          // });
+                                          this.widget.appState.switchOrder();
                                           Navigator.pop(context);
                                         },
                                       ),
@@ -216,7 +218,7 @@ class StartPageUIState extends State<StartPageUI> {
           SizedBox(
             width: appState.isWidgetEnabled ? 12.h : MediaQuery.of(context).size.width / 5.85.h,
           ),
-          room ? SingleChildScrollView(
+          widget.room ? SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -238,7 +240,7 @@ class StartPageUIState extends State<StartPageUI> {
               ],
             ),
           ) : const SizedBox.shrink(),
-          !room ? RightDrawer() : const SizedBox.shrink(),
+          !widget.room ? RightDrawer() : const SizedBox.shrink(),
         ],
       ),
     );

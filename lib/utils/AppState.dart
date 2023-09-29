@@ -105,4 +105,15 @@ class AppState extends ChangeNotifier {
     };
     notifyListeners();
   }
+
+  bool _room = true;
+  bool get room => _room;
+  void switchRoom() {
+    _room = true;
+    notifyListeners();
+  }
+  void switchOrder() {
+    _room = false;
+    notifyListeners();
+  }
 }
