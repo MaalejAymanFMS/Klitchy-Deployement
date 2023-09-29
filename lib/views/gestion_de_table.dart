@@ -29,6 +29,7 @@ class GestionDeTable extends StatefulWidget {
 bool? isDrawerOpen;
 
 class _GestionDeTableState extends State<GestionDeTable> {
+
   void _handleDrawer() {
     setState(() {
       isDrawerOpen = !isDrawerOpen!;

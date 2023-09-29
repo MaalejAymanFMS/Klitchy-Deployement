@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:klitchyapp/utils/size_utils.dart';
 
-import '../../config/app_colors.dart';
-import '../../utils/AppState.dart';
-
 class ItemCategorie extends StatelessWidget {
   final String name;
   final Color color;

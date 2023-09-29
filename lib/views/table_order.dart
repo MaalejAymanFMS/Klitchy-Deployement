@@ -26,6 +26,7 @@ class TableOrderState extends State<TableOrder> {
   List<itm.Item> listItems = [];
   bool click = false;
   int selectedCategoryIndex = -1;
+  String categorieName = "";
 
   Future<void> fetchCategories() async {
     try {
@@ -102,6 +103,7 @@ class TableOrderState extends State<TableOrder> {
                     setState(() {
                       if (selectedCategoryIndex != index) {
                         selectedCategoryIndex = index;
+                        categorieName = listCategories[index].name!;
                       }
                     });
                   },
@@ -117,17 +119,17 @@ class TableOrderState extends State<TableOrder> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              "Find items in drinks",
+            Text(
+              "Find items in $categorieName",
               style:
-                  TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+                  const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
             ),
             SizedBox(
               height: 10.v,
             ),
-            const Text(
-              "24 Variation",
-              style: TextStyle(color: AppColors.secondaryTextColor),
+            Text(
+              "${listItems.length} Variation",
+              style: const TextStyle(color: AppColors.secondaryTextColor),
             ),
           ],
         ),
