@@ -29,7 +29,6 @@ class StartPageUIState extends State<StartPageUI> {
   late List<Widget> _gridChildren =
   List.generate(7 * 6, (index) => Container());
 
-  // bool room = true;
   final interactor = getIt<StartPageInterractor>();
 
 
@@ -157,9 +156,6 @@ class StartPageUIState extends State<StartPageUI> {
                                       CustomButton(
                                         text: "add order",
                                         onTap: () {
-                                          // setState(() {
-                                          //   this.widget.room = false;
-                                          // });
                                           this.widget.appState.switchOrder();
                                           Navigator.pop(context);
                                         },
