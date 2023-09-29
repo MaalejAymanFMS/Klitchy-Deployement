@@ -79,19 +79,19 @@ class ItemState extends State<Item> {
               ],
             ),
             const Spacer(),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "${widget.stock}",
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, color: Colors.white),
-                ),
-              ],
-            ),
-            SizedBox(
-              width: 10.h,
-            ),
+            // Column(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: [
+            //     Text(
+            //       "${widget.stock}",
+            //       style: const TextStyle(
+            //           fontWeight: FontWeight.bold, color: Colors.white),
+            //     ),
+            //   ],
+            // ),
+            // SizedBox(
+            //   width: 10.h,
+            // ),
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [

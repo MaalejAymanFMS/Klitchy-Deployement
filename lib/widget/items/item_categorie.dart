@@ -55,13 +55,13 @@ class ItemCategorie extends StatelessWidget {
               ),
             ),
             const Spacer(),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                "$numberOfItems Items",
-                style: const TextStyle(color: Colors.white),
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: Text(
+            //     "$numberOfItems Items",
+            //     style: const TextStyle(color: Colors.white),
+            //   ),
+            // ),
           ],
         ),
       ),
