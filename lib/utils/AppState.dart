@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:klitchyapp/models/items.dart';
 import 'package:klitchyapp/widget/order_component.dart';
+import 'package:klitchyapp/widget/tables/table_2.dart';
+import 'package:klitchyapp/widget/tables/table_3.dart';
+import 'package:klitchyapp/widget/tables/table_4.dart';
+import 'package:klitchyapp/widget/tables/table_6.dart';
+import 'package:klitchyapp/widget/tables/table_8.dart';
 class AppState extends ChangeNotifier {
   //toggle the drawer
   bool _isWidgetEnabled = true;
@@ -124,6 +129,47 @@ class AppState extends ChangeNotifier {
   }
   void switchCheckoutOrder() {
     _checkout = false;
+    notifyListeners();
+  }
+
+  // tables type
+  Widget _tableType = Container();
+  Widget get tableType => _tableType;
+  void changeTableType(String numberPlaces) {
+    print(numberPlaces);
+    if(numberPlaces == "2") {
+      _tableType = const TableTwo(name: '', rotation: 0,);
+    }
+    if(numberPlaces == "3") {
+      _tableType = const TableThree(name: '', rotation: 0,);
+    }
+    if(numberPlaces == "4") {
+      _tableType = const TableFour(name: '', rotation: 0,);
+    }
+    if(numberPlaces == "6") {
+      _tableType = const TableSix(name: '', rotation: 0,);
+    }
+    if(numberPlaces == "8") {
+      _tableType = const TableEight(rotation: 0,);
+    }
+    notifyListeners();
+  }
+  void changeTableRotation(double rotation) {
+    if(_tableType is TableTwo) {
+      _tableType = TableTwo(name: '', rotation: rotation,);
+    }
+     else if(_tableType is TableThree) {
+      _tableType = TableThree(name: '', rotation: rotation,);
+    }
+    else if(_tableType is TableFour) {
+      _tableType = const TableFour(name: '', rotation: 0,);
+    }
+    else if(_tableType is TableSix) {
+      _tableType = TableSix(name: '', rotation: rotation,);
+    }
+    else if(_tableType is TableEight) {
+      _tableType = TableEight(name: '', rotation: rotation,);
+    }
     notifyListeners();
   }
 }

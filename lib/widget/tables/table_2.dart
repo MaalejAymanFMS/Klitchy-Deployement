@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 import 'chair.dart';
 import 'dinner_table.dart';
 
-class TableFour extends StatelessWidget {
-  final double rotation;
+class TableTwo extends StatelessWidget {
   final String? id;
   final String? name;
-  const TableFour(
+  final double rotation;
+  const TableTwo(
       {Key? key,
-        required this.rotation,
         this.id,
-        this.name,})
+        this.name,required this.rotation,})
       : super(key: key);
 
   @override
@@ -24,7 +23,7 @@ class TableFour extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Chair(270),
+              // Chair(270),
               const SizedBox(height: 2.5),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -37,7 +36,7 @@ class TableFour extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 2.5),
-              Chair(90),
+              // Chair(90),
             ],
           ),
         ),
