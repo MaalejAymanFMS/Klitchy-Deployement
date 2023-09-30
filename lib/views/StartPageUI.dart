@@ -387,34 +387,7 @@ class StartPageUIState extends State<StartPageUI> {
                 ? 12.h
                 : MediaQuery.of(context).size.width / 5.85.h,
           ),
-          // widget.room
-          //     ? SingleChildScrollView(
-          //         child: Column(
-          //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //           children: [
-          //             DraggableTable(
-          //                 TableFour(
-          //                   name: '', rotation: 0,
-          //                 ),
-          //                 onDraggableCanceled: (widget) =>
-          //                     _handleDragCancelled(widget)),
-          //             SizedBox(
-          //               height: 100.v,
-          //             ),
-          //             DraggableTable(TableEight(rotation: 90),
-          //                 onDraggableCanceled: (widget) =>
-          //                     _handleDragCancelled(widget)),
-          //             SizedBox(
-          //               height: 100.v,
-          //             ),
-          //             DraggableTable(TableEight(rotation: 0),
-          //                 onDraggableCanceled: (widget) =>
-          //                     _handleDragCancelled(widget)),
-          //           ],
-          //         ),
-          //       )
-          //     : const SizedBox.shrink(),
-          !widget.room ? RightDrawer() : const SizedBox.shrink(),
+          !widget.room ? const RightDrawer() : const SizedBox.shrink(),
         ],
       ),
     );
