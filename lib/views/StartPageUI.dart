@@ -6,11 +6,14 @@ import 'package:klitchyapp/viewmodels/start_page_interractor.dart';
 import 'package:klitchyapp/views/right_drawer.dart';
 import 'package:klitchyapp/views/table_order.dart';
 import 'package:klitchyapp/widget/checkout.dart';
+import 'package:klitchyapp/widget/tables/table_3.dart';
+import 'package:klitchyapp/widget/tables/table_6.dart';
 import 'package:provider/provider.dart';
 
 import '../config/app_colors.dart';
 import '../utils/locator.dart';
 import '../widget/custom_button.dart';
+import '../widget/tables/table_2.dart';
 import '../widget/tables/table_4.dart';
 import '../widget/tables/table_8.dart';
 
@@ -96,23 +99,36 @@ class StartPageUIState extends State<StartPageUI> {
       setState(() {
         for (var i = 0; i < response.data!.length; i++) {
           List<String> parts = response.data![i].description!.split('-');
-
-          if (parts[0] == "T4") {
-            _gridChildren[int.tryParse(parts[1])!] = TableFour(
-              rotation: 0,
+          if (parts[0] == "T2") {
+            _gridChildren[int.tryParse(parts[1])!] = TableTwo(
+              rotation: double.parse(parts[2]),
               id: response.data![i].name,
               name: response.data![i].description!,
             );
           }
-          if (parts[0] == "T8" && parts[2] == "90") {
-            _gridChildren[int.tryParse(parts[1])!] = TableEight(
-                rotation: 90,
+          if (parts[0] == "T3") {
+            _gridChildren[int.tryParse(parts[1])!] = TableThree(
+              rotation: double.parse(parts[2]),
+              id: response.data![i].name,
+              name: response.data![i].description!,
+            );
+          }
+          if (parts[0] == "T4") {
+            _gridChildren[int.tryParse(parts[1])!] = TableFour(
+              rotation: double.parse(parts[2]),
+              id: response.data![i].name,
+              name: response.data![i].description!,
+            );
+          }
+          if (parts[0] == "T6") {
+            _gridChildren[int.tryParse(parts[1])!] = TableSix(
+                rotation: double.parse(parts[2]),
                 id: response.data![i].name,
                 name: response.data![i].description!);
           }
-          if (parts[0] == "T8" && parts[2] == "0") {
+          if (parts[0] == "T8") {
             _gridChildren[int.tryParse(parts[1])!] = TableEight(
-                rotation: 0,
+                rotation: double.parse(parts[2]),
                 id: response.data![i].name,
                 name: response.data![i].description!);
           }
@@ -321,6 +337,7 @@ class StartPageUIState extends State<StartPageUI> {
                                                                   "Place table",
                                                               onTap: () {
                                                                 // this.widget.appState.switchOrder();
+                                                                _handleAccept(this.widget.appState.tableType, index);
                                                                 Navigator.pop(
                                                                     context);
                                                               },
@@ -377,7 +394,7 @@ class StartPageUIState extends State<StartPageUI> {
           //           children: [
           //             DraggableTable(
           //                 TableFour(
-          //                   name: '',
+          //                   name: '', rotation: 0,
           //                 ),
           //                 onDraggableCanceled: (widget) =>
           //                     _handleDragCancelled(widget)),
@@ -407,12 +424,20 @@ class StartPageUIState extends State<StartPageUI> {
     setState(() {
       _gridChildren[index] = data;
     });
-    if (data is TableEight && data.rotation == 0) {
-      addTable("T8-$index-0", index, index, 8, widget.name, widget.id);
-    } else if (data is TableFour) {
-      addTable("T4-$index-0", index, index, 4, widget.name, widget.id);
-    } else if (data is TableEight && data.rotation == 90) {
-      addTable("T8-$index-90", index, index, 8, widget.name, widget.id);
+    if (data is TableTwo) {
+      addTable("T2-$index-${data.rotation}", index, index, 2, widget.name, widget.id);
+    }
+    else if (data is TableThree) {
+      addTable("T3-$index-${data.rotation}", index, index, 3, widget.name, widget.id);
+    }
+    else if (data is TableFour) {
+      addTable("T4-$index-${data.rotation}", index, index, 4, widget.name, widget.id);
+    }
+    else if (data is TableSix) {
+      addTable("T6-$index-${data.rotation}", index, index, 6, widget.name, widget.id);
+    }
+    else if (data is TableEight) {
+      addTable("T8-$index-${data.rotation}", index, index, 8, widget.name, widget.id);
     }
   }
 
