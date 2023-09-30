@@ -5,6 +5,7 @@ import 'package:klitchyapp/utils/size_utils.dart';
 import 'package:klitchyapp/viewmodels/start_page_interractor.dart';
 import 'package:klitchyapp/views/right_drawer.dart';
 import 'package:klitchyapp/views/table_order.dart';
+import 'package:klitchyapp/widget/checkout.dart';
 import 'package:provider/provider.dart';
 
 import '../config/app_colors.dart';
@@ -209,7 +210,9 @@ class StartPageUIState extends State<StartPageUI> {
                   ],
                 );
               },
-            ) : const TableOrder(),
+            ) : !widget.appState.checkout ?
+             const TableOrder()
+                : CheckoutScreen()
           ),
           SizedBox(
             width: appState.isWidgetEnabled ? 12.h : MediaQuery.of(context).size.width / 5.85.h,
