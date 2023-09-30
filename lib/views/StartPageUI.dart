@@ -28,7 +28,7 @@ class StartPageUI extends StatefulWidget {
 class StartPageUIState extends State<StartPageUI> {
   final List<Widget> _newTables = [];
   late List<Widget> _gridChildren =
-  List.generate(7 * 6, (index) => Container());
+  List.generate(6 * 6, (index) => Container());
 
   final interactor = getIt<StartPageInterractor>();
 
@@ -72,7 +72,7 @@ class StartPageUIState extends State<StartPageUI> {
 
       setState(() {
         _gridChildren =
-            List.generate(7 * 6, (index) => Container());
+            List.generate(6 * 6, (index) => Container());
       });
       setState(() {
         for (var i = 0; i < response.data!.length; i++) {
@@ -92,7 +92,7 @@ class StartPageUIState extends State<StartPageUI> {
     } else {
       setState(() {
         _gridChildren =
-            List.generate(7 * 6, (index) => Container());
+            List.generate(6 * 6, (index) => Container());
         widget.appState.setNumberOfTables(0);
       });
     }
@@ -113,7 +113,7 @@ class StartPageUIState extends State<StartPageUI> {
       child: Row(
         children: [
           Container(
-            height: (150 * 5).v,
+            height: (152 * 5).v,
             width: (260 * 4).h,
             decoration: const BoxDecoration(
               color: Color(0xFF0E1227),
@@ -124,9 +124,9 @@ class StartPageUIState extends State<StartPageUI> {
             child: widget.room ? GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 6,
-                childAspectRatio: 130.h / 75.v,
+                childAspectRatio: 130.h / 95.v,
               ),
-              itemCount: 7 * 6,
+              itemCount: 6 * 6,
               itemBuilder: (BuildContext context, int index) {
                 Widget widget = _gridChildren[index];
                 String tableName = '';
@@ -137,6 +137,7 @@ class StartPageUIState extends State<StartPageUI> {
                   tableName = widget.name!;
                 }
                 return Stack(
+                  alignment: Alignment.center,
                   children: [
                     GestureDetector(
                       onDoubleTap: () {
@@ -178,16 +179,21 @@ class StartPageUIState extends State<StartPageUI> {
                         width: 130.h,
                         height: 130.v,
                         child: Stack(
+                          alignment: Alignment.center,
                           children: [
                             Positioned(
-                              left: 68.h,
-                              top: 32.5.v,
-                              child: Container(
+                              left: 0,
+                              top: 0,
+                              right: 0,
+                              bottom: 0,
+                              child:
+                              SizedBox(
                                 width: 10.h,
                                 height: 10.v,
-                                decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: AppColors.secondaryTextColor,
+                                child: IconButton(
+                                  onPressed: () {  },
+                                  icon: const Icon(Icons.add),
+
                                 ),
                               ),
                             ),
@@ -206,7 +212,7 @@ class StartPageUIState extends State<StartPageUI> {
                         ),
                       ),
                     ),
-                    Text(tableName, style: const TextStyle(color: Colors.white),),
+                    Text(tableName, style: const TextStyle(color: Colors.white),)
                   ],
                 );
               },

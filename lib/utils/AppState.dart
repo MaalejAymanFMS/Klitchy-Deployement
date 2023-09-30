@@ -116,7 +116,7 @@ class AppState extends ChangeNotifier {
     _room = false;
     notifyListeners();
   }
-  bool _checkout = true;
+  bool _checkout = false;
   bool get checkout => _checkout;
   void switchCheckout() {
     _checkout = true;
