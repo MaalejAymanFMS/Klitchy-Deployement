@@ -74,6 +74,13 @@ class StartPageUIState extends State<StartPageUI> {
     await interactor.addTable(body);
   }
 
+  void updateTable(String description, String id) async {
+    Map<String, dynamic> body = {
+      "description": description,
+    };
+    await interactor.updateTable(body, id);
+  }
+
   void fetchTables() async {
     Map<String, dynamic> params = {
       "fields": ["name", "description", "data_style"],
@@ -100,37 +107,47 @@ class StartPageUIState extends State<StartPageUI> {
         for (var i = 0; i < response.data!.length; i++) {
           List<String> parts = response.data![i].description!.split('-');
           if (parts[0] == "T2") {
-            _gridChildren[int.tryParse(parts[1])!] = TableTwo(
-              rotation: double.parse(parts[2]),
-              id: response.data![i].name,
-              name: response.data![i].description!,
-            );
+            _gridChildren[int.tryParse(parts[1])!] = DraggableTable(
+                TableTwo(
+                  rotation: double.parse(parts[2]),
+                  id: response.data![i].name,
+                  name: response.data![i].description!,
+                ),
+                onDraggableCanceled: (widget) => _handleDragCancelled(widget));
           }
           if (parts[0] == "T3") {
-            _gridChildren[int.tryParse(parts[1])!] = TableThree(
-              rotation: double.parse(parts[2]),
-              id: response.data![i].name,
-              name: response.data![i].description!,
-            );
+            _gridChildren[int.tryParse(parts[1])!] = DraggableTable(
+                TableThree(
+                  rotation: double.parse(parts[2]),
+                  id: response.data![i].name,
+                  name: response.data![i].description!,
+                ),
+                onDraggableCanceled: (widget) => _handleDragCancelled(widget));
           }
           if (parts[0] == "T4") {
-            _gridChildren[int.tryParse(parts[1])!] = TableFour(
-              rotation: double.parse(parts[2]),
-              id: response.data![i].name,
-              name: response.data![i].description!,
-            );
+            _gridChildren[int.tryParse(parts[1])!] = DraggableTable(
+                TableFour(
+                  rotation: double.parse(parts[2]),
+                  id: response.data![i].name,
+                  name: response.data![i].description!,
+                ),
+                onDraggableCanceled: (widget) => _handleDragCancelled(widget));
           }
           if (parts[0] == "T6") {
-            _gridChildren[int.tryParse(parts[1])!] = TableSix(
-                rotation: double.parse(parts[2]),
-                id: response.data![i].name,
-                name: response.data![i].description!);
+            _gridChildren[int.tryParse(parts[1])!] = DraggableTable(
+                TableSix(
+                    rotation: double.parse(parts[2]),
+                    id: response.data![i].name,
+                    name: response.data![i].description!),
+                onDraggableCanceled: (widget) => _handleDragCancelled(widget));
           }
           if (parts[0] == "T8") {
-            _gridChildren[int.tryParse(parts[1])!] = TableEight(
-                rotation: double.parse(parts[2]),
-                id: response.data![i].name,
-                name: response.data![i].description!);
+            _gridChildren[int.tryParse(parts[1])!] = DraggableTable(
+                TableEight(
+                    rotation: double.parse(parts[2]),
+                    id: response.data![i].name,
+                    name: response.data![i].description!),
+                onDraggableCanceled: (widget) => _handleDragCancelled(widget));
           }
         }
       });
@@ -184,198 +201,197 @@ class StartPageUIState extends State<StartPageUI> {
                         if (widget is TableEight) {
                           tableName = widget.name!;
                         }
-                        return Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            GestureDetector(
-                              onDoubleTap: () {
-                                _handleDelete(index, widget);
-                                appState.deleteTable();
-                              },
-                              onTap: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (_) {
-                                      return AlertDialog(
-                                        title: const Text("Table menu"),
-                                        content: SizedBox(
-                                            height: 300.v,
-                                            child: Column(children: [
-                                              Text(
-                                                  "table number: ${index + 1}"),
-                                              const Spacer(),
-                                              CustomButton(
-                                                text: "add order",
-                                                onTap: () {
-                                                  this
-                                                      .widget
-                                                      .appState
-                                                      .switchOrder();
-                                                  Navigator.pop(context);
-                                                },
-                                              ),
-                                            ])),
-                                        actions: [
-                                          InkWell(
-                                              onTap: () {
-                                                _handleDelete(index, widget);
-                                                appState.deleteTable();
-                                                Navigator.pop(context);
-                                              },
-                                              child: const Text("delete"))
-                                        ],
-                                      );
-                                    });
-                              },
-                              child: SizedBox(
-                                width: 130.h,
-                                height: 130.v,
-                                child: Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    Positioned(
-                                      left: 0,
-                                      top: 0,
-                                      right: 0,
-                                      bottom: 0,
-                                      child: SizedBox(
-                                        width: 10.h,
-                                        height: 10.v,
-                                        child: IconButton(
-                                          onPressed: () {
-                                            showDialog(
-                                              context: context,
-                                              builder: (_) {
-                                                return StatefulBuilder(
-                                                  builder: (context, setState) {
-                                                    return AlertDialog(
-                                                      title: const Text(
-                                                          "Table menu"),
-                                                      content: SizedBox(
-                                                        height: 300.v,
-                                                        width: 700.h,
-                                                        child: Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
+                        return GestureDetector(
+                          behavior: HitTestBehavior.translucent,
+                          onDoubleTap: () {
+                            _handleDelete(index, widget);
+                            appState.deleteTable();
+                          },
+                          onTap: () {
+                            showDialog(
+                                context: context,
+                                builder: (_) {
+                                  return AlertDialog(
+                                    title: const Text("Table menu"),
+                                    content: SizedBox(
+                                        height: 300.v,
+                                        child: Column(children: [
+                                          Text(
+                                              "table number: ${index + 1}"),
+                                          const Spacer(),
+                                          CustomButton(
+                                            text: "add order",
+                                            onTap: () {
+                                              this
+                                                  .widget
+                                                  .appState
+                                                  .switchOrder();
+                                              Navigator.pop(context);
+                                            },
+                                          ),
+                                        ])),
+                                    actions: [
+                                      InkWell(
+                                          onTap: () {
+                                            _handleDelete(index, widget);
+                                            appState.deleteTable();
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text("delete"))
+                                    ],
+                                  );
+                                });
+                          },
+                          child: SizedBox(
+                            width: 130.h,
+                            height: 130.v,
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                widget.runtimeType == DraggableTable ?
+                                DragTarget<Widget>(
+                                  builder: (BuildContext context,
+                                      List<Widget?> accepted,
+                                      List<dynamic> rejected) {
+                                    return widget;
+                                  },
+                                  onWillAccept: (data) => data is Widget,
+                                  onAccept: (data) {
+                                    _handleUpdate(data, index);
+                                    appState.addTable();
+                                  },
+                                ) :
+                                Positioned(
+                                  left: 0,
+                                  top: 0,
+                                  right: 0,
+                                  bottom: 0,
+                                  child: SizedBox(
+                                    width: 10.h,
+                                    height: 10.v,
+                                    child:  IconButton(
+                                      onPressed: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (_) {
+                                            return StatefulBuilder(
+                                              builder: (context, setState) {
+                                                return AlertDialog(
+                                                  title: const Text(
+                                                      "Table menu"),
+                                                  content: SizedBox(
+                                                    height: 300.v,
+                                                    width: 700.h,
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        const Text(
+                                                          "Choose number of places:",
+                                                          style: TextStyle(
+                                                              fontSize: 24),
+                                                        ),
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
                                                                   .start,
+                                                          children: <Widget>[
+                                                            keyboardButton(
+                                                                "2",
+                                                                setState),
+                                                            const SizedBox(
+                                                              width: 10,
+                                                            ),
+                                                            keyboardButton(
+                                                                "3",
+                                                                setState),
+                                                            const SizedBox(
+                                                              width: 10,
+                                                            ),
+                                                            keyboardButton(
+                                                                "4",
+                                                                setState),
+                                                            const SizedBox(
+                                                              width: 10,
+                                                            ),
+                                                            keyboardButton(
+                                                                "6",
+                                                                setState),
+                                                            const SizedBox(
+                                                              width: 10,
+                                                            ),
+                                                            keyboardButton(
+                                                                "8",
+                                                                setState),
+                                                            const SizedBox(
+                                                              width: 50,
+                                                            ),
+                                                            this
+                                                                .widget
+                                                                .appState
+                                                                .tableType,
+                                                          ],
+                                                        ),
+                                                        SizedBox(
+                                                          height: 20.v,
+                                                        ),
+                                                        Row(
                                                           children: [
                                                             const Text(
-                                                              "Choose number of places:",
+                                                              "Choose the rotation: ",
                                                               style: TextStyle(
-                                                                  fontSize: 24),
+                                                                  fontSize:
+                                                                      24),
                                                             ),
-                                                            Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .start,
-                                                              children: <Widget>[
-                                                                keyboardButton(
-                                                                    "2",
-                                                                    setState),
-                                                                const SizedBox(
-                                                                  width: 10,
-                                                                ),
-                                                                keyboardButton(
-                                                                    "3",
-                                                                    setState),
-                                                                const SizedBox(
-                                                                  width: 10,
-                                                                ),
-                                                                keyboardButton(
-                                                                    "4",
-                                                                    setState),
-                                                                const SizedBox(
-                                                                  width: 10,
-                                                                ),
-                                                                keyboardButton(
-                                                                    "6",
-                                                                    setState),
-                                                                const SizedBox(
-                                                                  width: 10,
-                                                                ),
-                                                                keyboardButton(
-                                                                    "8",
-                                                                    setState),
-                                                                const SizedBox(
-                                                                  width: 50,
-                                                                ),
+                                                            IconButton(
+                                                                onPressed:
+                                                                    () {
+                                                                  this
+                                                                      .widget
+                                                                      .appState
+                                                                      .changeTableRotation(
+                                                                          tableRotationFunction());
+                                                                  setState(
+                                                                      () {});
+                                                                },
+                                                                icon: const Icon(
+                                                                    Icons
+                                                                        .rotate_90_degrees_ccw)),
+                                                          ],
+                                                        ),
+                                                        const Spacer(),
+                                                        CustomButton(
+                                                          text:
+                                                              "Place table",
+                                                          onTap: () {
+                                                            // this.widget.appState.switchOrder();
+                                                            _handleAccept(
                                                                 this
                                                                     .widget
                                                                     .appState
                                                                     .tableType,
-                                                              ],
-                                                            ),
-                                                            SizedBox(
-                                                              height: 20.v,
-                                                            ),
-                                                            Row(
-                                                              children: [
-                                                                const Text(
-                                                                  "Choose the rotation: ",
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          24),
-                                                                ),
-                                                                IconButton(
-                                                                    onPressed:
-                                                                        () {
-                                                                      this
-                                                                          .widget
-                                                                          .appState
-                                                                          .changeTableRotation(
-                                                                              tableRotationFunction());
-                                                                      setState(
-                                                                          () {});
-                                                                    },
-                                                                    icon: const Icon(Icons
-                                                                        .rotate_90_degrees_ccw)),
-                                                              ],
-                                                            ),
-                                                            const Spacer(),
-                                                            CustomButton(
-                                                              text:
-                                                                  "Place table",
-                                                              onTap: () {
-                                                                // this.widget.appState.switchOrder();
-                                                                _handleAccept(this.widget.appState.tableType, index);
-                                                                Navigator.pop(
-                                                                    context);
-                                                              },
-                                                            ),
-                                                          ],
+                                                                index);
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
                                                         ),
-                                                      ),
-                                                    );
-                                                  },
+                                                      ],
+                                                    ),
+                                                  ),
                                                 );
                                               },
                                             );
                                           },
-                                          icon: const Icon(Icons.add),
-                                        ),
-                                      ),
-                                    ),
-                                    DragTarget<Widget>(
-                                      builder: (BuildContext context,
-                                          List<Widget?> accepted,
-                                          List<dynamic> rejected) {
-                                        return widget;
+                                        );
                                       },
-                                      onWillAccept: (data) => data is Widget,
-                                      onAccept: (data) {
-                                        _handleAccept(data, index);
-                                        appState.addTable();
-                                      },
+                                      icon: const Icon(Icons.add),
                                     ),
-                                  ],
+                                  ),
                                 ),
-                              ),
+                              ],
                             ),
-                            Text(
-                              tableName,
-                              style: const TextStyle(color: Colors.white),
-                            )
-                          ],
+                          ),
                         );
                       },
                     )
@@ -395,23 +411,41 @@ class StartPageUIState extends State<StartPageUI> {
 
   void _handleAccept(Widget data, int index) {
     setState(() {
-      _gridChildren[index] = data;
+      _gridChildren[index] = DraggableTable(data, onDraggableCanceled: (widget) => _handleDragCancelled(widget));
     });
     if (data is TableTwo) {
-      addTable("T2-$index-${data.rotation}", index, index, 2, widget.name, widget.id);
+      addTable("T2-$index-${data.rotation}", index, index, 2, widget.name,
+          widget.id);
+    } else if (data is TableThree) {
+      addTable("T3-$index-${data.rotation}", index, index, 3, widget.name,
+          widget.id);
+    } else if (data is TableFour) {
+      addTable("T4-$index-${data.rotation}", index, index, 4, widget.name,
+          widget.id);
+    } else if (data is TableSix) {
+      addTable("T6-$index-${data.rotation}", index, index, 6, widget.name,
+          widget.id);
+    } else if (data is TableEight) {
+      addTable("T8-$index-${data.rotation}", index, index, 8, widget.name,
+          widget.id);
     }
-    else if (data is TableThree) {
-      addTable("T3-$index-${data.rotation}", index, index, 3, widget.name, widget.id);
+  }
+
+  void _handleUpdate(Widget data, int index) {
+    setState(() {
+    if (data is TableTwo) {
+      updateTable("T2-$index-${data.rotation}", data.id!);
+    } else if (data is TableThree) {
+      updateTable("T3-$index-${data.rotation}", data.id!);
+    } else if (data is TableFour) {
+      updateTable("T4-$index-${data.rotation}", data.id!);
+    } else if (data is TableSix) {
+      updateTable("T6-$index-${data.rotation}", data.id!);
+    } else if (data is TableEight) {
+      updateTable("T8-$index-${data.rotation}", data.id!);
     }
-    else if (data is TableFour) {
-      addTable("T4-$index-${data.rotation}", index, index, 4, widget.name, widget.id);
-    }
-    else if (data is TableSix) {
-      addTable("T6-$index-${data.rotation}", index, index, 6, widget.name, widget.id);
-    }
-    else if (data is TableEight) {
-      addTable("T8-$index-${data.rotation}", index, index, 8, widget.name, widget.id);
-    }
+    _gridChildren[index] = data;
+    });
   }
 
   void _handleDragCancelled(Widget widget) {
@@ -454,7 +488,8 @@ class DraggableTable extends StatelessWidget {
   final Widget child;
   final Function(Widget) onDraggableCanceled;
 
-  const DraggableTable(this.child, {required this.onDraggableCanceled});
+  const DraggableTable(this.child,
+      {super.key, required this.onDraggableCanceled});
 
   @override
   Widget build(BuildContext context) {
