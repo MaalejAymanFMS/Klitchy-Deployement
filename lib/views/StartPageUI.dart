@@ -248,19 +248,8 @@ class StartPageUIState extends State<StartPageUI> {
                             child: Stack(
                               alignment: Alignment.center,
                               children: [
-                                widget.runtimeType == DraggableTable ?
-                                DragTarget<Widget>(
-                                  builder: (BuildContext context,
-                                      List<Widget?> accepted,
-                                      List<dynamic> rejected) {
-                                    return widget;
-                                  },
-                                  onWillAccept: (data) => data is Widget,
-                                  onAccept: (data) {
-                                    _handleUpdate(data, index);
-                                    appState.addTable();
-                                  },
-                                ) :
+                                // widget.runtimeType == DraggableTable ?
+
                                 Positioned(
                                   left: 0,
                                   top: 0,
@@ -269,7 +258,7 @@ class StartPageUIState extends State<StartPageUI> {
                                   child: SizedBox(
                                     width: 10.h,
                                     height: 10.v,
-                                    child:  IconButton(
+                                    child:  widget.runtimeType != Container ? null :IconButton(
                                       onPressed: () {
                                         showDialog(
                                           context: context,
@@ -357,7 +346,7 @@ class StartPageUIState extends State<StartPageUI> {
                                                                 },
                                                                 icon: const Icon(
                                                                     Icons
-                                                                        .rotate_90_degrees_ccw)),
+                                                                        .rotate_90_degrees_ccw),),
                                                           ],
                                                         ),
                                                         const Spacer(),
@@ -388,6 +377,18 @@ class StartPageUIState extends State<StartPageUI> {
                                       icon: const Icon(Icons.add),
                                     ),
                                   ),
+                                ),
+                                DragTarget<Widget>(
+                                  builder: (BuildContext context,
+                                      List<Widget?> accepted,
+                                      List<dynamic> rejected) {
+                                    return widget;
+                                  },
+                                  onWillAccept: (data) => data is Widget,
+                                  onAccept: (data) {
+                                    _handleUpdate(data, index);
+                                    appState.addTable();
+                                  },
                                 ),
                               ],
                             ),
