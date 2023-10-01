@@ -6,7 +6,8 @@ import '../../config/app_colors.dart';
 
 class TableTag extends StatefulWidget {
   final AppState appState;
-  const TableTag(this.appState,{super.key});
+  final String? tableName;
+  const TableTag(this.appState, this.tableName, {super.key});
 
   @override
   State<TableTag> createState() => _TableTagState();
@@ -41,8 +42,8 @@ class _TableTagState extends State<TableTag> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          "Table 2",
+                        Text(
+                          "Table ${widget.tableName ?? "2"}",
                           style: TextStyle(
                               fontWeight: FontWeight.bold, color: Colors.white),
                         ),

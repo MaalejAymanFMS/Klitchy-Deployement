@@ -1,7 +1,10 @@
 library right_drawer;
 
 import 'package:flutter/material.dart';
+import 'package:klitchyapp/models/orders.dart';
 import 'package:klitchyapp/utils/size_utils.dart';
+import 'package:klitchyapp/viewmodels/right_drawer_interractor.dart';
+import 'package:klitchyapp/viewmodels/right_drawer_vm.dart';
 import 'package:klitchyapp/widget/custom_button.dart';
 import 'package:klitchyapp/widget/right_drawer/buttom_component.dart';
 import 'package:klitchyapp/widget/right_drawer/table_tag.dart';
@@ -10,10 +13,13 @@ import 'package:virtual_keyboard_2/virtual_keyboard_2.dart';
 
 import '../config/app_colors.dart';
 import '../utils/AppState.dart';
+import '../utils/locator.dart';
 import '../widget/entry_field.dart';
 import '../widget/order_component.dart';
 class RightDrawer extends StatefulWidget {
+  final String? tableId;
   const RightDrawer({
+    this.tableId,
     Key? key,
   }) : super(key: key);
 
@@ -24,15 +30,42 @@ class RightDrawer extends StatefulWidget {
 
 class _RightDrawerState extends State<RightDrawer> {
   final TextEditingController orderNote = TextEditingController();
+  final interactor = getIt<RightDrawerInterractor>();
+  late final AppState appState;
+  List<EntryItem> orders = [];
+  void fetchOrders() async{
+    Map<String, dynamic> params = {
+      "fields": ["name","table","table_description"],
+      "filters": [
+        ["table_description", "LIKE", "%${widget.tableId}%"],
+      ]
+    };
+    var orderP1 = await interactor.retrieveTableOrderPart1(params);
+    var orderP2 = await interactor.retrieveTableOrderPart2(orderP1.dataP1![0].name!);
+    orders = orderP2.dataP2!.entryItems!;
+    for (var order in orders) {
+      appState.addOrder(
+        order.qty as int,
+        OrderComponent(
+          number: order.qty! as int,
+          name: order.item_name!,
+          price: order.rate!,
+          image: "",
+          note: order.notes,
+        ),
+      );
+    }
+  }
   @override
   void initState() {
+    appState = Provider.of<AppState>(context, listen: false);
+    fetchOrders();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final appState = Provider.of<AppState>(context);
-
+    // final appState = Provider.of<AppState>(context);
     return SizedBox(
       width: 383.h,
       height: 887.v,
@@ -40,7 +73,7 @@ class _RightDrawerState extends State<RightDrawer> {
         padding: EdgeInsets.symmetric(vertical: 10.v),
         child: Column(
           children: [
-            TableTag(appState),
+            TableTag(appState,widget.tableId),
             Expanded(
               child: appState.orders.isNotEmpty
                   ? SingleChildScrollView(

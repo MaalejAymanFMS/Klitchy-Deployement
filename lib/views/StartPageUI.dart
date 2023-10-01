@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:klitchyapp/models/tables.dart';
 import 'package:klitchyapp/utils/AppState.dart';
 import 'package:klitchyapp/utils/size_utils.dart';
+import 'package:klitchyapp/viewmodels/right_drawer_vm.dart';
 import 'package:klitchyapp/viewmodels/start_page_interractor.dart';
 import 'package:klitchyapp/views/right_drawer.dart';
 import 'package:klitchyapp/views/table_order.dart';
@@ -43,7 +44,7 @@ class StartPageUIState extends State<StartPageUI> {
   final interactor = getIt<StartPageInterractor>();
   List<double> tableRotation = [0, 90, 180, 270];
   int currentIndex = 0;
-
+  String tableName = '';
   double tableRotationFunction() {
     final rotation = tableRotation[currentIndex];
     currentIndex = (currentIndex + 1) % tableRotation.length;
@@ -112,7 +113,7 @@ class StartPageUIState extends State<StartPageUI> {
                   rotation: double.parse(parts[2]),
                   id: response.data![i].name,
                   name: response.data![i].description!,
-                ),),
+                ), response.data![i].description!),
                 onDraggableCanceled: (widget) => _handleDragCancelled(widget));
           }
           if (parts[0] == "T3") {
@@ -121,7 +122,7 @@ class StartPageUIState extends State<StartPageUI> {
                   rotation: double.parse(parts[2]),
                   id: response.data![i].name,
                   name: response.data![i].description!,
-                ),),
+                ), response.data![i].description!),
                 onDraggableCanceled: (widget) => _handleDragCancelled(widget));
           }
           if (parts[0] == "T4") {
@@ -130,7 +131,7 @@ class StartPageUIState extends State<StartPageUI> {
                   rotation: double.parse(parts[2]),
                   id: response.data![i].name,
                   name: response.data![i].description!,
-                ),),
+                ), response.data![i].description!),
                 onDraggableCanceled: (widget) => _handleDragCancelled(widget));
           }
           if (parts[0] == "T6") {
@@ -138,7 +139,7 @@ class StartPageUIState extends State<StartPageUI> {
                 gestureDetector(int.tryParse(parts[1])!,TableSix(
                     rotation: double.parse(parts[2]),
                     id: response.data![i].name,
-                    name: response.data![i].description!),),
+                    name: response.data![i].description!), response.data![i].description!),
                 onDraggableCanceled: (widget) => _handleDragCancelled(widget));
           }
           if (parts[0] == "T8") {
@@ -146,7 +147,7 @@ class StartPageUIState extends State<StartPageUI> {
                 gestureDetector(int.tryParse(parts[1])!,TableEight(
                     rotation: double.parse(parts[2]),
                     id: response.data![i].name,
-                    name: response.data![i].description!),),
+                    name: response.data![i].description!), response.data![i].description!),
                 onDraggableCanceled: (widget) => _handleDragCancelled(widget));
           }
         }
@@ -194,13 +195,6 @@ class StartPageUIState extends State<StartPageUI> {
                       itemCount: 6 * 6,
                       itemBuilder: (BuildContext context, int index) {
                         Widget widget = _gridChildren[index];
-                        String tableName = '';
-                        if (widget is TableFour) {
-                          tableName = widget.name!;
-                        }
-                        if (widget is TableEight) {
-                          tableName = widget.name!;
-                        }
                         return SizedBox(
                           width: 130.h,
                           height: 130.v,
@@ -365,7 +359,7 @@ class StartPageUIState extends State<StartPageUI> {
                 ? 12.h
                 : MediaQuery.of(context).size.width / 5.85.h,
           ),
-          !widget.room ? const RightDrawer() : const SizedBox.shrink(),
+          !widget.room ? RightDrawerVM(tableName) : const SizedBox.shrink(),
         ],
       ),
     );
@@ -449,7 +443,7 @@ class StartPageUIState extends State<StartPageUI> {
       ),
     );
   }
-  GestureDetector gestureDetector(int index, Widget child) {
+  GestureDetector gestureDetector(int index, Widget child, String id) {
     return GestureDetector(
       onDoubleTap: () {
         _handleDelete(index, widget);
@@ -470,6 +464,7 @@ class StartPageUIState extends State<StartPageUI> {
                     CustomButton(
                       text: "add order",
                       onTap: () {
+                        tableName = id;
                         this.widget.appState.switchOrder();
                         Navigator.pop(context);
                       },

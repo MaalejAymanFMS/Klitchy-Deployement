@@ -47,10 +47,14 @@ class OrderComponent extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "$number X $name",
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.white),
+                    SizedBox(
+                      width: 200,
+                      child: Text(
+                        "$number X $name",
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.white, fontSize: 12),
+                        maxLines: 2,
+                      ),
                     ),
                     Text(
                       note ?? '',
