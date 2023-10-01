@@ -34,14 +34,16 @@ class OrderComponent extends StatelessWidget {
                 Container(
                   width: 58.h,
                   height: 58.v,
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(
                       Radius.circular(7),
                     ),
+                    color: AppColors.turquoise.withOpacity(0.4)
                   ),
-                  child: image != "null image" && image.isNotEmpty
-                      ? Image.network("$baseUrlImage$image", headers: headers)
-                      : Image.asset("assets/images/shawarma.png"),
+                  child:
+                  // image != "null image" && image.isNotEmpty
+                  //     ? Image.network("$baseUrlImage$image", headers: headers) :
+                  Icon(Icons.shopping_cart_outlined, color: Colors.white,),
                 ),
                 SizedBox(width: 30.h,),
                 Column(

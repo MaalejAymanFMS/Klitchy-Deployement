@@ -417,12 +417,23 @@ class StartPageUIState extends State<StartPageUI> {
 
   void _handleDelete(int index, Widget data) async {
     DeleteTable? res;
-    if (data is TableEight && data.rotation == 0) {
+    print(data.runtimeType);
+    if (data is TableTwo) {
+
       res = await interactor.deleteTable(data.id!);
-    } else if (data is TableEight && data.rotation == 90) {
+    }
+    else if (data is TableThree) {
       res = await interactor.deleteTable(data.id!);
-    } else if (data is TableFour) {
+    }
+    else if (data is TableFour) {
       res = await interactor.deleteTable(data.id!);
+    }
+    else if (data is TableSix) {
+      res = await interactor.deleteTable(data.id!);
+    }
+    else if (data is TableEight && data.rotation == 90) {
+      res = await interactor.deleteTable(data.id!);
+
     }
     setState(() {
       if (res?.message == "ok") {
@@ -446,7 +457,7 @@ class StartPageUIState extends State<StartPageUI> {
   GestureDetector gestureDetector(int index, Widget child, String id) {
     return GestureDetector(
       onDoubleTap: () {
-        _handleDelete(index, widget);
+        _handleDelete(index, child);
         widget.appState.deleteTable();
       },
       onTap: () {
@@ -475,7 +486,7 @@ class StartPageUIState extends State<StartPageUI> {
               actions: [
                 InkWell(
                     onTap: () {
-                      _handleDelete(index, widget);
+                      _handleDelete(index, child);
                       widget.appState.deleteTable();
                       Navigator.pop(context);
                     },
