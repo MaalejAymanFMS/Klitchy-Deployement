@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:klitchyapp/config/app_colors.dart';
 import 'package:klitchyapp/views/gestion_de_table.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:virtual_keyboard_2/virtual_keyboard_2.dart';
 import 'package:http/http.dart' as http;
 
@@ -14,6 +15,7 @@ class CustomKeyboardButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     return ElevatedButton(
       onPressed: onPressed,
       child: Text(
@@ -80,13 +82,13 @@ Future<int> login(emailBody, PasswordBody) async {
   }
 }
 
-Future<void> showBadPasswordAlert(BuildContext context) async {
+Future<void> showBadPasswordAlert(BuildContext context, String msg, String title) async {
   return showDialog<void>(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text('Bad Password'),
-        content: Text('The password you entered is incorrect.'),
+        title: Text(title),
+        content: Text(msg),
         actions: <Widget>[
           TextButton(
             onPressed: () {
@@ -150,18 +152,24 @@ class _WaiterWidgetState extends State<WaiterWidget> {
                           emailBody = widget.email;
                           PasswordBody = _textEditingController.text;
                           final int result;
-
+                          print(PasswordBody);
                           result = await login(emailBody, PasswordBody);
                           if (result == 200) {
-                            print(result);
+                            final SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            prefs.setString('usr', emailBody);
+                            prefs.setString('pwd', PasswordBody);
+
+                            print(prefs.getString('usr'));
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => GestionDeTable()));
                           } else if (result == 401) {
-                            showBadPasswordAlert(context);
+                            _textEditingController.text = "";
+                            showBadPasswordAlert(context,"wrong password",'Bad Password');
                           } else {
-                            print("brr nayek");
+                             showBadPasswordAlert(context,"Sorry there is a problem",'OOPS');
                           }
                         },
                       ),
