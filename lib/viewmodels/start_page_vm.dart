@@ -101,4 +101,27 @@ class StartPageVMState extends State<StartPageVM> implements StartPageInterracto
       return data;
     }
   }
+
+  @override
+  Future<tb.AddTable> updateTable(Map<String, dynamic> body, String id) async {
+    final headers = {
+      "Content-Type": "application/json; charset=utf-8",
+      "Accept": "application/json; charset=utf-8",
+      "Authorization": "Token 82ad2e094492b3a:f24396cdd3d1c46"
+    };
+    final response = await http
+        .put(Uri.parse("$baseUrl/resource/Restaurant%20Object/$id"),
+        headers: headers, body: json.encode(body));
+    print(response.statusCode);
+
+    if (response.statusCode == 200) {
+      final jsonResponse = json.decode(response.body);
+      final data = tb.AddTable.fromJson(jsonResponse);
+      return data;
+    } else {
+      final jsonResponse = json.decode(response.body);
+      final data = tb.AddTable.fromJson(jsonResponse);
+      return data;
+    }
+  }
 }

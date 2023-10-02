@@ -16,11 +16,6 @@ class OrderComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final headers = {
-      "Content-Type": "application/json; charset=utf-8",
-      "Accept": "application/json; charset=utf-8",
-      "Authorization": "Token 82ad2e094492b3a:f24396cdd3d1c46"
-    };
     return Consumer<AppState>(
       builder: (context, order, child) {
         return
@@ -34,23 +29,26 @@ class OrderComponent extends StatelessWidget {
                 Container(
                   width: 58.h,
                   height: 58.v,
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(
                       Radius.circular(7),
                     ),
+                    color: AppColors.turquoise.withOpacity(0.4)
                   ),
-                  child: image != "null image" && image.isNotEmpty
-                      ? Image.network("$baseUrlImage$image", headers: headers)
-                      : Image.asset("assets/images/shawarma.png"),
+                  child: const Icon(Icons.shopping_cart_outlined, color: Colors.white,),
                 ),
                 SizedBox(width: 30.h,),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "$number X $name",
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.white),
+                    SizedBox(
+                      width: 200,
+                      child: Text(
+                        "$number X $name",
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.white, fontSize: 12),
+                        maxLines: 2,
+                      ),
                     ),
                     Text(
                       note ?? '',

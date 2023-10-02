@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../config/app_colors.dart';
 import '../../utils/AppState.dart';
+import '../../utils/constants.dart';
 import '../order_component.dart';
 class Item extends StatefulWidget {
   final String name;
@@ -46,6 +47,11 @@ class ItemState extends State<Item> {
   @override
   Widget build(BuildContext context) {
     final appState = Provider.of<AppState>(context);
+    final headers = {
+      "Content-Type": "application/json; charset=utf-8",
+      "Accept": "application/json; charset=utf-8",
+      "Authorization": "Token 82ad2e094492b3a:f24396cdd3d1c46"
+    };
     return Container(
       width: 274.h,
       height: 134.v,
@@ -72,26 +78,31 @@ class ItemState extends State<Item> {
                 SizedBox(
                   height: 10.v,
                 ),
-                Text(
-                  "${widget.price} TND",
-                  style: const TextStyle(color: AppColors.secondaryTextColor),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "${widget.price} TND",
+                      style: const TextStyle(color: AppColors.secondaryTextColor),
+                    ),
+                    SizedBox(width: 70,),
+                    Container(
+                      width: 58.h,
+                      height: 58.v,
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(7),
+                        ),
+                      ),
+                      child: widget.image != "null image" && widget.image.isNotEmpty
+                          ? Image.network("$baseUrlImage${widget.image}", headers: headers,fit: BoxFit.fill,)
+                          : Image.asset("assets/images/shawarma.png"),
+                    ),
+                  ],
                 ),
               ],
             ),
             const Spacer(),
-            // Column(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: [
-            //     Text(
-            //       "${widget.stock}",
-            //       style: const TextStyle(
-            //           fontWeight: FontWeight.bold, color: Colors.white),
-            //     ),
-            //   ],
-            // ),
-            // SizedBox(
-            //   width: 10.h,
-            // ),
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
