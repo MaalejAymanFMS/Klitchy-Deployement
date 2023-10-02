@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:klitchyapp/models/orders.dart';
 import 'package:klitchyapp/utils/size_utils.dart';
 import 'package:klitchyapp/viewmodels/right_drawer_interractor.dart';
-import 'package:klitchyapp/viewmodels/right_drawer_vm.dart';
 import 'package:klitchyapp/widget/custom_button.dart';
 import 'package:klitchyapp/widget/right_drawer/buttom_component.dart';
 import 'package:klitchyapp/widget/right_drawer/table_tag.dart';

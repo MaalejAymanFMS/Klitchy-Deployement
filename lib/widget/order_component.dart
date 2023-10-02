@@ -16,11 +16,6 @@ class OrderComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final headers = {
-      "Content-Type": "application/json; charset=utf-8",
-      "Accept": "application/json; charset=utf-8",
-      "Authorization": "Token 82ad2e094492b3a:f24396cdd3d1c46"
-    };
     return Consumer<AppState>(
       builder: (context, order, child) {
         return
@@ -40,10 +35,7 @@ class OrderComponent extends StatelessWidget {
                     ),
                     color: AppColors.turquoise.withOpacity(0.4)
                   ),
-                  child:
-                  // image != "null image" && image.isNotEmpty
-                  //     ? Image.network("$baseUrlImage$image", headers: headers) :
-                  Icon(Icons.shopping_cart_outlined, color: Colors.white,),
+                  child: const Icon(Icons.shopping_cart_outlined, color: Colors.white,),
                 ),
                 SizedBox(width: 30.h,),
                 Column(

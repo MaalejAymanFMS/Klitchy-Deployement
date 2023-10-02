@@ -6,7 +6,9 @@ import 'package:klitchyapp/viewmodels/right_drawer_vm.dart';
 import 'package:klitchyapp/viewmodels/start_page_interractor.dart';
 import 'package:klitchyapp/views/right_drawer.dart';
 import 'package:klitchyapp/views/table_order.dart';
+import 'package:klitchyapp/views/table_right_drawer.dart';
 import 'package:klitchyapp/widget/checkout.dart';
+import 'package:klitchyapp/widget/table_timer.dart';
 import 'package:klitchyapp/widget/tables/table_3.dart';
 import 'package:klitchyapp/widget/tables/table_6.dart';
 import 'package:provider/provider.dart';
@@ -45,6 +47,7 @@ class StartPageUIState extends State<StartPageUI> {
   List<double> tableRotation = [0, 90, 180, 270];
   int currentIndex = 0;
   String tableName = '';
+
   double tableRotationFunction() {
     final rotation = tableRotation[currentIndex];
     currentIndex = (currentIndex + 1) % tableRotation.length;
@@ -105,50 +108,97 @@ class StartPageUIState extends State<StartPageUI> {
         _gridChildren = List.generate(6 * 6, (index) => Container());
       });
       setState(() {
-        for (var i = 0; i < response.data!.length; i++) {
-          List<String> parts = response.data![i].description!.split('-');
-          if (parts[0] == "T2") {
-            _gridChildren[int.tryParse(parts[1])!] = DraggableTable(
-                gestureDetector(int.tryParse(parts[1])!,TableTwo(
-                  rotation: double.parse(parts[2]),
-                  id: response.data![i].name,
-                  name: response.data![i].description!,
-                ), response.data![i].description!),
-                onDraggableCanceled: (widget) => _handleDragCancelled(widget));
-          }
-          if (parts[0] == "T3") {
-            _gridChildren[int.tryParse(parts[1])!] = DraggableTable(
-                gestureDetector(int.tryParse(parts[1])!,TableThree(
-                  rotation: double.parse(parts[2]),
-                  id: response.data![i].name,
-                  name: response.data![i].description!,
-                ), response.data![i].description!),
-                onDraggableCanceled: (widget) => _handleDragCancelled(widget));
-          }
-          if (parts[0] == "T4") {
-            _gridChildren[int.tryParse(parts[1])!] = DraggableTable(
-                gestureDetector(int.tryParse(parts[1])!,TableFour(
-                  rotation: double.parse(parts[2]),
-                  id: response.data![i].name,
-                  name: response.data![i].description!,
-                ), response.data![i].description!),
-                onDraggableCanceled: (widget) => _handleDragCancelled(widget));
-          }
-          if (parts[0] == "T6") {
-            _gridChildren[int.tryParse(parts[1])!] = DraggableTable(
-                gestureDetector(int.tryParse(parts[1])!,TableSix(
-                    rotation: double.parse(parts[2]),
-                    id: response.data![i].name,
-                    name: response.data![i].description!), response.data![i].description!),
-                onDraggableCanceled: (widget) => _handleDragCancelled(widget));
-          }
-          if (parts[0] == "T8") {
-            _gridChildren[int.tryParse(parts[1])!] = DraggableTable(
-                gestureDetector(int.tryParse(parts[1])!,TableEight(
-                    rotation: double.parse(parts[2]),
-                    id: response.data![i].name,
-                    name: response.data![i].description!), response.data![i].description!),
-                onDraggableCanceled: (widget) => _handleDragCancelled(widget));
+        if (widget.name != "Game On") {
+          for (var i = 0; i < response.data!.length; i++) {
+            List<String> parts = response.data![i].description!.split('-');
+            if (parts[0] == "T2") {
+              _gridChildren[int.tryParse(parts[1])!] = DraggableTable(
+                  gestureDetector(
+                      int.tryParse(parts[1])!,
+                      TableTwo(
+                        rotation: double.parse(parts[2]),
+                        id: response.data![i].name,
+                        name: response.data![i].description!,
+                      ),
+                      response.data![i].description!),
+                  onDraggableCanceled: (widget) =>
+                      _handleDragCancelled(widget));
+              widget.appState.addTableTimer(TableTimer(
+                tableId: response.data![i].name,
+                tableName: response.data![i].description,
+                timer: "",
+              ));
+            }
+            if (parts[0] == "T3") {
+              _gridChildren[int.tryParse(parts[1])!] = DraggableTable(
+                  gestureDetector(
+                      int.tryParse(parts[1])!,
+                      TableThree(
+                        rotation: double.parse(parts[2]),
+                        id: response.data![i].name,
+                        name: response.data![i].description!,
+                      ),
+                      response.data![i].description!),
+                  onDraggableCanceled: (widget) =>
+                      _handleDragCancelled(widget));
+              widget.appState.addTableTimer(TableTimer(
+                tableId: response.data![i].name,
+                tableName: response.data![i].description,
+                timer: "",
+              ));
+            }
+            if (parts[0] == "T4") {
+              _gridChildren[int.tryParse(parts[1])!] = DraggableTable(
+                  gestureDetector(
+                      int.tryParse(parts[1])!,
+                      TableFour(
+                        rotation: double.parse(parts[2]),
+                        id: response.data![i].name,
+                        name: response.data![i].description!,
+                      ),
+                      response.data![i].description!),
+                  onDraggableCanceled: (widget) =>
+                      _handleDragCancelled(widget));
+              widget.appState.addTableTimer(TableTimer(
+                tableId: response.data![i].name,
+                tableName: response.data![i].description,
+                timer: "",
+              ));
+            }
+            if (parts[0] == "T6") {
+              _gridChildren[int.tryParse(parts[1])!] = DraggableTable(
+                  gestureDetector(
+                      int.tryParse(parts[1])!,
+                      TableSix(
+                          rotation: double.parse(parts[2]),
+                          id: response.data![i].name,
+                          name: response.data![i].description!),
+                      response.data![i].description!),
+                  onDraggableCanceled: (widget) =>
+                      _handleDragCancelled(widget));
+              widget.appState.addTableTimer(TableTimer(
+                tableId: response.data![i].name,
+                tableName: response.data![i].description,
+                timer: "",
+              ));
+            }
+            if (parts[0] == "T8") {
+              _gridChildren[int.tryParse(parts[1])!] = DraggableTable(
+                  gestureDetector(
+                      int.tryParse(parts[1])!,
+                      TableEight(
+                          rotation: double.parse(parts[2]),
+                          id: response.data![i].name,
+                          name: response.data![i].description!),
+                      response.data![i].description!),
+                  onDraggableCanceled: (widget) =>
+                      _handleDragCancelled(widget));
+              widget.appState.addTableTimer(TableTimer(
+                tableId: response.data![i].name,
+                tableName: response.data![i].description,
+                timer: "",
+              ));
+            }
           }
         }
       });
@@ -217,8 +267,7 @@ class StartPageUIState extends State<StartPageUI> {
                                               context: context,
                                               builder: (_) {
                                                 return StatefulBuilder(
-                                                  builder:
-                                                      (context, setState) {
+                                                  builder: (context, setState) {
                                                     return AlertDialog(
                                                       title: const Text(
                                                           "Table menu"),
@@ -233,8 +282,7 @@ class StartPageUIState extends State<StartPageUI> {
                                                             const Text(
                                                               "Choose number of places:",
                                                               style: TextStyle(
-                                                                  fontSize:
-                                                                      24),
+                                                                  fontSize: 24),
                                                             ),
                                                             Row(
                                                               mainAxisAlignment:
@@ -359,7 +407,13 @@ class StartPageUIState extends State<StartPageUI> {
                 ? 12.h
                 : MediaQuery.of(context).size.width / 5.85.h,
           ),
-          !widget.room ? RightDrawerVM(tableName) : const SizedBox.shrink(),
+          !widget.room
+              ? RightDrawerVM(tableName)
+              : appState.tableTimer.isNotEmpty
+                  ? TableRightDrawer(
+                      appState: appState,
+                    )
+                  : const SizedBox.shrink(),
         ],
       ),
     );
@@ -408,7 +462,6 @@ class StartPageUIState extends State<StartPageUI> {
     });
   }
 
-
   void _handleDragCancelled(Widget widget) {
     setState(() {
       _newTables.add(widget);
@@ -417,23 +470,21 @@ class StartPageUIState extends State<StartPageUI> {
 
   void _handleDelete(int index, Widget data) async {
     DeleteTable? res;
-    print(data.runtimeType);
     if (data is TableTwo) {
-
       res = await interactor.deleteTable(data.id!);
-    }
-    else if (data is TableThree) {
+      widget.appState.deleteTableTimer(data.id!);
+    } else if (data is TableThree) {
       res = await interactor.deleteTable(data.id!);
-    }
-    else if (data is TableFour) {
+      widget.appState.deleteTableTimer(data.id!);
+    } else if (data is TableFour) {
       res = await interactor.deleteTable(data.id!);
-    }
-    else if (data is TableSix) {
+      widget.appState.deleteTableTimer(data.id!);
+    } else if (data is TableSix) {
       res = await interactor.deleteTable(data.id!);
-    }
-    else if (data is TableEight && data.rotation == 90) {
+      widget.appState.deleteTableTimer(data.id!);
+    } else if (data is TableEight) {
       res = await interactor.deleteTable(data.id!);
-
+      widget.appState.deleteTableTimer(data.id!);
     }
     setState(() {
       if (res?.message == "ok") {
@@ -454,6 +505,7 @@ class StartPageUIState extends State<StartPageUI> {
       ),
     );
   }
+
   GestureDetector gestureDetector(int index, Widget child, String id) {
     return GestureDetector(
       onDoubleTap: () {
