@@ -47,6 +47,8 @@ class StartPageUIState extends State<StartPageUI> {
   List<double> tableRotation = [0, 90, 180, 270];
   int currentIndex = 0;
   String tableName = '';
+  bool _dataFetched = false;
+  String _fetchedRoomName = "false";
 
   double tableRotationFunction() {
     final rotation = tableRotation[currentIndex];
@@ -84,8 +86,9 @@ class StartPageUIState extends State<StartPageUI> {
     };
     await interactor.updateTable(body, id);
   }
-
+  int i = 0;
   void fetchTables() async {
+    i += 1;
     Map<String, dynamic> params = {
       "fields": ["name", "description", "data_style"],
       "filters": [
@@ -108,7 +111,7 @@ class StartPageUIState extends State<StartPageUI> {
         _gridChildren = List.generate(6 * 6, (index) => Container());
       });
       setState(() {
-        if (widget.name != "Game On") {
+        if (widget.name != "Terrasse") {
           for (var i = 0; i < response.data!.length; i++) {
             List<String> parts = response.data![i].description!.split('-');
             if (parts[0] == "T2") {
@@ -217,8 +220,25 @@ class StartPageUIState extends State<StartPageUI> {
 
   @override
   void didChangeDependencies() {
-    fetchTables();
+    if (!_dataFetched) {
+      fetchTables();
+      setState(() {
+        _fetchedRoomName = widget.name;
+        if(i>=2) {
+          _dataFetched = true;
+        }
+      });
+  }
     super.didChangeDependencies();
+  }
+  @override
+  void didUpdateWidget(covariant StartPageUI oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.name != _fetchedRoomName) {
+      _dataFetched = false;
+      _fetchedRoomName = widget.name;
+      widget.appState.tableTimer = [];
+    }
   }
 
   @override
@@ -528,7 +548,7 @@ class StartPageUIState extends State<StartPageUI> {
                       text: "add order",
                       onTap: () {
                         tableName = id;
-                        this.widget.appState.switchOrder();
+                        widget.appState.switchOrder();
                         Navigator.pop(context);
                       },
                     ),

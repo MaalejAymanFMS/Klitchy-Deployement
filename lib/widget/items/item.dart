@@ -6,6 +6,7 @@ import '../../config/app_colors.dart';
 import '../../utils/AppState.dart';
 import '../../utils/constants.dart';
 import '../order_component.dart';
+
 class Item extends StatefulWidget {
   final String name;
   final double price;
@@ -34,7 +35,6 @@ class ItemState extends State<Item> {
       });
     }
   }
-
 
   void handlePlus() {
     if (numberOfItems < widget.stock) {
@@ -69,11 +69,13 @@ class ItemState extends State<Item> {
                 SizedBox(
                   width: 150,
                   child: Text(
-                        widget.name,
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.white),
+                    widget.name,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        fontSize: 10),
                     maxLines: 2,
-                      ),
+                  ),
                 ),
                 SizedBox(
                   height: 10.v,
@@ -83,9 +85,12 @@ class ItemState extends State<Item> {
                   children: [
                     Text(
                       "${widget.price} TND",
-                      style: const TextStyle(color: AppColors.secondaryTextColor),
+                      style:
+                          const TextStyle(color: AppColors.secondaryTextColor),
                     ),
-                    SizedBox(width: 70,),
+                    const SizedBox(
+                      width: 65,
+                    ),
                     Container(
                       width: 58.h,
                       height: 58.v,
@@ -94,8 +99,13 @@ class ItemState extends State<Item> {
                           Radius.circular(7),
                         ),
                       ),
-                      child: widget.image != "null image" && widget.image.isNotEmpty
-                          ? Image.network("$baseUrlImage${widget.image}", headers: headers,fit: BoxFit.fill,)
+                      child: widget.image != "null image" &&
+                              widget.image.isNotEmpty
+                          ? Image.network(
+                              "$baseUrlImage${widget.image}",
+                              headers: headers,
+                              fit: BoxFit.fill,
+                            )
                           : Image.asset("assets/images/shawarma.png"),
                     ),
                   ],
@@ -110,9 +120,18 @@ class ItemState extends State<Item> {
                   width: 28.h,
                   height: 28.v,
                   child: InkWell(
-                    onTap: () { handlePlus();
+                    onTap: () {
+                      handlePlus();
 
-                    appState.addOrder(numberOfItems, OrderComponent(number: numberOfItems, name: widget.name, price: widget.price, image: widget.image,));
+                      appState.addOrder(
+                        numberOfItems,
+                        OrderComponent(
+                          number: numberOfItems,
+                          name: widget.name,
+                          price: widget.price,
+                          image: widget.image,
+                        ),
+                      );
                     },
                     child: const Icon(
                       Icons.add,
@@ -122,7 +141,7 @@ class ItemState extends State<Item> {
                 ),
                 // Spacer(),
                 Text(
-                  "${numberOfItems}",
+                  "$numberOfItems",
                   style: const TextStyle(
                       fontWeight: FontWeight.bold, color: Colors.white),
                 ),
@@ -131,9 +150,18 @@ class ItemState extends State<Item> {
                   width: 28.h,
                   height: 28.v,
                   child: InkWell(
-                    onTap: () { handleMinus();
-                      appState.deleteOrder(numberOfItems, OrderComponent(number: numberOfItems, name: widget.name, price: widget.price, image: widget.image,));
-                      },
+                    onTap: () {
+                      handleMinus();
+                      appState.deleteOrder(
+                        numberOfItems,
+                        OrderComponent(
+                          number: numberOfItems,
+                          name: widget.name,
+                          price: widget.price,
+                          image: widget.image,
+                        ),
+                      );
+                    },
                     child: const Icon(
                       Icons.remove,
                       color: Colors.white,

@@ -217,10 +217,13 @@ class AppState extends ChangeNotifier {
   }
 
   //table timer
+  // Map<String,List<TableTimer>> _tableTimer = {};
+  // Map<String,List<TableTimer>> get tableTimer => _tableTimer;
   List<TableTimer> _tableTimer = [];
-
   List<TableTimer> get tableTimer => _tableTimer;
-
+  set tableTimer(List<TableTimer> value) {
+    _tableTimer = value;
+  }
   void addTableTimer(TableTimer tableTimerWidget) {
     final existingWidgetIndex = _tableTimer.indexWhere(
       (widget) =>

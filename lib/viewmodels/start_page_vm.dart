@@ -51,6 +51,7 @@ class StartPageVMState extends State<StartPageVM> implements StartPageInterracto
 
   @override
   Future<tb.ListTables> retrieveListOfTables(Map<String, dynamic> params) async {
+    print("call api");
     final headers = {
       "Content-Type": "application/json; charset=utf-8",
       "Accept": "application/json; charset=utf-8",

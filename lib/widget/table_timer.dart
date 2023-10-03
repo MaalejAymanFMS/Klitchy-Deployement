@@ -49,8 +49,8 @@ class TableTimer extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                           color: AppColors.secondaryTextColor),
                     ),
-                    Text(
-                      '17:22',
+                    const Text(
+                      'Timer: 17:22',
                       style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           color: AppColors.secondaryTextColor),
