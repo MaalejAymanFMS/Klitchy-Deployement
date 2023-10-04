@@ -24,7 +24,7 @@ class ItemCategorie extends StatelessWidget {
         Map<String, dynamic> params = {};
         if(name != "All Item Groups") {
            params = {
-            "fields": ["item_name", "image", "standard_rate"],
+            "fields": ["item_name", "image", "standard_rate","item_code"],
             "filters": [["item_group", "LIKE", "%$name%"]],
             "limit_page_length": "None"
           };

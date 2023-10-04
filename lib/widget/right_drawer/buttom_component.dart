@@ -5,7 +5,8 @@ import 'package:klitchyapp/widget/custom_button.dart';
 import '../../config/app_colors.dart';
 
 class ButtomComponent extends StatefulWidget {
-  const ButtomComponent({super.key});
+  final Function() onTap;
+  const ButtomComponent({super.key, required this.onTap});
 
   @override
   State<ButtomComponent> createState() => _ButtomComponentState();
@@ -134,10 +135,11 @@ class _ButtomComponentState extends State<ButtomComponent> {
           const Spacer(),
           Padding(
             padding: EdgeInsets.only(left: 20.h, right: 20.h, bottom: 20.v),
-            child: const CustomButton(
+            child: CustomButton(
               backgroundColor: AppColors.greenColor,
               icon: "assets/images/arrow_forward.png",
               text: "Start Orders",
+              onTap: widget.onTap,
             ),
           )
         ],

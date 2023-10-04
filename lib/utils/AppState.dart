@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:klitchyapp/models/items.dart';
+import 'package:klitchyapp/models/orders.dart';
 import 'package:klitchyapp/widget/order_component.dart';
 import 'package:klitchyapp/widget/table_timer.dart';
 import 'package:klitchyapp/widget/tables/table_2.dart';
@@ -243,5 +244,26 @@ class AppState extends ChangeNotifier {
     _tableTimer.removeAt(existingWidgetIndex);
     print(_tableTimer);
     notifyListeners();
+  }
+
+  //entry_items
+  List<EntryItem> _entryItems = [];
+
+  List<EntryItem> get entryItems => _entryItems;
+
+  void addEntryItem(double number, EntryItem entryItem) {
+    if (number > 0) {
+      final existingWidgetIndex = _entryItems.indexWhere(
+            (widget) =>
+        widget.name == entryItem.name &&
+            widget.item_code == entryItem.item_code,
+      );
+      if (existingWidgetIndex != -1) {
+        _entryItems.elementAt(existingWidgetIndex).qty = number;
+      } else {
+        _entryItems.add(entryItem);
+      }
+      notifyListeners();
+    }
   }
 }

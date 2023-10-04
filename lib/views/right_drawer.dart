@@ -16,9 +16,11 @@ import '../utils/locator.dart';
 import '../widget/entry_field.dart';
 import '../widget/order_component.dart';
 class RightDrawer extends StatefulWidget {
-  final String? tableId;
+  final String tableName;
+  final String tableId;
   const RightDrawer({
-    this.tableId,
+    required this.tableName,
+    required this.tableId,
     Key? key,
   }) : super(key: key);
 
@@ -58,6 +60,29 @@ class _RightDrawerState extends State<RightDrawer> {
       }
     }
   }
+
+  void addOrders() async {
+    print(appState.choosenRoom["id"]);
+    print(widget.tableName);
+    print(appState.choosenRoom["name"]);
+    Map<String, dynamic> body = {
+      // "data" : {
+        "room": appState.choosenRoom["id"],
+        "table": widget.tableName,
+        "table_description": widget.tableId,
+        "room_description": appState.choosenRoom["name"],
+        "naming_series": "OR-.YYYY.-",
+        "status": "Attending",
+        "customer": "Defult Customer",
+        "pos_profile": "Caissier",
+        "selling_price_list": "Standard Selling",
+        "company": "Jumpark",
+        "doctype": "Table Order",
+        "entry_items": appState.entryItems.map((entryMap) => entryMap.toJson()).toList(),
+      // }
+    };
+    await interactor.addOrder(body);
+  }
   @override
   void initState() {
     appState = Provider.of<AppState>(context, listen: false);
@@ -75,7 +100,7 @@ class _RightDrawerState extends State<RightDrawer> {
         padding: EdgeInsets.symmetric(vertical: 10.v),
         child: Column(
           children: [
-            TableTag(appState,widget.tableId),
+            TableTag(appState,widget.tableName),
             Expanded(
               child: appState.orders.isNotEmpty
                   ? SingleChildScrollView(
@@ -100,7 +125,7 @@ class _RightDrawerState extends State<RightDrawer> {
               )
                   : const SizedBox(),
             ),
-            const ButtomComponent(),
+            ButtomComponent(onTap: addOrders,),
           ],
         ),
       ),

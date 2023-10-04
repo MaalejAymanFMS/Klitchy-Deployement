@@ -14,7 +14,8 @@ import '../viewmodels/table_order_interactor.dart';
 import '../widget/items/item.dart';
 
 class TableOrder extends StatefulWidget {
-  const TableOrder({Key? key}) : super(key: key);
+  final AppState appState;
+  const TableOrder({Key? key, required this.appState}) : super(key: key);
 
   @override
   TableOrderState createState() => TableOrderState();
@@ -44,10 +45,10 @@ class TableOrderState extends State<TableOrder> {
       debugPrint("$params");
       final itemResponse = await interactor.retrieveItems(params);
       if(itemResponse.data!.isNotEmpty) {
-        appState.clickOpenCategorie(itemResponse.data!);
+        widget.appState.clickOpenCategorie(itemResponse.data!);
         setState(() {
           click = true;
-          listItems = appState.categorieClicked;
+          listItems = widget.appState.categorieClicked;
         });
       } else {
         setState(() {
@@ -60,11 +61,11 @@ class TableOrderState extends State<TableOrder> {
     }
   }
 
-  late AppState appState;
+  // late AppState appState;
 
   @override
   void initState() {
-    appState = Provider.of<AppState>(context, listen: false);
+    // appState = Provider.of<AppState>(context, listen: false);
     fetchCategories();
     super.initState();
   }
@@ -152,7 +153,8 @@ class TableOrderState extends State<TableOrder> {
                   price: listItems[index].standardRate!,
                   stock: 14,
                   image: listItems[index].image!,
-                  appState: appState,
+                  appState: widget.appState,
+                  code: listItems[index].itemCode!,
                 );
               } else {
                 return Container();

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:klitchyapp/models/orders.dart';
 import 'package:klitchyapp/utils/size_utils.dart';
 import 'package:provider/provider.dart';
 
@@ -9,6 +10,7 @@ import '../order_component.dart';
 
 class Item extends StatefulWidget {
   final String name;
+  final String code;
   final double price;
   final int stock;
   final String image;
@@ -20,7 +22,7 @@ class Item extends StatefulWidget {
     required this.price,
     required this.stock,
     required this.image,
-    required this.appState,
+    required this.appState, required this.code,
   }) : super(key: key);
 
   @override
@@ -153,6 +155,20 @@ class ItemState extends State<Item> {
                           image: widget.image,
                         ),
                       );
+                      appState.addEntryItem(numberOfItems.toDouble(), EntryItem(
+                        identifier: "identifier",
+                            parentfield: "entry_items",
+                          parenttype: "Table Order",
+                          item_code: widget.code,
+                          status: "Attending",
+                          notes: "",
+                          qty: numberOfItems.toDouble(),
+                          rate: widget.price,
+                          price_list_rate: widget.price,
+                          amount: numberOfItems * widget.price,
+                          table_description: "${appState.choosenRoom["name"]} (Table)",
+                          doctype: "Order Entry Item"
+                      ));
                     },
                     child: const Icon(
                       Icons.add,

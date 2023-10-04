@@ -47,6 +47,7 @@ class StartPageUIState extends State<StartPageUI> {
   List<double> tableRotation = [0, 90, 180, 270];
   int currentIndex = 0;
   String tableName = '';
+  String tableId = '';
   bool _dataFetched = false;
   String _fetchedRoomName = "false";
 
@@ -123,7 +124,7 @@ class StartPageUIState extends State<StartPageUI> {
                         id: response.data![i].name,
                         name: response.data![i].description!,
                       ),
-                      response.data![i].description!),
+                      response.data![i].description!, response.data![i].name!),
                   onDraggableCanceled: (widget) =>
                       _handleDragCancelled(widget));
               widget.appState.addTableTimer(TableTimer(
@@ -141,7 +142,7 @@ class StartPageUIState extends State<StartPageUI> {
                         id: response.data![i].name,
                         name: response.data![i].description!,
                       ),
-                      response.data![i].description!),
+                      response.data![i].description!, response.data![i].name!),
                   onDraggableCanceled: (widget) =>
                       _handleDragCancelled(widget));
               widget.appState.addTableTimer(TableTimer(
@@ -159,7 +160,7 @@ class StartPageUIState extends State<StartPageUI> {
                         id: response.data![i].name,
                         name: response.data![i].description!,
                       ),
-                      response.data![i].description!),
+                      response.data![i].description!, response.data![i].name!),
                   onDraggableCanceled: (widget) =>
                       _handleDragCancelled(widget));
               widget.appState.addTableTimer(TableTimer(
@@ -176,7 +177,7 @@ class StartPageUIState extends State<StartPageUI> {
                           rotation: double.parse(parts[2]),
                           id: response.data![i].name,
                           name: response.data![i].description!),
-                      response.data![i].description!),
+                      response.data![i].description!, response.data![i].name!),
                   onDraggableCanceled: (widget) =>
                       _handleDragCancelled(widget));
               widget.appState.addTableTimer(TableTimer(
@@ -193,7 +194,7 @@ class StartPageUIState extends State<StartPageUI> {
                           rotation: double.parse(parts[2]),
                           id: response.data![i].name,
                           name: response.data![i].description!),
-                      response.data![i].description!),
+                      response.data![i].description!, response.data![i].name!),
                   onDraggableCanceled: (widget) =>
                       _handleDragCancelled(widget));
               widget.appState.addTableTimer(TableTimer(
@@ -420,7 +421,7 @@ class StartPageUIState extends State<StartPageUI> {
                       },
                     )
                   : !widget.appState.checkout
-                      ? const TableOrder()
+                      ? TableOrder(appState: appState,)
                       : CheckoutScreen()),
           SizedBox(
             width: appState.isWidgetEnabled
@@ -428,7 +429,7 @@ class StartPageUIState extends State<StartPageUI> {
                 : MediaQuery.of(context).size.width / 5.85.h,
           ),
           !widget.room
-              ? RightDrawerVM(tableName)
+              ? RightDrawerVM(tableName, tableId)
               : appState.tableTimer.isNotEmpty
                   ? TableRightDrawer(
                       appState: appState,
@@ -526,7 +527,7 @@ class StartPageUIState extends State<StartPageUI> {
     );
   }
 
-  GestureDetector gestureDetector(int index, Widget child, String id) {
+  GestureDetector gestureDetector(int index, Widget child, String id, String name) {
     return GestureDetector(
       onDoubleTap: () {
         _handleDelete(index, child);
@@ -547,7 +548,8 @@ class StartPageUIState extends State<StartPageUI> {
                     CustomButton(
                       text: "add order",
                       onTap: () {
-                        tableName = id;
+                        tableName = name;
+                        tableId = id;
                         widget.appState.switchOrder();
                         Navigator.pop(context);
                       },

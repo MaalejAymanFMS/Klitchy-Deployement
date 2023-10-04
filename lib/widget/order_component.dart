@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:klitchyapp/utils/AppState.dart';
-import 'package:klitchyapp/utils/constants.dart';
 import 'package:klitchyapp/utils/size_utils.dart';
 import 'package:provider/provider.dart';
 
