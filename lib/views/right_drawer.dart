@@ -40,19 +40,22 @@ class _RightDrawerState extends State<RightDrawer> {
       ]
     };
     var orderP1 = await interactor.retrieveTableOrderPart1(params);
-    var orderP2 = await interactor.retrieveTableOrderPart2(orderP1.dataP1![0].name!);
-    orders = orderP2.dataP2!.entryItems!;
-    for (var order in orders) {
-      appState.addOrder(
-        order.qty as int,
-        OrderComponent(
-          number: order.qty! as int,
-          name: order.item_name!,
-          price: order.rate!,
-          image: "",
-          note: order.notes,
-        ),
-      );
+    if(orderP1.dataP1!.isNotEmpty) {
+      var orderP2 = await interactor.retrieveTableOrderPart2(
+          orderP1.dataP1![0].name!);
+      orders = orderP2.dataP2!.entryItems!;
+      for (var order in orders) {
+        appState.addOrder(
+          order.qty as int,
+          OrderComponent(
+            number: order.qty! as int,
+            name: order.item_name!,
+            price: order.rate!,
+            image: "",
+            note: order.notes,
+          ),
+        );
+      }
     }
   }
   @override
@@ -95,7 +98,7 @@ class _RightDrawerState extends State<RightDrawer> {
                   ],
                 ),
               )
-                  : const SizedBox.shrink(),
+                  : const SizedBox(),
             ),
             const ButtomComponent(),
           ],

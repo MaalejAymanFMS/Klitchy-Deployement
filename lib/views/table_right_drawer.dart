@@ -62,7 +62,7 @@ class _TableRightDrawerState extends State<TableRightDrawer> {
                   ],
                 ),
               )
-                  : const SizedBox.shrink(),
+                  : const SizedBox(),
             ),
           ],
         ),

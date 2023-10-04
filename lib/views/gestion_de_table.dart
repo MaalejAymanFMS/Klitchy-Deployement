@@ -62,7 +62,7 @@ class _GestionDeTableState extends State<GestionDeTable> {
                   ? Drawer(
                       child: LeftDrawer(_handleDrawer,appState),
                     )
-                  : const SizedBox.shrink(),
+                  : const SizedBox(),
             ],
           ),
           SizedBox(

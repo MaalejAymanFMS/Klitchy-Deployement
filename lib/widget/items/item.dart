@@ -12,6 +12,7 @@ class Item extends StatefulWidget {
   final double price;
   final int stock;
   final String image;
+  final AppState appState;
 
   const Item({
     Key? key,
@@ -19,6 +20,7 @@ class Item extends StatefulWidget {
     required this.price,
     required this.stock,
     required this.image,
+    required this.appState,
   }) : super(key: key);
 
   @override
@@ -42,6 +44,26 @@ class ItemState extends State<Item> {
         numberOfItems += 1;
       });
     }
+  }
+  void test() {
+    int updatedNumberOfItems = 0;
+    if (widget.appState.orders.isNotEmpty) {
+      for (var i = 0; i < widget.appState.orders.length; i++) {
+        if (widget.appState.orders[i].name == widget.name) {
+          updatedNumberOfItems = widget.appState.orders[i].number;
+          break;
+        }
+      }
+    }
+    setState(() {
+      numberOfItems = updatedNumberOfItems;
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    test();
+    super.didChangeDependencies();
   }
 
   @override
@@ -122,7 +144,6 @@ class ItemState extends State<Item> {
                   child: InkWell(
                     onTap: () {
                       handlePlus();
-
                       appState.addOrder(
                         numberOfItems,
                         OrderComponent(

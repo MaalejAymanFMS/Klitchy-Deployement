@@ -433,7 +433,7 @@ class StartPageUIState extends State<StartPageUI> {
                   ? TableRightDrawer(
                       appState: appState,
                     )
-                  : const SizedBox.shrink(),
+                  : const SizedBox(),
         ],
       ),
     );

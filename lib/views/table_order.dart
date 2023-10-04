@@ -152,6 +152,7 @@ class TableOrderState extends State<TableOrder> {
                   price: listItems[index].standardRate!,
                   stock: 14,
                   image: listItems[index].image!,
+                  appState: appState,
                 );
               } else {
                 return Container();
