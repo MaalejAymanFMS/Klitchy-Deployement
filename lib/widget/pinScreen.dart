@@ -71,7 +71,6 @@ class _PinScreenState extends State<PinScreen> {
               ),
               const SizedBox(height: 20),
               Container(
-                margin: const EdgeInsets.only(bottom: 10.0),
                 child: Row(
     
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -81,8 +80,9 @@ class _PinScreenState extends State<PinScreen> {
                   ],
                 ),
               ),
+              SizedBox(height: deviceSize.height*0.02),
               Container(
-                margin: const EdgeInsets.only(bottom: 10.0),
+                // margin: const EdgeInsets.only(right: 10.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
     
@@ -92,17 +92,26 @@ class _PinScreenState extends State<PinScreen> {
                   ],
                 ),
               ),
+              SizedBox(height: deviceSize.height*0.02),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   for (int i = 7; i <= 9; i++) keyboardButton('$i'),
                 ],
               ),
-              const SizedBox(height: 20),
+               SizedBox(height: deviceSize.height*0.05),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
+                     style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.lightColor,
+
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                textStyle:
+                    const TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+           
                     onPressed: () {
                       // TODOO impliments services
                                           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => GestionDeTable() ));
@@ -114,6 +123,12 @@ class _PinScreenState extends State<PinScreen> {
                   ),
                   const SizedBox(width: 20),
                   ElevatedButton(
+                     style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.lightColor,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                textStyle:
+                    const TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
                     onPressed: () {
                       
                     },
@@ -130,6 +145,15 @@ class _PinScreenState extends State<PinScreen> {
 
   Widget keyboardButton(String label) {
     return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.lightColor,
+
+                padding:
+                
+                    const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                textStyle:
+                    const TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+           
       onPressed: () => addPin(label),
       child: Text(label, style: const TextStyle(fontSize: 30, color: AppColors.dark01Color)),
 
