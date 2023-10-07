@@ -78,9 +78,7 @@ class AppState extends ChangeNotifier {
   }
 
   void deleteAllOrders() {
-    for (var i = 0; i < _orders.length; i++) {
-      _orders.elementAt(i).number = 0;
-    }
+    _orders.clear();
     notifyListeners();
   }
   ///notes

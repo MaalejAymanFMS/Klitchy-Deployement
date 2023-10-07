@@ -86,6 +86,7 @@ class ItemState extends State<Item> {
             name: widget.name,
             price: widget.price,
             image: widget.image,
+            code: widget.code,
           ),
         );
         appState.addEntryItem(numberOfItems.toDouble(), EntryItem(

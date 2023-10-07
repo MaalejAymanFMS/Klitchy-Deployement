@@ -7,7 +7,6 @@ import 'package:klitchyapp/viewmodels/right_drawer_interractor.dart';
 import 'package:klitchyapp/widget/custom_button.dart';
 import 'package:klitchyapp/widget/right_drawer/buttom_component.dart';
 import 'package:klitchyapp/widget/right_drawer/table_tag.dart';
-import 'package:provider/provider.dart';
 import 'package:virtual_keyboard_2/virtual_keyboard_2.dart';
 
 import '../config/app_colors.dart';
@@ -18,9 +17,11 @@ import '../widget/order_component.dart';
 class RightDrawer extends StatefulWidget {
   final String tableName;
   final String tableId;
+  final AppState appState;
   const RightDrawer({
     required this.tableName,
     required this.tableId,
+    required this.appState,
     Key? key,
   }) : super(key: key);
 
@@ -32,9 +33,9 @@ class RightDrawer extends StatefulWidget {
 class _RightDrawerState extends State<RightDrawer> {
   final TextEditingController orderNote = TextEditingController();
   final interactor = getIt<RightDrawerInterractor>();
-  late final AppState appState;
   List<EntryItem> orders = [];
   void fetchOrders() async{
+    widget.appState.deleteAllOrders();
     Map<String, dynamic> params = {
       "fields": ["name","table","table_description"],
       "filters": [
@@ -45,32 +46,31 @@ class _RightDrawerState extends State<RightDrawer> {
     if(orderP1.dataP1!.isNotEmpty) {
       var orderP2 = await interactor.retrieveTableOrderPart2(
           orderP1.dataP1![0].name!);
-      orders = orderP2.dataP2!.entryItems!;
-      for (var order in orders) {
-        appState.addOrder(
-          order.qty as int,
+      if(orderP2.dataP2!.entryItems!.isNotEmpty) {
+        orders = orderP2.dataP2!.entryItems!;
+        for (var order in orders) {
+          widget.appState.addOrder(
+            order.qty as int,
           OrderComponent(
-            number: order.qty! as int,
+            number: order.qty!.toInt(),
             name: order.item_name!,
-            price: order.rate!,
+            price: order.rate ?? 0,
             image: "",
             note: order.notes,
-          ),
-        );
+            code: order.item_code!,
+            ),
+          );
+        }
       }
     }
   }
 
   void addOrders() async {
-    print(appState.choosenRoom["id"]);
-    print(widget.tableName);
-    print(appState.choosenRoom["name"]);
     Map<String, dynamic> body = {
-      // "data" : {
-        "room": appState.choosenRoom["id"],
+        "room": widget.appState.choosenRoom["id"],
         "table": widget.tableName,
         "table_description": widget.tableId,
-        "room_description": appState.choosenRoom["name"],
+        "room_description": widget.appState.choosenRoom["name"],
         "naming_series": "OR-.YYYY.-",
         "status": "Attending",
         "customer": "Defult Customer",
@@ -78,21 +78,18 @@ class _RightDrawerState extends State<RightDrawer> {
         "selling_price_list": "Standard Selling",
         "company": "Jumpark",
         "doctype": "Table Order",
-        "entry_items": appState.entryItems.map((entryMap) => entryMap.toJson()).toList(),
-      // }
+        "entry_items": widget.appState.entryItems.map((entryMap) => entryMap.toJson()).toList(),
     };
     await interactor.addOrder(body);
   }
   @override
   void initState() {
-    appState = Provider.of<AppState>(context, listen: false);
     fetchOrders();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    // final appState = Provider.of<AppState>(context);
     return SizedBox(
       width: 383.h,
       height: 887.v,
@@ -100,9 +97,9 @@ class _RightDrawerState extends State<RightDrawer> {
         padding: EdgeInsets.symmetric(vertical: 10.v),
         child: Column(
           children: [
-            TableTag(appState,widget.tableName),
+            TableTag(widget.appState,widget.tableName, addOrders),
             Expanded(
-              child: appState.orders.isNotEmpty
+              child: widget.appState.orders.isNotEmpty
                   ? SingleChildScrollView(
                 child: Column(
                   children: [
@@ -111,16 +108,14 @@ class _RightDrawerState extends State<RightDrawer> {
                       style: TextStyle(color: Colors.white, fontSize: 15.fSize),
                     ),
                     Column(
-                      children: appState.orders.map((order) {
+                      children: widget.appState.orders.map((order) {
                         return InkWell(
                           onTap: () {
-                            if(appState.enabledNotes) {
-                              showOrderDetails(order, appState);
+                            if(widget.appState.enabledNotes) {
+                              showOrderDetails(order, widget.appState);
                             }
-                            if(appState.enabledDelete) {
-                              print("delete enabled");
-                              print(appState.orders);
-                              appState.deleteOrder(order.number, order);
+                            if(widget.appState.enabledDelete) {
+                              widget.appState.deleteOrder(order.number, order);
                             }
                           },
                           child: order,

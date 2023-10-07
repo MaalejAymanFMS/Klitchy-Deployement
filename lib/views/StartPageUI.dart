@@ -430,7 +430,7 @@ class StartPageUIState extends State<StartPageUI> {
                 : 12.h,
           ),
           !widget.room
-              ? RightDrawerVM(tableName, tableId)
+              ? RightDrawerVM(tableName, tableId, appState)
               : appState.tableTimer.isNotEmpty
                   ? TableRightDrawer(
                       appState: appState,
@@ -448,19 +448,19 @@ class StartPageUIState extends State<StartPageUI> {
     });
     setState(() {
     if (data is TableTwo) {
-      addTable("T2-$index-${data.rotation}", index, index, 2, widget.name,
+      addTable("T2-$index-${data.rotation}-${widget.appState.choosenRoom["name"]}", index, index, 2, widget.name,
           widget.id);
     } else if (data is TableThree) {
-      addTable("T3-$index-${data.rotation}", index, index, 3, widget.name,
+      addTable("T3-$index-${data.rotation}-${widget.appState.choosenRoom["name"]}", index, index, 3, widget.name,
           widget.id);
     } else if (data is TableFour) {
-      addTable("T4-$index-${data.rotation}", index, index, 4, widget.name,
+      addTable("T4-$index-${data.rotation}-${widget.appState.choosenRoom["name"]}", index, index, 4, widget.name,
           widget.id);
     } else if (data is TableSix) {
-      addTable("T6-$index-${data.rotation}", index, index, 6, widget.name,
+      addTable("T6-$index-${data.rotation}-${widget.appState.choosenRoom["name"]}", index, index, 6, widget.name,
           widget.id);
     } else if (data is TableEight) {
-      addTable("T8-$index-${data.rotation}", index, index, 8, widget.name,
+      addTable("T8-$index-${data.rotation}-${widget.appState.choosenRoom["name"]}", index, index, 8, widget.name,
           widget.id);
     }
     });

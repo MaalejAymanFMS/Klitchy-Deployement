@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:klitchyapp/utils/AppState.dart';
 import 'package:klitchyapp/viewmodels/right_drawer_interractor.dart';
 import 'package:flutter/material.dart';
 
@@ -10,8 +11,10 @@ import 'package:http/http.dart' as http;
 class RightDrawerVM extends StatefulWidget {
   final String tableName;
   final String tableId;
+  final AppState appState;
   const RightDrawerVM(this.tableName,
       this.tableId,
+      this.appState,
       {super.key});
 
   @override
@@ -21,7 +24,7 @@ class RightDrawerVM extends StatefulWidget {
 class RightDrawerVMState extends State<RightDrawerVM> implements RightDrawerInterractor {
   @override
   Widget build(BuildContext context) {
-    return RightDrawer(tableName: widget.tableName, tableId: widget.tableId,);
+    return RightDrawer(tableName: widget.tableName, tableId: widget.tableId, appState: widget.appState,);
   }
 
   @override

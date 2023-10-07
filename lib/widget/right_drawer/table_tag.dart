@@ -3,12 +3,14 @@ import 'package:klitchyapp/utils/AppState.dart';
 import 'package:klitchyapp/utils/size_utils.dart';
 
 import '../../config/app_colors.dart';
+import '../../models/orders.dart';
 
 class TableTag extends StatefulWidget {
   final AppState appState;
   final String? tableName;
+  final Function()? delete;
 
-  const TableTag(this.appState, this.tableName, {super.key});
+  const TableTag(this.appState, this.tableName, this.delete, {super.key});
 
   @override
   State<TableTag> createState() => _TableTagState();
@@ -117,13 +119,31 @@ class _TableTagState extends State<TableTag> {
           ),
           InkWell(
             onTap: () {
-              // widget.appState.deleteAllOrders();
               widget.appState.enableDelete();
               setState(() {
                 if(widget.appState.enabledDelete) {
                   deleteColor = AppColors.redColor;
                 } else {
                   deleteColor = Colors.transparent;
+                  for(var order in widget.appState.orders) {
+                    widget.appState.addEntryItem(
+                        order.number.toDouble(), EntryItem(
+                        identifier: "identifier",
+                        parentfield: "entry_items",
+                        parenttype: "Table Order",
+                        item_code: order.code,
+                        status: "Attending",
+                        notes: "",
+                        qty: order.number.toDouble(),
+                        rate: order.price,
+                        price_list_rate: order.price,
+                        amount: order.price * order.number,
+                        table_description: "${widget.appState
+                            .choosenRoom["name"]} (Table)",
+                        doctype: "Order Entry Item"
+                    ));
+                  }
+                  widget.delete!();
                 }
               });
             },

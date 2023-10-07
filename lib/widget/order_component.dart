@@ -10,7 +10,8 @@ class OrderComponent extends StatelessWidget {
   final double price;
   final String image;
   String? note;
-  OrderComponent({Key? key, required this.number, required this.name, required this.price, required this.image, this.note,}) : super (key: key);
+  final String code;
+  OrderComponent({Key? key, required this.number, required this.name, required this.price, required this.image, this.note, required this.code,}) : super (key: key);
 
 
   @override
