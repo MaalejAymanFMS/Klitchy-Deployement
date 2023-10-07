@@ -91,10 +91,17 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool _enablecNotes = false;
-  bool get enablecNotes => _enablecNotes;
+  bool _enabledNotes = false;
+  bool get enabledNotes => _enabledNotes;
   void enableNotes() {
-    _enablecNotes != _enablecNotes;
+    _enabledNotes = !_enabledNotes;
+    notifyListeners();
+  }
+
+  bool _enabledDelete = false;
+  bool get enabledDelete => _enabledDelete;
+  void enableDelete() {
+    _enabledDelete = !_enabledDelete;
     notifyListeners();
   }
 

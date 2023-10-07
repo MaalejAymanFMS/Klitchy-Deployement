@@ -15,6 +15,8 @@ class TableTag extends StatefulWidget {
 }
 
 class _TableTagState extends State<TableTag> {
+  Color editColor = Colors.transparent;
+  Color deleteColor = Colors.transparent;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -38,7 +40,7 @@ class _TableTagState extends State<TableTag> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: SizedBox(
-                    width: 134.h,
+                    width: 140.1.h,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,12 +83,21 @@ class _TableTagState extends State<TableTag> {
             )),
             child: Image.asset(
               "assets/images/tag.png",
-              color: AppColors.secondaryTextColor,
+              color: Colors.white,
               scale: 2.2.fSize,
             ),
           ),
           InkWell(
-            onTap: () => widget.appState.enablecNotes,
+            onTap: () {
+              widget.appState.enableNotes();
+              setState(() {
+                if(widget.appState.enabledNotes) {
+                  editColor = AppColors.redColor;
+                } else {
+                  editColor = Colors.transparent;
+                }
+              });
+              },
             child: Container(
               width: 64.h,
               height: 94.v,
@@ -95,17 +106,26 @@ class _TableTagState extends State<TableTag> {
                   color: AppColors.primaryColor,
                   width: 1.h,
                 ),
+                color: editColor,
               ),
               child: Image.asset(
                 "assets/images/modify.png",
-                color: AppColors.secondaryTextColor,
+                color: Colors.white,
                 scale: 2.2.fSize,
               ),
             ),
           ),
           InkWell(
             onTap: () {
-              widget.appState.deleteAllOrders();
+              // widget.appState.deleteAllOrders();
+              widget.appState.enableDelete();
+              setState(() {
+                if(widget.appState.enabledDelete) {
+                  deleteColor = AppColors.redColor;
+                } else {
+                  deleteColor = Colors.transparent;
+                }
+              });
             },
             child: Container(
               width: 64.h,
@@ -119,7 +139,7 @@ class _TableTagState extends State<TableTag> {
                   color: AppColors.primaryColor,
                   width: 1.h,
                 ),
-                color: AppColors.redColor,
+                color: deleteColor,
               ),
               child: Image.asset(
                 "assets/images/trash.png",
