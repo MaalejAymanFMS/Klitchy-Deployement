@@ -131,40 +131,33 @@ class ItemState extends State<Item> {
                   SizedBox(
                     height: 10.v,
                   ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "${widget.price} TND",
-                        style:
-                        TextStyle(color: AppColors.secondaryTextColor, fontSize: 15.fSize),
-                      ),
-                      SizedBox(
-                        width: 80.h,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20.h),
-                        child: Container(
-                          width: 58.h,
-                          height: 58.v,
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(7),
-                            ),
-                          ),
-                          child: widget.image != "null image" && widget.image.isNotEmpty
-                              ? Image(
-                            image: NetworkImage("$baseUrlImage${widget.image}"),
-                            fit: BoxFit.fill,
-                          )
-                              : Image.asset("assets/images/shawarma.png", scale: 2.5.fSize,),
-                        ),
-                      )
-
-                    ],
+                  Text(
+                    "${widget.price} TND",
+                    style:
+                    TextStyle(color: AppColors.secondaryTextColor, fontSize: 15.fSize),
                   ),
                 ],
               ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 58.h,
+                    height: 58.v,
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(7),
+                      ),
+                    ),
+                    child: widget.image != "null image" && widget.image.isNotEmpty
+                        ? Image(
+                      image: NetworkImage("$baseUrlImage${widget.image}", headers: headers),
+                      fit: BoxFit.fill,
+                    )
+                        : Image.asset("assets/images/shawarma.png", scale: 2.5.fSize,),
+                  ),
+                ],
+              )
               // const Spacer(),
               // Column(
               //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,

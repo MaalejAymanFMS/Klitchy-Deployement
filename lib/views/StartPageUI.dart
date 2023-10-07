@@ -446,6 +446,7 @@ class StartPageUIState extends State<StartPageUI> {
       _gridChildren[index] = DraggableTable(data,
           onDraggableCanceled: (widget) => _handleDragCancelled(widget));
     });
+    setState(() {
     if (data is TableTwo) {
       addTable("T2-$index-${data.rotation}", index, index, 2, widget.name,
           widget.id);
@@ -462,6 +463,7 @@ class StartPageUIState extends State<StartPageUI> {
       addTable("T8-$index-${data.rotation}", index, index, 8, widget.name,
           widget.id);
     }
+    });
   }
 
   void _handleUpdate(Widget data, int index) {
