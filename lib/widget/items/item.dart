@@ -76,138 +76,170 @@ class ItemState extends State<Item> {
       "Accept": "application/json; charset=utf-8",
       "Authorization": "Token 82ad2e094492b3a:f24396cdd3d1c46"
     };
-    return Container(
-      width: 274.h,
-      height: 134.v,
-      decoration: BoxDecoration(
-        color: AppColors.itemsColor,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  width: 150,
-                  child: Text(
-                    widget.name,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        fontSize: 10),
-                    maxLines: 2,
+    return GestureDetector(
+      onTap: () {
+        handlePlus();
+        appState.addOrder(
+          numberOfItems,
+          OrderComponent(
+            number: numberOfItems,
+            name: widget.name,
+            price: widget.price,
+            image: widget.image,
+          ),
+        );
+        appState.addEntryItem(numberOfItems.toDouble(), EntryItem(
+            identifier: "identifier",
+            parentfield: "entry_items",
+            parenttype: "Table Order",
+            item_code: widget.code,
+            status: "Attending",
+            notes: "",
+            qty: numberOfItems.toDouble(),
+            rate: widget.price,
+            price_list_rate: widget.price,
+            amount: numberOfItems * widget.price,
+            table_description: "${appState.choosenRoom["name"]} (Table)",
+            doctype: "Order Entry Item"
+        ));
+      },
+      child: Container(
+        width: 274.h,
+        height: 134.v,
+        decoration: BoxDecoration(
+          color: AppColors.itemsColor,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: 150.h,
+                    child: Text(
+                      widget.name,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          fontSize: 15.fSize),
+                      maxLines: 2,
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: 10.v,
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "${widget.price} TND",
-                      style:
-                          const TextStyle(color: AppColors.secondaryTextColor),
-                    ),
-                    const SizedBox(
-                      width: 65,
-                    ),
-                    Container(
-                      width: 58.h,
-                      height: 58.v,
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(7),
-                        ),
+                  SizedBox(
+                    height: 10.v,
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "${widget.price} TND",
+                        style:
+                        TextStyle(color: AppColors.secondaryTextColor, fontSize: 15.fSize),
                       ),
-                      child: widget.image != "null image" &&
-                              widget.image.isNotEmpty
-                          ? Image.network(
-                              "$baseUrlImage${widget.image}",
-                              headers: headers,
-                              fit: BoxFit.fill,
-                            )
-                          : Image.asset("assets/images/shawarma.png"),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            const Spacer(),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                SizedBox(
-                  width: 28.h,
-                  height: 28.v,
-                  child: InkWell(
-                    onTap: () {
-                      handlePlus();
-                      appState.addOrder(
-                        numberOfItems,
-                        OrderComponent(
-                          number: numberOfItems,
-                          name: widget.name,
-                          price: widget.price,
-                          image: widget.image,
+                      SizedBox(
+                        width: 80.h,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20.h),
+                        child: Container(
+                          width: 58.h,
+                          height: 58.v,
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(7),
+                            ),
+                          ),
+                          child: widget.image != "null image" && widget.image.isNotEmpty
+                              ? Image(
+                            image: NetworkImage("$baseUrlImage${widget.image}"),
+                            fit: BoxFit.fill,
+                          )
+                              : Image.asset("assets/images/shawarma.png", scale: 2.5.fSize,),
                         ),
-                      );
-                      appState.addEntryItem(numberOfItems.toDouble(), EntryItem(
-                        identifier: "identifier",
-                            parentfield: "entry_items",
-                          parenttype: "Table Order",
-                          item_code: widget.code,
-                          status: "Attending",
-                          notes: "",
-                          qty: numberOfItems.toDouble(),
-                          rate: widget.price,
-                          price_list_rate: widget.price,
-                          amount: numberOfItems * widget.price,
-                          table_description: "${appState.choosenRoom["name"]} (Table)",
-                          doctype: "Order Entry Item"
-                      ));
-                    },
-                    child: const Icon(
-                      Icons.add,
-                      color: Colors.white,
-                    ),
+                      )
+
+                    ],
                   ),
-                ),
-                // Spacer(),
-                Text(
-                  "$numberOfItems",
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, color: Colors.white),
-                ),
-                // Spacer(),
-                SizedBox(
-                  width: 28.h,
-                  height: 28.v,
-                  child: InkWell(
-                    onTap: () {
-                      handleMinus();
-                      appState.deleteOrder(
-                        numberOfItems,
-                        OrderComponent(
-                          number: numberOfItems,
-                          name: widget.name,
-                          price: widget.price,
-                          image: widget.image,
-                        ),
-                      );
-                    },
-                    child: const Icon(
-                      Icons.remove,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ],
-            )
-          ],
+                ],
+              ),
+              // const Spacer(),
+              // Column(
+              //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              //   children: [
+              //     SizedBox(
+              //       width: 28.h,
+              //       height: 28.v,
+              //       child: InkWell(
+              //         onTap: () {
+              //           handlePlus();
+              //           appState.addOrder(
+              //             numberOfItems,
+              //             OrderComponent(
+              //               number: numberOfItems,
+              //               name: widget.name,
+              //               price: widget.price,
+              //               image: widget.image,
+              //             ),
+              //           );
+              //           appState.addEntryItem(numberOfItems.toDouble(), EntryItem(
+              //             identifier: "identifier",
+              //                 parentfield: "entry_items",
+              //               parenttype: "Table Order",
+              //               item_code: widget.code,
+              //               status: "Attending",
+              //               notes: "",
+              //               qty: numberOfItems.toDouble(),
+              //               rate: widget.price,
+              //               price_list_rate: widget.price,
+              //               amount: numberOfItems * widget.price,
+              //               table_description: "${appState.choosenRoom["name"]} (Table)",
+              //               doctype: "Order Entry Item"
+              //           ));
+              //         },
+              //         child: Icon(
+              //           Icons.add,
+              //           color: Colors.white,
+              //           size: 30.fSize,
+              //         ),
+              //       ),
+              //     ),
+              //     // Spacer(),
+              //     Text(
+              //       "$numberOfItems",
+              //       style: TextStyle(
+              //           fontWeight: FontWeight.bold, color: Colors.white, fontSize: 15.fSize),
+              //     ),
+              //     // Spacer(),
+              //     SizedBox(
+              //       width: 28.h,
+              //       height: 28.v,
+              //       child: InkWell(
+              //         onTap: () {
+              //           handleMinus();
+              //           appState.deleteOrder(
+              //             numberOfItems,
+              //             OrderComponent(
+              //               number: numberOfItems,
+              //               name: widget.name,
+              //               price: widget.price,
+              //               image: widget.image,
+              //             ),
+              //           );
+              //         },
+              //         child: Icon(
+              //           Icons.remove,
+              //           color: Colors.white,
+              //           size: 30.fSize,
+              //         ),
+              //       ),
+              //     ),
+              //   ],
+              // )
+            ],
+          ),
         ),
       ),
     );

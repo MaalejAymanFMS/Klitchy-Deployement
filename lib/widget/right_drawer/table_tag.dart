@@ -7,6 +7,7 @@ import '../../config/app_colors.dart';
 class TableTag extends StatefulWidget {
   final AppState appState;
   final String? tableName;
+
   const TableTag(this.appState, this.tableName, {super.key});
 
   @override
@@ -37,7 +38,7 @@ class _TableTagState extends State<TableTag> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: SizedBox(
-                    width: 137.h,
+                    width: 134.h,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,28 +46,33 @@ class _TableTagState extends State<TableTag> {
                         Text(
                           "Table ${widget.tableName ?? "2"}",
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.white),
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              fontSize: 15.fSize),
                         ),
                         SizedBox(
                           height: 10.v,
                         ),
-                        const Text(
+                        Text(
                           "Samira A.",
-                          style: TextStyle(color: AppColors.secondaryTextColor),
+                          style: TextStyle(
+                              color: AppColors.secondaryTextColor,
+                              fontSize: 15.fSize),
                         )
                       ],
                     ),
                   ),
                 ),
-                const Icon(
+                Icon(
                   Icons.keyboard_arrow_down_outlined,
                   color: AppColors.secondaryTextColor,
+                  size: 30.fSize,
                 )
               ],
             ),
           ),
           Container(
-            width: 66.h,
+            width: 64.h,
             height: 94.v,
             decoration: BoxDecoration(
                 border: Border.all(
@@ -76,10 +82,11 @@ class _TableTagState extends State<TableTag> {
             child: Image.asset(
               "assets/images/tag.png",
               color: AppColors.secondaryTextColor,
+              scale: 2.2.fSize,
             ),
           ),
           Container(
-            width: 66.h,
+            width: 64.h,
             height: 94.v,
             decoration: BoxDecoration(
               border: Border.all(
@@ -90,6 +97,7 @@ class _TableTagState extends State<TableTag> {
             child: Image.asset(
               "assets/images/modify.png",
               color: AppColors.secondaryTextColor,
+              scale: 2.2.fSize,
             ),
           ),
           InkWell(
@@ -97,7 +105,7 @@ class _TableTagState extends State<TableTag> {
               widget.appState.deleteAllOrders();
             },
             child: Container(
-              width: 66.h,
+              width: 64.h,
               height: 94.v,
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.only(
@@ -113,6 +121,7 @@ class _TableTagState extends State<TableTag> {
               child: Image.asset(
                 "assets/images/trash.png",
                 color: Colors.white,
+                scale: 2.2.fSize,
               ),
             ),
           ),

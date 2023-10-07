@@ -50,8 +50,8 @@ class ItemCategorie extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 name,
-                style: const TextStyle(
-                    fontWeight: FontWeight.bold, color: Colors.white),
+                style: TextStyle(
+                    fontWeight: FontWeight.bold, color: Colors.white, fontSize: 15.fSize),
               ),
             ),
             const Spacer(),

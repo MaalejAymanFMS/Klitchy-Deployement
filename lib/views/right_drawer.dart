@@ -106,9 +106,9 @@ class _RightDrawerState extends State<RightDrawer> {
                   ? SingleChildScrollView(
                 child: Column(
                   children: [
-                    const Text(
+                    Text(
                       "Items",
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: Colors.white, fontSize: 15.fSize),
                     ),
                     Column(
                       children: appState.orders.map((order) {

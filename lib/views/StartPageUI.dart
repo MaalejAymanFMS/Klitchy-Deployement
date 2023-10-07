@@ -44,6 +44,7 @@ class StartPageUIState extends State<StartPageUI> {
       List.generate(6 * 6, (index) => Container());
 
   final interactor = getIt<StartPageInterractor>();
+  DeleteTable? res;
   List<double> tableRotation = [0, 90, 180, 270];
   int currentIndex = 0;
   String tableName = '';
@@ -300,10 +301,10 @@ class StartPageUIState extends State<StartPageUI> {
                                                               CrossAxisAlignment
                                                                   .start,
                                                           children: [
-                                                            const Text(
+                                                            Text(
                                                               "Choose number of places:",
                                                               style: TextStyle(
-                                                                  fontSize: 24),
+                                                                  fontSize: 24.fSize),
                                                             ),
                                                             Row(
                                                               mainAxisAlignment:
@@ -313,32 +314,32 @@ class StartPageUIState extends State<StartPageUI> {
                                                                 keyboardButton(
                                                                     "2",
                                                                     setState),
-                                                                const SizedBox(
-                                                                  width: 10,
+                                                                SizedBox(
+                                                                  width: 10.h,
                                                                 ),
                                                                 keyboardButton(
                                                                     "3",
                                                                     setState),
-                                                                const SizedBox(
-                                                                  width: 10,
+                                                                SizedBox(
+                                                                  width: 10.h,
                                                                 ),
                                                                 keyboardButton(
                                                                     "4",
                                                                     setState),
-                                                                const SizedBox(
-                                                                  width: 10,
+                                                                SizedBox(
+                                                                  width: 10.h,
                                                                 ),
                                                                 keyboardButton(
                                                                     "6",
                                                                     setState),
-                                                                const SizedBox(
-                                                                  width: 10,
+                                                                SizedBox(
+                                                                  width: 10.h,
                                                                 ),
                                                                 keyboardButton(
                                                                     "8",
                                                                     setState),
-                                                                const SizedBox(
-                                                                  width: 50,
+                                                                SizedBox(
+                                                                  width: 50.h,
                                                                 ),
                                                                 this
                                                                     .widget
@@ -351,11 +352,11 @@ class StartPageUIState extends State<StartPageUI> {
                                                             ),
                                                             Row(
                                                               children: [
-                                                                const Text(
+                                                                Text(
                                                                   "Choose the rotation: ",
                                                                   style: TextStyle(
                                                                       fontSize:
-                                                                          24),
+                                                                          24.fSize),
                                                                 ),
                                                                 IconButton(
                                                                   onPressed:
@@ -368,9 +369,9 @@ class StartPageUIState extends State<StartPageUI> {
                                                                     setState(
                                                                         () {});
                                                                   },
-                                                                  icon: const Icon(
+                                                                  icon: Icon(
                                                                       Icons
-                                                                          .rotate_90_degrees_ccw),
+                                                                          .rotate_90_degrees_ccw, size: 30.fSize,),
                                                                 ),
                                                               ],
                                                             ),
@@ -399,7 +400,7 @@ class StartPageUIState extends State<StartPageUI> {
                                               },
                                             );
                                           },
-                                          icon: const Icon(Icons.add),
+                                          icon: Icon(Icons.add, size: 30.fSize,),
                                         ),
                                 ),
                               ),
@@ -426,7 +427,7 @@ class StartPageUIState extends State<StartPageUI> {
           SizedBox(
             width: appState.isWidgetEnabled
                 ? 12.h
-                : MediaQuery.of(context).size.width / 5.85.h,
+                : 12.h,
           ),
           !widget.room
               ? RightDrawerVM(tableName, tableId)
@@ -490,7 +491,6 @@ class StartPageUIState extends State<StartPageUI> {
   }
 
   void _handleDelete(int index, Widget data) async {
-    DeleteTable? res;
     if (data is TableTwo) {
       res = await interactor.deleteTable(data.id!);
       widget.appState.deleteTableTimer(data.id!);
@@ -510,6 +510,8 @@ class StartPageUIState extends State<StartPageUI> {
     setState(() {
       if (res?.message == "ok") {
         _gridChildren[index] = Container();
+      } else if(res?.message == "You can't delete this table") {
+
       }
     });
   }
@@ -522,7 +524,7 @@ class StartPageUIState extends State<StartPageUI> {
       },
       child: Text(
         label,
-        style: const TextStyle(fontSize: 30, color: AppColors.dark01Color),
+        style: TextStyle(fontSize: 30.fSize, color: AppColors.dark01Color),
       ),
     );
   }
@@ -538,12 +540,12 @@ class StartPageUIState extends State<StartPageUI> {
           context: context,
           builder: (_) {
             return AlertDialog(
-              title: const Text("Table menu"),
+              title: Text("Table menu", style: TextStyle(fontSize: 15.fSize),),
               content: SizedBox(
                 height: 300.v,
                 child: Column(
                   children: [
-                    Text("table number: ${index + 1}"),
+                    Text("table number: ${index + 1}", style: TextStyle(fontSize: 15.fSize),),
                     const Spacer(),
                     CustomButton(
                       text: "add order",
@@ -564,7 +566,7 @@ class StartPageUIState extends State<StartPageUI> {
                       widget.appState.deleteTable();
                       Navigator.pop(context);
                     },
-                    child: const Text("delete"))
+                    child: Text("delete", style: TextStyle(fontSize: 15.fSize),))
               ],
             );
           },

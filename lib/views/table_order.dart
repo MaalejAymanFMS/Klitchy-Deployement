@@ -122,15 +122,14 @@ class TableOrderState extends State<TableOrder> {
           children: [
             Text(
               "Find items in $categorieName",
-              style:
-                  const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 15.fSize),
             ),
             SizedBox(
               height: 10.v,
             ),
             Text(
               "${listItems.length} Variation",
-              style: const TextStyle(color: AppColors.secondaryTextColor),
+              style: TextStyle(color: AppColors.secondaryTextColor, fontSize: 15.fSize),
             ),
           ],
         ),

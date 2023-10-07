@@ -33,8 +33,8 @@ class Room extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, color: Colors.white),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.white, fontSize: 15.fSize),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -48,16 +48,16 @@ class Room extends StatelessWidget {
                     SizedBox(
                       width: 5.h,
                     ),
-                    const Text("online",
+                    Text("online",
                         style: TextStyle(
                             fontWeight: FontWeight.normal,
-                            color: AppColors.secondaryTextColor)),
+                            color: AppColors.secondaryTextColor, fontSize: 15.fSize)),
                   ],
                 ),
               ],
             ),
             const Spacer(),
-            const Icon(Icons.arrow_forward_ios, color: Colors.white),
+            Icon(Icons.arrow_forward_ios, color: Colors.white, size: 30.fSize),
           ],
         ),
       ),

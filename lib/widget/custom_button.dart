@@ -59,7 +59,7 @@ class CustomButton extends StatelessWidget {
               padding: EdgeInsetsDirectional.only(start: 30.h),
               child: Image.asset(
                 icon!,
-                height: 18.v,
+                scale: 2.fSize,
               ),
             ),
           if (icon != null)
@@ -75,7 +75,7 @@ class CustomButton extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: textStyle ??
                   Theme.of(context).textTheme.bodyText1?.copyWith(
-                    fontSize: 14,
+                    fontSize: 14.fSize,
                     color: backgroundColor !=
                         Theme.of(context).scaffoldBackgroundColor
                         ? Theme.of(context).scaffoldBackgroundColor

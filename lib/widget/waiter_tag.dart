@@ -34,7 +34,7 @@ class WaiterTag extends StatelessWidget {
             child: Image.asset("assets/images/$image"),
           ),
           SizedBox(width: 30.h,),
-          Text(name),
+          Text(name, style: TextStyle(fontSize: 15.fSize),),
         ],
       ),
     );

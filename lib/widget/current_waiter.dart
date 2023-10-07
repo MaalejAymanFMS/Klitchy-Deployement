@@ -23,10 +23,10 @@ class CurrentWaiter extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
+              Text(
                 "Dhea",
                 style:
-                    TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+                    TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 15.fSize),
               ),
               Row(
                 children: [
@@ -39,19 +39,19 @@ class CurrentWaiter extends StatelessWidget {
                   SizedBox(
                     width: 5.h,
                   ),
-                  const Text("Active Now",
+                  Text("Active Now",
                       style: TextStyle(
                           fontWeight: FontWeight.normal,
-                          color: AppColors.secondaryTextColor)),
+                          color: AppColors.secondaryTextColor, fontSize: 15.fSize)),
                 ],
               ),
             ],
           ),
           const Spacer(),
-          const Icon(
+          Icon(
             Icons.keyboard_arrow_down,
             color: AppColors.secondaryTextColor,
-            size: 24,
+            size: 24.fSize,
           ),
         ],
       ),

@@ -18,16 +18,16 @@ class AvailableWaiters extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
+            Text(
               "Available waiters",
               style:
-                  TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+                  TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 15.fSize),
             ),
             Text(
               "$roomName : $tablesNumber Tables",
-              style: const TextStyle(
+              style: TextStyle(
                   fontWeight: FontWeight.normal,
-                  color: AppColors.secondaryTextColor),
+                  color: AppColors.secondaryTextColor, fontSize: 15.fSize),
             ),
           ],
         ),
