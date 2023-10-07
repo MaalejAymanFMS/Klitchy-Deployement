@@ -69,9 +69,10 @@ class AppState extends ChangeNotifier {
           widget.name == orderWidget.name && widget.price == orderWidget.price,
     );
     if (existingWidgetIndex != -1 && number > 0) {
-      _orders.elementAt(existingWidgetIndex).number = number;
-    } else {
+      _orders.elementAt(existingWidgetIndex).number -= 1;
+    if(_orders.elementAt(existingWidgetIndex).number == 0) {
       _orders.removeAt(existingWidgetIndex);
+    }
     }
     notifyListeners();
   }

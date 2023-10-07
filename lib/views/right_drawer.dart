@@ -117,6 +117,11 @@ class _RightDrawerState extends State<RightDrawer> {
                             if(appState.enabledNotes) {
                               showOrderDetails(order, appState);
                             }
+                            if(appState.enabledDelete) {
+                              print("delete enabled");
+                              print(appState.orders);
+                              appState.deleteOrder(order.number, order);
+                            }
                           },
                           child: order,
                         );
