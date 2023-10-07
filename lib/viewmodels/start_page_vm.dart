@@ -37,8 +37,6 @@ class StartPageVMState extends State<StartPageVM> implements StartPageInterracto
     final response = await http
         .post(Uri.parse("$baseUrl/resource/Restaurant%20Object"),
         headers: headers, body: json.encode(body));
-    print(response.statusCode);
-
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body);
       final data = tb.AddTable.fromJson(jsonResponse);
@@ -90,8 +88,6 @@ class StartPageVMState extends State<StartPageVM> implements StartPageInterracto
     final response = await http
         .delete(Uri.parse("$baseUrl/resource/Restaurant%20Object/$id"),
         headers: headers);
-    print(response.statusCode);
-
     if (response.statusCode == 202) {
       final jsonResponse = json.decode(response.body);
       final data = tb.DeleteTable.fromJson(jsonResponse);
@@ -113,8 +109,6 @@ class StartPageVMState extends State<StartPageVM> implements StartPageInterracto
     final response = await http
         .put(Uri.parse("$baseUrl/resource/Restaurant%20Object/$id"),
         headers: headers, body: json.encode(body));
-    print(response.statusCode);
-
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body);
       final data = tb.AddTable.fromJson(jsonResponse);

@@ -85,19 +85,22 @@ class _TableTagState extends State<TableTag> {
               scale: 2.2.fSize,
             ),
           ),
-          Container(
-            width: 64.h,
-            height: 94.v,
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: AppColors.primaryColor,
-                width: 1.h,
+          InkWell(
+            onTap: () => widget.appState.enablecNotes,
+            child: Container(
+              width: 64.h,
+              height: 94.v,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: AppColors.primaryColor,
+                  width: 1.h,
+                ),
               ),
-            ),
-            child: Image.asset(
-              "assets/images/modify.png",
-              color: AppColors.secondaryTextColor,
-              scale: 2.2.fSize,
+              child: Image.asset(
+                "assets/images/modify.png",
+                color: AppColors.secondaryTextColor,
+                scale: 2.2.fSize,
+              ),
             ),
           ),
           InkWell(

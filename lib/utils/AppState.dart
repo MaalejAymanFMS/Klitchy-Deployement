@@ -10,7 +10,7 @@ import 'package:klitchyapp/widget/tables/table_6.dart';
 import 'package:klitchyapp/widget/tables/table_8.dart';
 
 class AppState extends ChangeNotifier {
-  //toggle the drawer
+  ///toggle the drawer
   bool _isWidgetEnabled = true;
 
   bool get isWidgetEnabled => _isWidgetEnabled;
@@ -20,7 +20,7 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  //number of tables
+  ///number of tables
   int _numberOfTables = 0;
 
   int get numberOfTables => _numberOfTables;
@@ -42,7 +42,7 @@ class AppState extends ChangeNotifier {
     }
   }
 
-  //orders
+  ///orders
   List<OrderComponent> _orders = [];
 
   List<OrderComponent> get orders => _orders;
@@ -82,7 +82,7 @@ class AppState extends ChangeNotifier {
     }
     notifyListeners();
   }
-
+  ///notes
   void updateOrderNote(String orderName, String newNote) {
     final orderToUpdate = _orders.firstWhere(
       (order) => order.name == orderName,
@@ -91,7 +91,16 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  // categories
+  bool _enablecNotes = false;
+  bool get enablecNotes => _enablecNotes;
+  void enableNotes() {
+    _enablecNotes != _enablecNotes;
+    notifyListeners();
+  }
+
+
+
+  /// categories
   List<Item> _categorieClicked = [];
 
   List<Item> get categorieClicked => _categorieClicked;
@@ -106,7 +115,7 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  // room
+  /// room
 
   Map<String, dynamic> _choosenRoom = {};
 
@@ -148,13 +157,12 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  // tables type
+  /// tables type
   Widget _tableType = Container();
 
   Widget get tableType => _tableType;
 
   void changeTableType(String numberPlaces) {
-    print(numberPlaces);
     if (numberPlaces == "2") {
       _tableType = const TableTwo(
         name: '',
@@ -217,7 +225,7 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  //table timer
+  ///table timer
   // Map<String,List<TableTimer>> _tableTimer = {};
   // Map<String,List<TableTimer>> get tableTimer => _tableTimer;
   List<TableTimer> _tableTimer = [];
@@ -246,7 +254,7 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  //entry_items
+  ///entry_items
   List<EntryItem> _entryItems = [];
 
   List<EntryItem> get entryItems => _entryItems;
