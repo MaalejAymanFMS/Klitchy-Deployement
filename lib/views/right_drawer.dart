@@ -114,7 +114,9 @@ class _RightDrawerState extends State<RightDrawer> {
                       children: appState.orders.map((order) {
                         return InkWell(
                           onTap: () {
-                            showOrderDetails(order, appState);
+                            if(appState.enabledNotes) {
+                              showOrderDetails(order, appState);
+                            }
                           },
                           child: order,
                         );
