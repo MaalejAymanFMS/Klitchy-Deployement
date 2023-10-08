@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:klitchyapp/config/app_colors.dart';
 import 'package:klitchyapp/views/gestion_de_table.dart';
 
-
 class PinScreen extends StatefulWidget {
-  
   @override
   _PinScreenState createState() => _PinScreenState();
 }
@@ -14,7 +12,7 @@ class _PinScreenState extends State<PinScreen> {
   String pin = '';
   int filledCircles = 0;
 
-  void addPin (String digit) {
+  void addPin(String digit) {
     setState(() {
       if (pin.length < 4) {
         pin += digit;
@@ -71,53 +69,66 @@ class _PinScreenState extends State<PinScreen> {
               ),
               const SizedBox(height: 20),
               Container(
-                margin: const EdgeInsets.only(bottom: 10.0),
                 child: Row(
-    
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    
                     for (int i = 1; i <= 3; i++) keyboardButton('$i'),
                   ],
                 ),
               ),
+              SizedBox(height: deviceSize.height * 0.02),
               Container(
-                margin: const EdgeInsets.only(bottom: 10.0),
+                // margin: const EdgeInsets.only(right: 10.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-    
                   children: <Widget>[
                     for (int i = 4; i <= 6; i++) keyboardButton('$i'),
-    
                   ],
                 ),
               ),
+              SizedBox(height: deviceSize.height * 0.02),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   for (int i = 7; i <= 9; i++) keyboardButton('$i'),
                 ],
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: deviceSize.height * 0.05),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.lightColor,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 50, vertical: 20),
+                        textStyle: const TextStyle(
+                            fontSize: 30, fontWeight: FontWeight.bold)),
                     onPressed: () {
                       // TODOO impliments services
-                                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => GestionDeTable() ));
-    
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => GestionDeTable()));
+
                       print(pin);
-                      
                     },
-                    child: const Text('Confirm', style: const TextStyle(fontSize: 20, color: AppColors.dark01Color)),
+                    child: const Text('Confirm',
+                        style: const TextStyle(
+                            fontSize: 20, color: AppColors.dark01Color)),
                   ),
                   const SizedBox(width: 20),
                   ElevatedButton(
-                    onPressed: () {
-                      
-                    },
-                    child: const Text('Delete', style: const TextStyle(fontSize: 20, color: AppColors.dark01Color)),
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.lightColor,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 50, vertical: 20),
+                        textStyle: const TextStyle(
+                            fontSize: 30, fontWeight: FontWeight.bold)),
+                    onPressed: () {},
+                    child: const Text('Delete',
+                        style: const TextStyle(
+                            fontSize: 20, color: AppColors.dark01Color)),
                   ),
                 ],
               ),
@@ -130,9 +141,14 @@ class _PinScreenState extends State<PinScreen> {
 
   Widget keyboardButton(String label) {
     return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+          backgroundColor: AppColors.lightColor,
+          padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+          textStyle:
+              const TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
       onPressed: () => addPin(label),
-      child: Text(label, style: const TextStyle(fontSize: 30, color: AppColors.dark01Color)),
-
+      child: Text(label,
+          style: const TextStyle(fontSize: 30, color: AppColors.dark01Color)),
     );
   }
 }
