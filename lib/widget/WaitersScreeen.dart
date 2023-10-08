@@ -15,7 +15,7 @@ class WaitersScreeen extends StatelessWidget {
       width: deviceSize.width * 0.9,
       height: deviceSize.height * 0.6,
 
-      color: Color(0xFF060C18), // Set the background color
+      color: Color(0xFF060C18), 
       child: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,

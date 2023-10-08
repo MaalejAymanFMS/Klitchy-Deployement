@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:klitchyapp/routes/routes.dart';
-import 'package:klitchyapp/utils/AppState.dart';
 import 'package:klitchyapp/utils/locator.dart';
-import 'package:klitchyapp/views/gestion_de_table.dart';
 import 'package:klitchyapp/views/splashScreen.dart';
 import 'package:provider/provider.dart';
+import 'package:klitchyapp/utils/AppState.dart' as UtilAppState;
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +18,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => AppState(),
+      create: (context) => UtilAppState.AppState(),
       child: MaterialApp(
         title: 'Klitchy',
         theme: ThemeData(
