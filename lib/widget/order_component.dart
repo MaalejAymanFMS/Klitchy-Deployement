@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:klitchyapp/utils/AppState.dart';
-import 'package:klitchyapp/utils/constants.dart';
 import 'package:klitchyapp/utils/size_utils.dart';
 import 'package:provider/provider.dart';
 
@@ -11,7 +10,8 @@ class OrderComponent extends StatelessWidget {
   final double price;
   final String image;
   String? note;
-  OrderComponent({Key? key, required this.number, required this.name, required this.price, required this.image, this.note,}) : super (key: key);
+  final String code;
+  OrderComponent({Key? key, required this.number, required this.name, required this.price, required this.image, this.note, required this.code,}) : super (key: key);
 
 
   @override
@@ -35,18 +35,18 @@ class OrderComponent extends StatelessWidget {
                     ),
                     color: AppColors.turquoise.withOpacity(0.4)
                   ),
-                  child: const Icon(Icons.shopping_cart_outlined, color: Colors.white,),
+                  child: Icon(Icons.shopping_cart_outlined, color: Colors.white, size: 30.fSize,),
                 ),
                 SizedBox(width: 30.h,),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
-                      width: 200,
+                      width: 200.h,
                       child: Text(
                         "$number X $name",
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.white, fontSize: 12),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.white, fontSize: 12.fSize),
                         maxLines: 2,
                       ),
                     ),
@@ -61,8 +61,8 @@ class OrderComponent extends StatelessWidget {
                 const Spacer(),
                 Text(
                   "${totalPrice()} TND",
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, color: Colors.white),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.white, fontSize: 12.fSize),
                 ),
               ],
             ),

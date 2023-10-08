@@ -225,4 +225,39 @@ class EntryItem {
       doctype: json?['doctype'],
     );
   }
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'owner': owner,
+      'creation': creation,
+      'modified': modified,
+      'modified_by': modified_by,
+      'parent': parent,
+      'parentfield': parentfield,
+      'parenttype': parenttype,
+      'idx': idx,
+      'docstatus': docstatus,
+      'item_code': item_code,
+      'item_group': item_group,
+      'item_name': item_name,
+      'status': status,
+      'notes': notes,
+      'qty': qty,
+      'rate': rate,
+      'valuation_rate': valuation_rate,
+      'amount': amount,
+      'price_list_rate': price_list_rate,
+      'discount_percentage': discount_percentage,
+      'identifier': identifier,
+      'table_description': table_description,
+      'discount_amount': discount_amount,
+      'tax_amount': tax_amount,
+      'ordered_time': ordered_time,
+      'has_batch_no': has_batch_no,
+      'batch_no': batch_no,
+      'has_serial_no': has_serial_no,
+      'serial_no': serial_no,
+      'doctype': doctype,
+    };
+  }
 }

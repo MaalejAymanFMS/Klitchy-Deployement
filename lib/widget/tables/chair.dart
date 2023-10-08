@@ -57,7 +57,7 @@ class Chair extends StatelessWidget {
               style: TextStyle(
                   color: const Color.fromRGBO(255, 255, 255, 1),
                   fontFamily: 'SF Pro Display',
-                  fontSize: 6,
+                  fontSize: 6.fSize,
                   letterSpacing: 0,
                   fontWeight: FontWeight.normal,
                   height: 0.5.v),

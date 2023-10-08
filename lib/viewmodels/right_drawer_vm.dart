@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:klitchyapp/utils/AppState.dart';
 import 'package:klitchyapp/viewmodels/right_drawer_interractor.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +10,11 @@ import '../views/right_drawer.dart';
 import 'package:http/http.dart' as http;
 class RightDrawerVM extends StatefulWidget {
   final String tableName;
+  final String tableId;
+  final AppState appState;
   const RightDrawerVM(this.tableName,
+      this.tableId,
+      this.appState,
       {super.key});
 
   @override
@@ -19,13 +24,30 @@ class RightDrawerVM extends StatefulWidget {
 class RightDrawerVMState extends State<RightDrawerVM> implements RightDrawerInterractor {
   @override
   Widget build(BuildContext context) {
-    return RightDrawer(tableId: widget.tableName);
+    return RightDrawer(tableName: widget.tableName, tableId: widget.tableId, appState: widget.appState,);
   }
 
   @override
-  Future addOrder(Map<String, dynamic> body) {
-    // TODO: implement addOrder
-    throw UnimplementedError();
+  Future<OrdersP2> addOrder(Map<String, dynamic> body) async {
+    final headers = {
+      "Content-Type": "application/json; charset=utf-8",
+      "Accept": "application/json; charset=utf-8",
+      "Authorization": "Token 82ad2e094492b3a:f24396cdd3d1c46"
+    };
+    final response = await http
+        .post(Uri.parse("$baseUrl/resource/Table%20Order"),
+        headers: headers, body: json.encode(body));
+    print(response.statusCode);
+
+    if (response.statusCode == 200) {
+      final jsonResponse = json.decode(response.body);
+      final data = OrdersP2.fromJson(jsonResponse);
+      return data;
+    } else {
+      final jsonResponse = json.decode(response.body);
+      final data = OrdersP2.fromJson(jsonResponse);
+      return data;
+    }
   }
 
   @override

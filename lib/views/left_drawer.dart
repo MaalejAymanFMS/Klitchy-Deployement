@@ -34,9 +34,11 @@ class _LeftDrawerState extends State<LeftDrawer> {
     for (var i = 0; i < response.data!.length; i++) {
       if(response.data![i].type == 'Room') {
         setState(() {
-          _room.add(
-              Room(response.data![i].description!,
-                  response.data![i].name!, false));
+          if(response.data![i].description! != "Terrasse") {
+            _room.add(
+                Room(response.data![i].description!,
+                    response.data![i].name!, false));
+          }
         });
       }
     }

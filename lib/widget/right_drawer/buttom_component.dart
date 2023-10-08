@@ -5,7 +5,8 @@ import 'package:klitchyapp/widget/custom_button.dart';
 import '../../config/app_colors.dart';
 
 class ButtomComponent extends StatefulWidget {
-  const ButtomComponent({super.key});
+  final Function() onTap;
+  const ButtomComponent({super.key, required this.onTap});
 
   @override
   State<ButtomComponent> createState() => _ButtomComponentState();
@@ -36,16 +37,17 @@ class _ButtomComponentState extends State<ButtomComponent> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.remove_circle_outline,
                       color: AppColors.pink,
+                      size: 30.fSize,
                     ),
                     SizedBox(
                       width: 10.h,
                     ),
-                    const Text(
+                    Text(
                       "Discount",
-                      style: TextStyle(color: AppColors.pink),
+                      style: TextStyle(color: AppColors.pink, fontSize: 15.fSize),
                     )
                   ],
                 ),
@@ -61,72 +63,73 @@ class _ButtomComponentState extends State<ButtomComponent> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.add_card_outlined,
                       color: AppColors.turquoise,
+                      size: 30.fSize,
                     ),
                     SizedBox(
                       width: 10.h,
                     ),
-                    const Text(
+                    Text(
                       "Add amount",
-                      style: TextStyle(color: AppColors.turquoise),
+                      style: TextStyle(color: AppColors.turquoise, fontSize: 15.fSize),
                     )
                   ],
                 ),
               ),
             ],
           ),
-          const Padding(
-            padding: EdgeInsets.all(10.0),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
             child: Row(
               children: [
                 Text(
                   "Subtotal",
                   style: TextStyle(
-                      fontWeight: FontWeight.bold, color: AppColors.textItems),
+                      fontWeight: FontWeight.bold, color: AppColors.textItems, fontSize: 15.fSize),
                 ),
-                Spacer(),
+                const Spacer(),
                 Text(
                   "0.00 TND",
                   style: TextStyle(
-                      fontWeight: FontWeight.bold, color: AppColors.textItems),
+                      fontWeight: FontWeight.bold, color: AppColors.textItems, fontSize: 15.fSize),
                 ),
               ],
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.all(10.0),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
             child: Row(
               children: [
                 Text(
                   "TVA 19%",
                   style: TextStyle(
-                      fontWeight: FontWeight.bold, color: AppColors.textItems),
+                      fontWeight: FontWeight.bold, color: AppColors.textItems, fontSize: 15.fSize),
                 ),
-                Spacer(),
+                const Spacer(),
                 Text(
                   "0.00 TND",
                   style: TextStyle(
-                      fontWeight: FontWeight.bold, color: AppColors.textItems),
+                      fontWeight: FontWeight.bold, color: AppColors.textItems, fontSize: 15.fSize),
                 ),
               ],
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.all(10.0),
+           Padding(
+            padding: const EdgeInsets.all(10.0),
             child: Row(
               children: [
                 Text(
                   "Total",
                   style: TextStyle(
-                      fontWeight: FontWeight.bold, color: Colors.white),
+                      fontWeight: FontWeight.bold, color: Colors.white, fontSize: 15.fSize),
                 ),
-                Spacer(),
+                const Spacer(),
                 Text(
                   "0.00 TND",
                   style: TextStyle(
-                      fontWeight: FontWeight.bold, color: AppColors.textItems),
+                      fontWeight: FontWeight.bold, color: AppColors.textItems, fontSize: 15.fSize),
                 ),
               ],
             ),
@@ -134,10 +137,11 @@ class _ButtomComponentState extends State<ButtomComponent> {
           const Spacer(),
           Padding(
             padding: EdgeInsets.only(left: 20.h, right: 20.h, bottom: 20.v),
-            child: const CustomButton(
+            child: CustomButton(
               backgroundColor: AppColors.greenColor,
               icon: "assets/images/arrow_forward.png",
               text: "Start Orders",
+              onTap: widget.onTap,
             ),
           )
         ],

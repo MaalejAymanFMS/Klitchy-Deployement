@@ -36,16 +36,16 @@ class RoomsState extends State<Rooms> {
         children: [
           Column(
             children: [
-              const Text(
+              Text(
                 "Rooms",
                 style:
-                    TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+                    TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 15.fSize),
               ),
               Text(
                 "${widget.numberOfRooms} rooms",
-                style: const TextStyle(
+                style: TextStyle(
                     fontWeight: FontWeight.normal,
-                    color: AppColors.secondaryTextColor),
+                    color: AppColors.secondaryTextColor, fontSize: 15.fSize),
               ),
             ],
           ),
@@ -56,7 +56,7 @@ class RoomsState extends State<Rooms> {
                   context: context,
                   builder: (_) {
                     return AlertDialog(
-                      title: const Text("Rooms form"),
+                      title: Text("Rooms form", style: TextStyle(fontSize: 15.fSize),),
                       content: SizedBox(
                           height: 550.v,
                           child: Form(
@@ -68,7 +68,7 @@ class RoomsState extends State<Rooms> {
                                 controller: widget.roomNameControllr,
                               ),
                               SizedBox(
-                                height: 100.v,
+                                height: 70.v,
                               ),
                               _isLoading
                                   ? const Center(
@@ -118,7 +118,7 @@ class RoomsState extends State<Rooms> {
                     );
                   });
             },
-            child: const Icon(Icons.add, color: Colors.white),
+            child: Icon(Icons.add, color: Colors.white, size: 30.fSize,),
           ),
         ],
       ),

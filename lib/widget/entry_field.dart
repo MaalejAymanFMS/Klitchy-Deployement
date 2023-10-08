@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:klitchyapp/utils/size_utils.dart';
 
 import '../config/app_colors.dart';
 
@@ -49,12 +50,12 @@ class EntryField extends StatelessWidget {
                 .bodyLarge!
                 .copyWith(fontSize: 12, color: Colors.black),
           ),
-        if (label != null) const SizedBox(height: 16),
+        if (label != null)  SizedBox(height: 16.h),
         TextFormField(
           textAlign: textAlign ?? TextAlign.start,
           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                 color: Colors.black,
-                fontSize: 12,
+                fontSize: 12.fSize,
               ),
           initialValue: initialValue,
           decoration: InputDecoration(
@@ -69,9 +70,9 @@ class EntryField extends StatelessWidget {
             hintText: hintText ?? '',
             hintStyle: const TextStyle(color: AppColors.secondaryTextColor, ),
             // Theme.of(context).textTheme.bodySmall,
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 22,
-              vertical: 20,
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: 22.h,
+              vertical: 20.v,
             ),
           ),
           keyboardType: keyboardType,

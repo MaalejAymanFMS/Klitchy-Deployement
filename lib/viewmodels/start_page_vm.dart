@@ -6,6 +6,7 @@ import 'package:klitchyapp/utils/AppState.dart';
 import 'package:klitchyapp/viewmodels/start_page_interractor.dart';
 import 'package:http/http.dart' as http;
 import 'package:klitchyapp/views/StartPageUI.dart';
+import 'package:klitchyapp/widget/waiterWidget.dart';
 
 import '../utils/constants.dart';
 class StartPageVM extends StatefulWidget {
@@ -36,8 +37,6 @@ class StartPageVMState extends State<StartPageVM> implements StartPageInterracto
     final response = await http
         .post(Uri.parse("$baseUrl/resource/Restaurant%20Object"),
         headers: headers, body: json.encode(body));
-    print(response.statusCode);
-
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body);
       final data = tb.AddTable.fromJson(jsonResponse);
@@ -89,16 +88,14 @@ class StartPageVMState extends State<StartPageVM> implements StartPageInterracto
     final response = await http
         .delete(Uri.parse("$baseUrl/resource/Restaurant%20Object/$id"),
         headers: headers);
-    print(response.statusCode);
-
     if (response.statusCode == 202) {
       final jsonResponse = json.decode(response.body);
       final data = tb.DeleteTable.fromJson(jsonResponse);
       return data;
+    } else if(statusCode == 417) {
+      return tb.DeleteTable(message: "You can't delete this table");
     } else {
-      final jsonResponse = json.decode(response.body);
-      final data = tb.DeleteTable.fromJson(jsonResponse);
-      return data;
+      return tb.DeleteTable(message: "Server error");
     }
   }
 
@@ -112,8 +109,6 @@ class StartPageVMState extends State<StartPageVM> implements StartPageInterracto
     final response = await http
         .put(Uri.parse("$baseUrl/resource/Restaurant%20Object/$id"),
         headers: headers, body: json.encode(body));
-    print(response.statusCode);
-
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body);
       final data = tb.AddTable.fromJson(jsonResponse);

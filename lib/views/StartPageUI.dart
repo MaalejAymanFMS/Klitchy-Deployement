@@ -44,9 +44,13 @@ class StartPageUIState extends State<StartPageUI> {
       List.generate(6 * 6, (index) => Container());
 
   final interactor = getIt<StartPageInterractor>();
+  DeleteTable? res;
   List<double> tableRotation = [0, 90, 180, 270];
   int currentIndex = 0;
   String tableName = '';
+  String tableId = '';
+  bool _dataFetched = false;
+  String _fetchedRoomName = "false";
 
   double tableRotationFunction() {
     final rotation = tableRotation[currentIndex];
@@ -84,8 +88,9 @@ class StartPageUIState extends State<StartPageUI> {
     };
     await interactor.updateTable(body, id);
   }
-
+  int i = 0;
   void fetchTables() async {
+    i += 1;
     Map<String, dynamic> params = {
       "fields": ["name", "description", "data_style"],
       "filters": [
@@ -108,7 +113,7 @@ class StartPageUIState extends State<StartPageUI> {
         _gridChildren = List.generate(6 * 6, (index) => Container());
       });
       setState(() {
-        if (widget.name != "Game On") {
+        if (widget.name != "Terrasse") {
           for (var i = 0; i < response.data!.length; i++) {
             List<String> parts = response.data![i].description!.split('-');
             if (parts[0] == "T2") {
@@ -120,7 +125,7 @@ class StartPageUIState extends State<StartPageUI> {
                         id: response.data![i].name,
                         name: response.data![i].description!,
                       ),
-                      response.data![i].description!),
+                      response.data![i].description!, response.data![i].name!),
                   onDraggableCanceled: (widget) =>
                       _handleDragCancelled(widget));
               widget.appState.addTableTimer(TableTimer(
@@ -138,7 +143,7 @@ class StartPageUIState extends State<StartPageUI> {
                         id: response.data![i].name,
                         name: response.data![i].description!,
                       ),
-                      response.data![i].description!),
+                      response.data![i].description!, response.data![i].name!),
                   onDraggableCanceled: (widget) =>
                       _handleDragCancelled(widget));
               widget.appState.addTableTimer(TableTimer(
@@ -156,7 +161,7 @@ class StartPageUIState extends State<StartPageUI> {
                         id: response.data![i].name,
                         name: response.data![i].description!,
                       ),
-                      response.data![i].description!),
+                      response.data![i].description!, response.data![i].name!),
                   onDraggableCanceled: (widget) =>
                       _handleDragCancelled(widget));
               widget.appState.addTableTimer(TableTimer(
@@ -173,7 +178,7 @@ class StartPageUIState extends State<StartPageUI> {
                           rotation: double.parse(parts[2]),
                           id: response.data![i].name,
                           name: response.data![i].description!),
-                      response.data![i].description!),
+                      response.data![i].description!, response.data![i].name!),
                   onDraggableCanceled: (widget) =>
                       _handleDragCancelled(widget));
               widget.appState.addTableTimer(TableTimer(
@@ -190,7 +195,7 @@ class StartPageUIState extends State<StartPageUI> {
                           rotation: double.parse(parts[2]),
                           id: response.data![i].name,
                           name: response.data![i].description!),
-                      response.data![i].description!),
+                      response.data![i].description!, response.data![i].name!),
                   onDraggableCanceled: (widget) =>
                       _handleDragCancelled(widget));
               widget.appState.addTableTimer(TableTimer(
@@ -217,8 +222,25 @@ class StartPageUIState extends State<StartPageUI> {
 
   @override
   void didChangeDependencies() {
-    fetchTables();
+    if (!_dataFetched) {
+      fetchTables();
+      setState(() {
+        _fetchedRoomName = widget.name;
+        if(i>=2) {
+          _dataFetched = true;
+        }
+      });
+  }
     super.didChangeDependencies();
+  }
+  @override
+  void didUpdateWidget(covariant StartPageUI oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.name != _fetchedRoomName) {
+      _dataFetched = false;
+      _fetchedRoomName = widget.name;
+      widget.appState.tableTimer = [];
+    }
   }
 
   @override
@@ -279,10 +301,10 @@ class StartPageUIState extends State<StartPageUI> {
                                                               CrossAxisAlignment
                                                                   .start,
                                                           children: [
-                                                            const Text(
+                                                            Text(
                                                               "Choose number of places:",
                                                               style: TextStyle(
-                                                                  fontSize: 24),
+                                                                  fontSize: 24.fSize),
                                                             ),
                                                             Row(
                                                               mainAxisAlignment:
@@ -292,32 +314,32 @@ class StartPageUIState extends State<StartPageUI> {
                                                                 keyboardButton(
                                                                     "2",
                                                                     setState),
-                                                                const SizedBox(
-                                                                  width: 10,
+                                                                SizedBox(
+                                                                  width: 10.h,
                                                                 ),
                                                                 keyboardButton(
                                                                     "3",
                                                                     setState),
-                                                                const SizedBox(
-                                                                  width: 10,
+                                                                SizedBox(
+                                                                  width: 10.h,
                                                                 ),
                                                                 keyboardButton(
                                                                     "4",
                                                                     setState),
-                                                                const SizedBox(
-                                                                  width: 10,
+                                                                SizedBox(
+                                                                  width: 10.h,
                                                                 ),
                                                                 keyboardButton(
                                                                     "6",
                                                                     setState),
-                                                                const SizedBox(
-                                                                  width: 10,
+                                                                SizedBox(
+                                                                  width: 10.h,
                                                                 ),
                                                                 keyboardButton(
                                                                     "8",
                                                                     setState),
-                                                                const SizedBox(
-                                                                  width: 50,
+                                                                SizedBox(
+                                                                  width: 50.h,
                                                                 ),
                                                                 this
                                                                     .widget
@@ -330,11 +352,11 @@ class StartPageUIState extends State<StartPageUI> {
                                                             ),
                                                             Row(
                                                               children: [
-                                                                const Text(
+                                                                Text(
                                                                   "Choose the rotation: ",
                                                                   style: TextStyle(
                                                                       fontSize:
-                                                                          24),
+                                                                          24.fSize),
                                                                 ),
                                                                 IconButton(
                                                                   onPressed:
@@ -347,9 +369,9 @@ class StartPageUIState extends State<StartPageUI> {
                                                                     setState(
                                                                         () {});
                                                                   },
-                                                                  icon: const Icon(
+                                                                  icon: Icon(
                                                                       Icons
-                                                                          .rotate_90_degrees_ccw),
+                                                                          .rotate_90_degrees_ccw, size: 30.fSize,),
                                                                 ),
                                                               ],
                                                             ),
@@ -378,7 +400,7 @@ class StartPageUIState extends State<StartPageUI> {
                                               },
                                             );
                                           },
-                                          icon: const Icon(Icons.add),
+                                          icon: Icon(Icons.add, size: 30.fSize,),
                                         ),
                                 ),
                               ),
@@ -400,20 +422,20 @@ class StartPageUIState extends State<StartPageUI> {
                       },
                     )
                   : !widget.appState.checkout
-                      ? const TableOrder()
+                      ? TableOrder(appState: appState,)
                       : CheckoutScreen()),
           SizedBox(
             width: appState.isWidgetEnabled
                 ? 12.h
-                : MediaQuery.of(context).size.width / 5.85.h,
+                : 12.h,
           ),
           !widget.room
-              ? RightDrawerVM(tableName)
+              ? RightDrawerVM(tableName, tableId, appState)
               : appState.tableTimer.isNotEmpty
                   ? TableRightDrawer(
                       appState: appState,
                     )
-                  : const SizedBox.shrink(),
+                  : const SizedBox(),
         ],
       ),
     );
@@ -424,22 +446,24 @@ class StartPageUIState extends State<StartPageUI> {
       _gridChildren[index] = DraggableTable(data,
           onDraggableCanceled: (widget) => _handleDragCancelled(widget));
     });
+    setState(() {
     if (data is TableTwo) {
-      addTable("T2-$index-${data.rotation}", index, index, 2, widget.name,
+      addTable("T2-$index-${data.rotation}-${widget.appState.choosenRoom["name"]}", index, index, 2, widget.name,
           widget.id);
     } else if (data is TableThree) {
-      addTable("T3-$index-${data.rotation}", index, index, 3, widget.name,
+      addTable("T3-$index-${data.rotation}-${widget.appState.choosenRoom["name"]}", index, index, 3, widget.name,
           widget.id);
     } else if (data is TableFour) {
-      addTable("T4-$index-${data.rotation}", index, index, 4, widget.name,
+      addTable("T4-$index-${data.rotation}-${widget.appState.choosenRoom["name"]}", index, index, 4, widget.name,
           widget.id);
     } else if (data is TableSix) {
-      addTable("T6-$index-${data.rotation}", index, index, 6, widget.name,
+      addTable("T6-$index-${data.rotation}-${widget.appState.choosenRoom["name"]}", index, index, 6, widget.name,
           widget.id);
     } else if (data is TableEight) {
-      addTable("T8-$index-${data.rotation}", index, index, 8, widget.name,
+      addTable("T8-$index-${data.rotation}-${widget.appState.choosenRoom["name"]}", index, index, 8, widget.name,
           widget.id);
     }
+    });
   }
 
   void _handleUpdate(Widget data, int index) {
@@ -469,7 +493,6 @@ class StartPageUIState extends State<StartPageUI> {
   }
 
   void _handleDelete(int index, Widget data) async {
-    DeleteTable? res;
     if (data is TableTwo) {
       res = await interactor.deleteTable(data.id!);
       widget.appState.deleteTableTimer(data.id!);
@@ -489,6 +512,8 @@ class StartPageUIState extends State<StartPageUI> {
     setState(() {
       if (res?.message == "ok") {
         _gridChildren[index] = Container();
+      } else if(res?.message == "You can't delete this table") {
+
       }
     });
   }
@@ -501,12 +526,12 @@ class StartPageUIState extends State<StartPageUI> {
       },
       child: Text(
         label,
-        style: const TextStyle(fontSize: 30, color: AppColors.dark01Color),
+        style: TextStyle(fontSize: 30.fSize, color: AppColors.dark01Color),
       ),
     );
   }
 
-  GestureDetector gestureDetector(int index, Widget child, String id) {
+  GestureDetector gestureDetector(int index, Widget child, String id, String name) {
     return GestureDetector(
       onDoubleTap: () {
         _handleDelete(index, child);
@@ -517,18 +542,19 @@ class StartPageUIState extends State<StartPageUI> {
           context: context,
           builder: (_) {
             return AlertDialog(
-              title: const Text("Table menu"),
+              title: Text("Table menu", style: TextStyle(fontSize: 15.fSize),),
               content: SizedBox(
                 height: 300.v,
                 child: Column(
                   children: [
-                    Text("table number: ${index + 1}"),
+                    Text("table number: ${index + 1}", style: TextStyle(fontSize: 15.fSize),),
                     const Spacer(),
                     CustomButton(
                       text: "add order",
                       onTap: () {
-                        tableName = id;
-                        this.widget.appState.switchOrder();
+                        tableName = name;
+                        tableId = id;
+                        widget.appState.switchOrder();
                         Navigator.pop(context);
                       },
                     ),
@@ -542,7 +568,7 @@ class StartPageUIState extends State<StartPageUI> {
                       widget.appState.deleteTable();
                       Navigator.pop(context);
                     },
-                    child: const Text("delete"))
+                    child: Text("delete", style: TextStyle(fontSize: 15.fSize),))
               ],
             );
           },

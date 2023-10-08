@@ -19,7 +19,7 @@ class TablOrderPageState extends State<TablOrderPage> implements TableOrderInter
 
   @override
   Widget build(BuildContext context) {
-    return TableOrder();
+    return Placeholder();
   }
 
   @override

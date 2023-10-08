@@ -33,11 +33,11 @@ class TableTimer extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  width: 200,
+                  width: 200.h,
                   child: Text(
                     tableName!,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold, color: Colors.white, fontSize: 12),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.white, fontSize: 12.fSize),
                     maxLines: 2,
                   ),
                 ),
@@ -50,10 +50,10 @@ class TableTimer extends StatelessWidget {
                           color: AppColors.secondaryTextColor),
                     ),
                     Text(
-                      '17:22',
-                      style: const TextStyle(
+                      'Timer: 17:22',
+                      style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: AppColors.secondaryTextColor),
+                          color: AppColors.secondaryTextColor, fontSize: 15.fSize),
                     ),
                   ],
                 ),

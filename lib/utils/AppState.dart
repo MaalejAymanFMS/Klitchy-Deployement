@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:klitchyapp/models/items.dart';
+import 'package:klitchyapp/models/orders.dart';
 import 'package:klitchyapp/widget/order_component.dart';
 import 'package:klitchyapp/widget/table_timer.dart';
 import 'package:klitchyapp/widget/tables/table_2.dart';
@@ -9,7 +10,7 @@ import 'package:klitchyapp/widget/tables/table_6.dart';
 import 'package:klitchyapp/widget/tables/table_8.dart';
 
 class AppState extends ChangeNotifier {
-  //toggle the drawer
+  ///toggle the drawer
   bool _isWidgetEnabled = true;
 
   bool get isWidgetEnabled => _isWidgetEnabled;
@@ -19,7 +20,7 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  //number of tables
+  ///number of tables
   int _numberOfTables = 0;
 
   int get numberOfTables => _numberOfTables;
@@ -41,7 +42,7 @@ class AppState extends ChangeNotifier {
     }
   }
 
-  //orders
+  ///orders
   List<OrderComponent> _orders = [];
 
   List<OrderComponent> get orders => _orders;
@@ -68,20 +69,19 @@ class AppState extends ChangeNotifier {
           widget.name == orderWidget.name && widget.price == orderWidget.price,
     );
     if (existingWidgetIndex != -1 && number > 0) {
-      _orders.elementAt(existingWidgetIndex).number = number;
-    } else {
+      _orders.elementAt(existingWidgetIndex).number -= 1;
+    if(_orders.elementAt(existingWidgetIndex).number == 0) {
       _orders.removeAt(existingWidgetIndex);
+    }
     }
     notifyListeners();
   }
 
   void deleteAllOrders() {
-    for (var i = 0; i < _orders.length; i++) {
-      _orders.elementAt(i).number = 0;
-    }
+    _orders.clear();
     notifyListeners();
   }
-
+  ///notes
   void updateOrderNote(String orderName, String newNote) {
     final orderToUpdate = _orders.firstWhere(
       (order) => order.name == orderName,
@@ -90,7 +90,23 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  // categories
+  bool _enabledNotes = false;
+  bool get enabledNotes => _enabledNotes;
+  void enableNotes() {
+    _enabledNotes = !_enabledNotes;
+    notifyListeners();
+  }
+
+  bool _enabledDelete = false;
+  bool get enabledDelete => _enabledDelete;
+  void enableDelete() {
+    _enabledDelete = !_enabledDelete;
+    notifyListeners();
+  }
+
+
+
+  /// categories
   List<Item> _categorieClicked = [];
 
   List<Item> get categorieClicked => _categorieClicked;
@@ -105,7 +121,7 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  // room
+  /// room
 
   Map<String, dynamic> _choosenRoom = {};
 
@@ -147,13 +163,12 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  // tables type
+  /// tables type
   Widget _tableType = Container();
 
   Widget get tableType => _tableType;
 
   void changeTableType(String numberPlaces) {
-    print(numberPlaces);
     if (numberPlaces == "2") {
       _tableType = const TableTwo(
         name: '',
@@ -216,11 +231,14 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  //table timer
+  ///table timer
+  // Map<String,List<TableTimer>> _tableTimer = {};
+  // Map<String,List<TableTimer>> get tableTimer => _tableTimer;
   List<TableTimer> _tableTimer = [];
-
   List<TableTimer> get tableTimer => _tableTimer;
-
+  set tableTimer(List<TableTimer> value) {
+    _tableTimer = value;
+  }
   void addTableTimer(TableTimer tableTimerWidget) {
     final existingWidgetIndex = _tableTimer.indexWhere(
       (widget) =>
@@ -240,5 +258,26 @@ class AppState extends ChangeNotifier {
     _tableTimer.removeAt(existingWidgetIndex);
     print(_tableTimer);
     notifyListeners();
+  }
+
+  ///entry_items
+  List<EntryItem> _entryItems = [];
+
+  List<EntryItem> get entryItems => _entryItems;
+
+  void addEntryItem(double number, EntryItem entryItem) {
+    if (number > 0) {
+      final existingWidgetIndex = _entryItems.indexWhere(
+            (widget) =>
+        widget.name == entryItem.name &&
+            widget.item_code == entryItem.item_code,
+      );
+      if (existingWidgetIndex != -1) {
+        _entryItems.elementAt(existingWidgetIndex).qty = number;
+      } else {
+        _entryItems.add(entryItem);
+      }
+      notifyListeners();
+    }
   }
 }

@@ -3,17 +3,22 @@ import 'package:klitchyapp/utils/AppState.dart';
 import 'package:klitchyapp/utils/size_utils.dart';
 
 import '../../config/app_colors.dart';
+import '../../models/orders.dart';
 
 class TableTag extends StatefulWidget {
   final AppState appState;
   final String? tableName;
-  const TableTag(this.appState, this.tableName, {super.key});
+  final Function()? delete;
+
+  const TableTag(this.appState, this.tableName, this.delete, {super.key});
 
   @override
   State<TableTag> createState() => _TableTagState();
 }
 
 class _TableTagState extends State<TableTag> {
+  Color editColor = Colors.transparent;
+  Color deleteColor = Colors.transparent;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -37,7 +42,7 @@ class _TableTagState extends State<TableTag> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: SizedBox(
-                    width: 137.h,
+                    width: 140.1.h,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,28 +50,33 @@ class _TableTagState extends State<TableTag> {
                         Text(
                           "Table ${widget.tableName ?? "2"}",
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.white),
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              fontSize: 15.fSize),
                         ),
                         SizedBox(
                           height: 10.v,
                         ),
-                        const Text(
+                        Text(
                           "Samira A.",
-                          style: TextStyle(color: AppColors.secondaryTextColor),
+                          style: TextStyle(
+                              color: AppColors.secondaryTextColor,
+                              fontSize: 15.fSize),
                         )
                       ],
                     ),
                   ),
                 ),
-                const Icon(
+                Icon(
                   Icons.keyboard_arrow_down_outlined,
                   color: AppColors.secondaryTextColor,
+                  size: 30.fSize,
                 )
               ],
             ),
           ),
           Container(
-            width: 66.h,
+            width: 64.h,
             height: 94.v,
             decoration: BoxDecoration(
                 border: Border.all(
@@ -75,29 +85,70 @@ class _TableTagState extends State<TableTag> {
             )),
             child: Image.asset(
               "assets/images/tag.png",
-              color: AppColors.secondaryTextColor,
-            ),
-          ),
-          Container(
-            width: 66.h,
-            height: 94.v,
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: AppColors.primaryColor,
-                width: 1.h,
-              ),
-            ),
-            child: Image.asset(
-              "assets/images/modify.png",
-              color: AppColors.secondaryTextColor,
+              color: Colors.white,
+              scale: 2.2.fSize,
             ),
           ),
           InkWell(
             onTap: () {
-              widget.appState.deleteAllOrders();
+              widget.appState.enableNotes();
+              setState(() {
+                if(widget.appState.enabledNotes) {
+                  editColor = AppColors.redColor;
+                } else {
+                  editColor = Colors.transparent;
+                }
+              });
+              },
+            child: Container(
+              width: 64.h,
+              height: 94.v,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: AppColors.primaryColor,
+                  width: 1.h,
+                ),
+                color: editColor,
+              ),
+              child: Image.asset(
+                "assets/images/modify.png",
+                color: Colors.white,
+                scale: 2.2.fSize,
+              ),
+            ),
+          ),
+          InkWell(
+            onTap: () {
+              widget.appState.enableDelete();
+              setState(() {
+                if(widget.appState.enabledDelete) {
+                  deleteColor = AppColors.redColor;
+                } else {
+                  deleteColor = Colors.transparent;
+                  for(var order in widget.appState.orders) {
+                    widget.appState.addEntryItem(
+                        order.number.toDouble(), EntryItem(
+                        identifier: "identifier",
+                        parentfield: "entry_items",
+                        parenttype: "Table Order",
+                        item_code: order.code,
+                        status: "Attending",
+                        notes: "",
+                        qty: order.number.toDouble(),
+                        rate: order.price,
+                        price_list_rate: order.price,
+                        amount: order.price * order.number,
+                        table_description: "${widget.appState
+                            .choosenRoom["name"]} (Table)",
+                        doctype: "Order Entry Item"
+                    ));
+                  }
+                  widget.delete!();
+                }
+              });
             },
             child: Container(
-              width: 66.h,
+              width: 64.h,
               height: 94.v,
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.only(
@@ -108,11 +159,12 @@ class _TableTagState extends State<TableTag> {
                   color: AppColors.primaryColor,
                   width: 1.h,
                 ),
-                color: AppColors.redColor,
+                color: deleteColor,
               ),
               child: Image.asset(
                 "assets/images/trash.png",
                 color: Colors.white,
+                scale: 2.2.fSize,
               ),
             ),
           ),
