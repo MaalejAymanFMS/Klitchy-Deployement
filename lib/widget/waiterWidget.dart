@@ -56,8 +56,8 @@ Future<int> login(emailBody, PasswordBody) async {
 
   // Create the request body
   final Map<String, String> requestBody = {
-    "usr": "waiter01@gameprod.com",
-    "pwd": "gameprod2023",
+    "usr": emailBody,
+    "pwd": PasswordBody,
   };
 
   // Send the POST request
