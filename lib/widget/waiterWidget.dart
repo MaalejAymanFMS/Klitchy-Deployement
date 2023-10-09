@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:klitchyapp/config/app_colors.dart';
 import 'package:klitchyapp/views/gestion_de_table.dart';
@@ -73,6 +73,7 @@ Future<int> login(emailBody, PasswordBody) async {
   if (response.statusCode == 200) {
     // Request was successful, handle the response here
     statusCode = response.statusCode;
+    
     return response.statusCode;
   } else {
     // Request failed, handle the error here
@@ -80,6 +81,7 @@ Future<int> login(emailBody, PasswordBody) async {
     statusCode = response.statusCode;
     return response.statusCode;
   }
+
 }
 
 Future<void> showBadPasswordAlert(BuildContext context, String msg, String title) async {
