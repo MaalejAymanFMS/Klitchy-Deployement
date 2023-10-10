@@ -99,6 +99,7 @@ class _LeftDrawerState extends State<LeftDrawer> {
                     });
                     widget.appState.chooseRoom(room.title, room.id);
                     widget.appState.switchRoom();
+                    widget.appState.switchCheckoutOrder();
                     print(widget.appState.choosenRoom);
                   },
                   child: Room(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:klitchyapp/utils/size_utils.dart';
 import 'package:klitchyapp/viewmodels/room_interactor.dart';
 import 'package:klitchyapp/widget/entry_field.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:virtual_keyboard_2/virtual_keyboard_2.dart';
 
 import '../../config/app_colors.dart';
@@ -79,6 +80,7 @@ class RoomsState extends State<Rooms> {
                                         if (_formkey.currentState!.validate()) {
                                           _formkey.currentState!.save();
                                           setState(() => _isLoading = true);
+                                          SharedPreferences prefs = await SharedPreferences.getInstance();
                                           Map<String, dynamic> body = {
                                             "owner": "pos@gameprod.com", // we need to change this with the email of the current waiter
                                             "idx": 0,
@@ -86,7 +88,7 @@ class RoomsState extends State<Rooms> {
                                             "type": "Room",
                                             "description": widget.roomNameControllr.text,
                                             "room_description": widget.roomNameControllr.text,
-                                            "current_user": "pos@gameprod.com", // we need to change this with the email of the current waiter
+                                            "current_user": prefs.getString("email"), // we need to change this with the email of the current waiter
                                             "doctype": "Restaurant Object"
                                           };
                                           final response =

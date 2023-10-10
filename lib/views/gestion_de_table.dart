@@ -8,6 +8,7 @@ import 'package:klitchyapp/viewmodels/start_page_vm.dart';
 import 'package:klitchyapp/widget/available_waiters.dart';
 import 'package:klitchyapp/widget/current_waiter.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../utils/AppState.dart';
 import '../utils/locator.dart';
 import '../viewmodels/room_interactor.dart';
@@ -29,6 +30,13 @@ class GestionDeTable extends StatefulWidget {
 bool? isDrawerOpen;
 
 class _GestionDeTableState extends State<GestionDeTable> {
+  String nameWaiter = "";
+  fetchPrefs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      nameWaiter = prefs.getString("full_name")!;
+    });
+  }
 
   void _handleDrawer() {
     setState(() {
@@ -39,6 +47,7 @@ class _GestionDeTableState extends State<GestionDeTable> {
   @override
   void initState() {
     isDrawerOpen = false;
+    fetchPrefs();
     super.initState();
   }
 
@@ -77,7 +86,7 @@ class _GestionDeTableState extends State<GestionDeTable> {
                   children: [
                     AvailableWaiters(appState.numberOfTables, appState.choosenRoom["name"] ?? "choose Room"),
                     SizedBox(width: 200.h,),
-                    const CurrentWaiter()
+                    CurrentWaiter(name: nameWaiter,)
                   ],
                 ),
               ),

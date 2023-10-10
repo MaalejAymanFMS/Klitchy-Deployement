@@ -6,7 +6,8 @@ import '../config/app_colors.dart';
 import '../views/homePage.dart';
 
 class CurrentWaiter extends StatelessWidget {
-  const CurrentWaiter({super.key});
+  final String name;
+  const CurrentWaiter({super.key, required this.name});
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +80,7 @@ class CurrentWaiter extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Dhea",
+                  name,
                   style:
                       TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 15.fSize),
                 ),

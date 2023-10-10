@@ -69,6 +69,7 @@ class PinScreenVMState extends State<PinScreenVM> implements PinScreenInteractor
       final jsonResponse = json.decode(response.body);
       final data = Login.fromJson(jsonResponse);
       prefs.setBool("isLoggedIn", true);
+      prefs.setString("full_name", data.fullName!);
       return data;
     } else {
       final jsonResponse = json.decode(response.body);

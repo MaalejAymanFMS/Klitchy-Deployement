@@ -12,6 +12,7 @@ import 'package:klitchyapp/widget/table_timer.dart';
 import 'package:klitchyapp/widget/tables/table_3.dart';
 import 'package:klitchyapp/widget/tables/table_6.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../config/app_colors.dart';
 import '../utils/locator.dart';
@@ -60,6 +61,7 @@ class StartPageUIState extends State<StartPageUI> {
 
   void addTable(String description, int x, int y, int numberOfSeats,
       String roomDescription, String roomID) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     Map<String, dynamic> body = {
       "owner": "pos@gameprod.com",
       "idx": 0,
@@ -72,7 +74,7 @@ class StartPageUIState extends State<StartPageUI> {
       "color": "#1579d0",
       "data_style":
           "{\"x\":$x,\"y\":$y,\"width\":\"94.5454px\",\"height\":\"100px\",\"background-color\":\"#1579d0\"}",
-      "current_user": "pos@gameprod.com",
+      "current_user": prefs.getString("email"),
       "room_description": roomDescription,
       "shape": "Square",
       "doctype": "Restaurant Object",
