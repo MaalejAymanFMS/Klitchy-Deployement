@@ -88,7 +88,7 @@ class ItemState extends State<Item> {
     final headers = {
       "Content-Type": "application/json; charset=utf-8",
       "Accept": "application/json; charset=utf-8",
-      "Authorization": "$token"
+      "Authorization": token
     };
     return GestureDetector(
       onTap: () {

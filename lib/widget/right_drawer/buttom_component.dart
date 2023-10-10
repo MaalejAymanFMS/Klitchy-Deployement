@@ -54,30 +54,39 @@ class _ButtomComponentState extends State<ButtomComponent> {
                   ],
                 ),
               ),
-              Container(
-                width: 191.5.h,
-                height: 41.v,
-                decoration: BoxDecoration(
-                    border: Border.all(
-                  color: AppColors.primaryColor,
-                  width: 1.h,
-                )),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.add_card_outlined,
-                      color: AppColors.turquoise,
-                      size: 30.fSize,
-                    ),
-                    SizedBox(
-                      width: 10.h,
-                    ),
-                    Text(
-                      "Add amount",
-                      style: TextStyle(color: AppColors.turquoise, fontSize: 15.fSize),
-                    )
-                  ],
+              GestureDetector(
+                onTap: () {
+                  if(widget.appState.checkout) {
+                    widget.appState.switchCheckoutOrder();
+                  } else {
+                    widget.appState.switchCheckout();
+                  }
+                },
+                child: Container(
+                  width: 191.5.h,
+                  height: 41.v,
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                    color: AppColors.primaryColor,
+                    width: 1.h,
+                  )),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.add_card_outlined,
+                        color: AppColors.turquoise,
+                        size: 30.fSize,
+                      ),
+                      SizedBox(
+                        width: 10.h,
+                      ),
+                      Text(
+                        "Add amount",
+                        style: TextStyle(color: AppColors.turquoise, fontSize: 15.fSize),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ],

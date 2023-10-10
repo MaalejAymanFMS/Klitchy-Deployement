@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:klitchyapp/config/app_colors.dart';
+import 'package:klitchyapp/utils/AppState.dart';
 
 class CheckoutScreen extends StatefulWidget {
+  final AppState appState;
+  const CheckoutScreen({Key? key, required this.appState}) : super(key: key);
+
   @override
   _CheckoutScreenState createState() => _CheckoutScreenState();
 }
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
-  double totalAmount = 100.0;
+  double totalAmount = 0.0;
   double amountGiven = 0.0;
 
   void onNumberKeyPressed(int number) {
@@ -21,6 +25,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       amountGiven = 0.0;
     });
   }
+  @override
+  void initState() {
+    totalAmount = widget.appState.total;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +42,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              'Total Amount: \$${totalAmount.toStringAsFixed(2)}',
+              'Total Amount: ${totalAmount.toStringAsFixed(2)} TND',
               style: TextStyle(
                 fontSize: 24.0,
                 fontWeight: FontWeight.bold,
@@ -43,7 +52,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             ),
             SizedBox(height: 16.0),
             Text(
-              'Amount Given: \$${amountGiven.toStringAsFixed(2)}',
+              'Amount Given: ${amountGiven.toStringAsFixed(2)} TND',
               style: TextStyle(
                 fontSize: 24.0,
                 color: Color(0xFFf1eaff), // Font color
@@ -58,7 +67,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   //clear container
 
                   InkWell(
-                    onTap: () => amountGiven = 0,
+                    onTap: () => clearAmountGiven(),
                     child: Container(
                       height: deviceSize.height * 0.5,
                       width: deviceSize.width * 0.07,

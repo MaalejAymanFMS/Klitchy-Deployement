@@ -424,7 +424,7 @@ class StartPageUIState extends State<StartPageUI> {
                     )
                   : !widget.appState.checkout
                       ? TableOrder(appState: appState,)
-                      : CheckoutScreen()),
+                      : CheckoutScreen(appState: appState,)),
           SizedBox(
             width: appState.isWidgetEnabled
                 ? 12.h

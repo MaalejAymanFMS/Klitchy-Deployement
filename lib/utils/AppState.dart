@@ -196,7 +196,7 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool _checkout = true;
+  bool _checkout = false;
 
   bool get checkout => _checkout;
 
