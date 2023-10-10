@@ -26,6 +26,7 @@ class PinScreenVMState extends State<PinScreenVM> implements PinScreenInteractor
   Future<User> retrieve(String pin) async {
     final response = await http
         .get(Uri.parse("https://prime-verified-pug.ngrok-free.app//user/get_user_by_pin/$pin")
+        
         );
     print(response.statusCode);
 
