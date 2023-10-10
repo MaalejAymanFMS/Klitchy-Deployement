@@ -56,7 +56,7 @@ class PinScreenVMState extends State<PinScreenVM> implements PinScreenInteractor
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final headers = {
       "Content-Type": "application/json; charset=utf-8",
-      "Accept": "application/json; charset=utf-8","Access-Control-Allow-Origin":"*",
+      "Accept": "application/json; charset=utf-8",
 
     };
     final response = await http

@@ -34,7 +34,7 @@ class RightDrawerVMState extends State<RightDrawerVM> implements RightDrawerInte
     final token = prefs.getString("token");
     final headers = {
       "Content-Type": "application/json; charset=utf-8",
-      "Accept": "application/json; charset=utf-8","Access-Control-Allow-Origin":"*",
+      "Accept": "application/json; charset=utf-8",
       "Authorization": "$token"
     };
     final response = await http

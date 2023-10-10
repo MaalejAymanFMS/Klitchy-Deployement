@@ -47,7 +47,7 @@ class StartPageVMState extends State<StartPageVM>
     final token = prefs.getString("token");
     final headers = {
       "Content-Type": "application/json; charset=utf-8",
-      "Accept": "application/json; charset=utf-8","Access-Control-Allow-Origin":"*",
+      "Accept": "application/json; charset=utf-8",
       "Authorization": "$token"
     };
     final response = await http.post(
@@ -72,7 +72,7 @@ class StartPageVMState extends State<StartPageVM>
     final token = prefs.getString("token");
     final headers = {
       "Content-Type": "application/json; charset=utf-8",
-      "Accept": "application/json; charset=utf-8","Access-Control-Allow-Origin":"*",
+      "Accept": "application/json; charset=utf-8",
       "Authorization": "$token"
     };
 
@@ -105,7 +105,7 @@ class StartPageVMState extends State<StartPageVM>
     final token = prefs.getString("token");
     final headers = {
       "Content-Type": "application/json; charset=utf-8",
-      "Accept": "application/json; charset=utf-8","Access-Control-Allow-Origin":"*",
+      "Accept": "application/json; charset=utf-8",
       "Authorization": "$token"
     };
     final response = await http.delete(
@@ -128,7 +128,7 @@ class StartPageVMState extends State<StartPageVM>
     final token = prefs.getString("token");
     final headers = {
       "Content-Type": "application/json; charset=utf-8",
-      "Accept": "application/json; charset=utf-8","Access-Control-Allow-Origin":"*",
+      "Accept": "application/json; charset=utf-8",
       "Authorization": "$token"
     };
     final response = await http.put(
