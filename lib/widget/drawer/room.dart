@@ -57,7 +57,7 @@ class Room extends StatelessWidget {
               ],
             ),
             const Spacer(),
-            Icon(Icons.arrow_forward_ios, color: Colors.white, size: 30.fSize),
+            Icon(Icons.arrow_forward_ios, color: Colors.white, size: 25.fSize),
           ],
         ),
       ),

@@ -4,9 +4,13 @@ import 'dart:convert'; // Import for working with JSON data
 import 'package:klitchyapp/config/app_colors.dart';
 import 'package:klitchyapp/models/Waiter.dart';
 import 'package:klitchyapp/utils/size_utils.dart';
+import 'package:klitchyapp/views/gestion_de_table.dart';
 import 'package:klitchyapp/widget/WaitersScreeen.dart';
 import 'package:klitchyapp/widget/customSwitchButton.dart';
 import 'package:klitchyapp/widget/pinScreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../viewmodels/pin_screen_vm.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -16,8 +20,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  bool isUserLogin = true;
+  bool isUserLogin = false;
   List<Waiter> waiters = [];
+
 
   @override
   void initState() {
@@ -91,7 +96,7 @@ class _HomePageState extends State<HomePage> {
           ),
           Positioned(
             top: 300.v,
-            child: isUserLogin ? WaitersScreeen(waiters: waiters) : PinScreen(),
+            child: isUserLogin ? const GestionDeTable() : const PinScreenVM(),
           ),
         ],
       ),

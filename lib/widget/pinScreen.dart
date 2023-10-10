@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 
 import 'package:klitchyapp/config/app_colors.dart';
 import 'package:klitchyapp/views/gestion_de_table.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../utils/locator.dart';
+import '../viewmodels/pin_screen_interactor.dart';
 
 class PinScreen extends StatefulWidget {
   @override
@@ -11,6 +15,7 @@ class PinScreen extends StatefulWidget {
 class _PinScreenState extends State<PinScreen> {
   String pin = '';
   int filledCircles = 0;
+  final interactor = getIt<PinScreenInteractor>();
 
   void addPin(String digit) {
     setState(() {
@@ -29,6 +34,7 @@ class _PinScreenState extends State<PinScreen> {
       }
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -98,18 +104,24 @@ class _PinScreenState extends State<PinScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.lightColor,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 50, vertical: 20),
-                        textStyle: const TextStyle(
-                            fontSize: 30, fontWeight: FontWeight.bold)),
-                    onPressed: () {
+                    onPressed: () async {
                       // TODOO impliments services
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
+                      final response = await interactor.retrieve(pin);
+                      if(response.email!.isNotEmpty) {
+                        SharedPreferences prefs = await SharedPreferences.getInstance();
+                        final email = prefs.getString("email");
+                        final password = prefs.getString("password");
+                        Map<String, dynamic> body = {
+                          "usr": email,
+                          "pwd": password,
+                        };
+                        final login = await interactor.login(body);
+                        if(login.message == "Logged In") {
+                          Navigator.pushReplacement(context, MaterialPageRoute(
                               builder: (context) => GestionDeTable()));
+                        }
+                      }
+    
 
                       print(pin);
                     },
@@ -119,16 +131,11 @@ class _PinScreenState extends State<PinScreen> {
                   ),
                   const SizedBox(width: 20),
                   ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.lightColor,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 50, vertical: 20),
-                        textStyle: const TextStyle(
-                            fontSize: 30, fontWeight: FontWeight.bold)),
-                    onPressed: () {},
-                    child: const Text('Delete',
-                        style: const TextStyle(
-                            fontSize: 20, color: AppColors.dark01Color)),
+                    onPressed: () {
+                      removePin();
+                    },
+                    child: const Text('Delete', style: const TextStyle(fontSize: 20, color: AppColors.dark01Color)),
+
                   ),
                 ],
               ),

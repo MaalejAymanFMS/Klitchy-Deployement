@@ -108,7 +108,7 @@ class _TableTagState extends State<TableTag> {
                   color: AppColors.primaryColor,
                   width: 1.h,
                 ),
-                color: editColor,
+                color: widget.appState.enableColorNotes,
               ),
               child: Image.asset(
                 "assets/images/modify.png",
@@ -159,7 +159,7 @@ class _TableTagState extends State<TableTag> {
                   color: AppColors.primaryColor,
                   width: 1.h,
                 ),
-                color: deleteColor,
+                color: widget.appState.enableColorDelete,
               ),
               child: Image.asset(
                 "assets/images/trash.png",

@@ -30,7 +30,7 @@ class ItemCategorie extends StatelessWidget {
           };
         } else {
           params = {
-            "fields": ["item_name", "image", "standard_rate"],
+            "fields": ["item_name", "image", "standard_rate","item_code"],
             "limit_page_length": "None"
           };
         }

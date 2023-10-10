@@ -34,6 +34,7 @@ class _RightDrawerState extends State<RightDrawer> {
   final TextEditingController orderNote = TextEditingController();
   final interactor = getIt<RightDrawerInterractor>();
   List<EntryItem> orders = [];
+  String orderId = "";
   void fetchOrders() async{
     widget.appState.deleteAllOrders();
     Map<String, dynamic> params = {
@@ -47,6 +48,7 @@ class _RightDrawerState extends State<RightDrawer> {
       var orderP2 = await interactor.retrieveTableOrderPart2(
           orderP1.dataP1![0].name!);
       if(orderP2.dataP2!.entryItems!.isNotEmpty) {
+        orderId = orderP1.dataP1![0].name!;
         orders = orderP2.dataP2!.entryItems!;
         for (var order in orders) {
           widget.appState.addOrder(
@@ -82,6 +84,13 @@ class _RightDrawerState extends State<RightDrawer> {
     };
     await interactor.addOrder(body);
   }
+  void updateOrder() async {
+    Map<String, dynamic> body = {
+      "entry_items": widget.appState.entryItems.map((entryMap) => entryMap.toJson()).toList(),
+    };
+    print("update asba: $orderId");
+    await interactor.updateOrder(body, orderId);
+  }
   @override
   void initState() {
     fetchOrders();
@@ -97,7 +106,7 @@ class _RightDrawerState extends State<RightDrawer> {
         padding: EdgeInsets.symmetric(vertical: 10.v),
         child: Column(
           children: [
-            TableTag(widget.appState,widget.tableName, addOrders),
+            TableTag(widget.appState,widget.tableName, orderId.isEmpty ? addOrders : updateOrder),
             Expanded(
               child: widget.appState.orders.isNotEmpty
                   ? SingleChildScrollView(
@@ -127,7 +136,7 @@ class _RightDrawerState extends State<RightDrawer> {
               )
                   : const SizedBox(),
             ),
-            ButtomComponent(onTap: addOrders,),
+            ButtomComponent(onTap: orderId.isEmpty ? addOrders : updateOrder, appState: widget.appState,),
           ],
         ),
       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:klitchyapp/utils/AppState.dart';
 import 'package:klitchyapp/utils/size_utils.dart';
 import 'package:klitchyapp/widget/custom_button.dart';
 
@@ -6,7 +7,8 @@ import '../../config/app_colors.dart';
 
 class ButtomComponent extends StatefulWidget {
   final Function() onTap;
-  const ButtomComponent({super.key, required this.onTap});
+  final AppState appState;
+  const ButtomComponent({super.key, required this.onTap, required this.appState,});
 
   @override
   State<ButtomComponent> createState() => _ButtomComponentState();
@@ -91,7 +93,7 @@ class _ButtomComponentState extends State<ButtomComponent> {
                 ),
                 const Spacer(),
                 Text(
-                  "0.00 TND",
+                  "${widget.appState.subtotal.toStringAsFixed(3)} TND",
                   style: TextStyle(
                       fontWeight: FontWeight.bold, color: AppColors.textItems, fontSize: 15.fSize),
                 ),
@@ -109,7 +111,7 @@ class _ButtomComponentState extends State<ButtomComponent> {
                 ),
                 const Spacer(),
                 Text(
-                  "0.00 TND",
+                  "${widget.appState.tva.toStringAsFixed(3)} TND",
                   style: TextStyle(
                       fontWeight: FontWeight.bold, color: AppColors.textItems, fontSize: 15.fSize),
                 ),
@@ -127,7 +129,7 @@ class _ButtomComponentState extends State<ButtomComponent> {
                 ),
                 const Spacer(),
                 Text(
-                  "0.00 TND",
+                  "${widget.appState.total} TND",
                   style: TextStyle(
                       fontWeight: FontWeight.bold, color: AppColors.textItems, fontSize: 15.fSize),
                 ),

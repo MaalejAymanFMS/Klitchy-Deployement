@@ -9,6 +9,8 @@ import 'package:klitchyapp/widget/tables/table_4.dart';
 import 'package:klitchyapp/widget/tables/table_6.dart';
 import 'package:klitchyapp/widget/tables/table_8.dart';
 
+import '../config/app_colors.dart';
+
 class AppState extends ChangeNotifier {
   ///toggle the drawer
   bool _isWidgetEnabled = true;
@@ -46,6 +48,12 @@ class AppState extends ChangeNotifier {
   List<OrderComponent> _orders = [];
 
   List<OrderComponent> get orders => _orders;
+  double _subtotal = 0.0;
+  double get subtotal => _subtotal;
+  double _total = 0.0;
+  double get total => _total;
+  double _tva = 0.0;
+  double get tva => _tva;
 
   void addOrder(int number, OrderComponent orderWidget) {
     if (number > 0) {
@@ -55,10 +63,16 @@ class AppState extends ChangeNotifier {
             widget.price == orderWidget.price,
       );
       if (existingWidgetIndex != -1) {
+        _subtotal -= _orders.elementAt(existingWidgetIndex).number * (orderWidget.price - _orders.elementAt(existingWidgetIndex).price* 0.19);
+        _total -= _orders.elementAt(existingWidgetIndex).number * orderWidget.price;
         _orders.elementAt(existingWidgetIndex).number = number;
       } else {
         _orders.add(orderWidget);
+
       }
+      _tva += orderWidget.price * 0.19;
+      _subtotal += number * (orderWidget.price - orderWidget.price * 0.19);
+      _total += number * orderWidget.price;
       notifyListeners();
     }
   }
@@ -70,15 +84,31 @@ class AppState extends ChangeNotifier {
     );
     if (existingWidgetIndex != -1 && number > 0) {
       _orders.elementAt(existingWidgetIndex).number -= 1;
+
+
     if(_orders.elementAt(existingWidgetIndex).number == 0) {
       _orders.removeAt(existingWidgetIndex);
     }
     }
+    _subtotal -= orderWidget.price - (orderWidget.price * 0.19);
+    _tva -= orderWidget.price * 0.19;
+    _total -= orderWidget.price;
+    if(_subtotal < 0){
+      _subtotal = 0.0;
+    }
+    if(_tva < 0){
+      _tva = 0.0;
+    }
     notifyListeners();
   }
 
+
+
   void deleteAllOrders() {
     _orders.clear();
+    _tva = 0.0;
+    _subtotal = 0.0;
+    _total = 0.0;
     notifyListeners();
   }
   ///notes
@@ -90,17 +120,34 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
+  Color _enableColorNotes = Colors.transparent;
+  Color get enableColorNotes => _enableColorNotes;
   bool _enabledNotes = false;
   bool get enabledNotes => _enabledNotes;
   void enableNotes() {
     _enabledNotes = !_enabledNotes;
+    if(_enabledNotes){
+      _enabledDelete = false;
+      _enableColorNotes = AppColors.redColor;
+      _enableColorDelete = Colors.transparent;
+    } else {
+      _enableColorNotes = Colors.transparent;
+    }
     notifyListeners();
   }
-
+  Color _enableColorDelete = Colors.transparent;
+  Color get enableColorDelete => _enableColorDelete;
   bool _enabledDelete = false;
   bool get enabledDelete => _enabledDelete;
   void enableDelete() {
     _enabledDelete = !_enabledDelete;
+    if(_enabledDelete){
+      _enabledNotes = false;
+      _enableColorDelete = AppColors.redColor;
+      _enableColorNotes = Colors.transparent;
+    }else {
+      _enableColorDelete = Colors.transparent;
+    }
     notifyListeners();
   }
 
@@ -272,6 +319,7 @@ class AppState extends ChangeNotifier {
         widget.name == entryItem.name &&
             widget.item_code == entryItem.item_code,
       );
+      print("item_code: ${entryItem.item_code}");
       if (existingWidgetIndex != -1) {
         _entryItems.elementAt(existingWidgetIndex).qty = number;
       } else {

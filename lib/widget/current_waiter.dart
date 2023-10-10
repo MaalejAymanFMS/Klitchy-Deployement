@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:klitchyapp/utils/size_utils.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../config/app_colors.dart';
+import '../views/homePage.dart';
 
 class CurrentWaiter extends StatelessWidget {
   const CurrentWaiter({super.key});
@@ -41,12 +43,14 @@ class CurrentWaiter extends StatelessWidget {
                 children: [
                   ListTile(
                     dense: true,
-                    // onTap: () async {
-                    //   await Navigator.pushNamed(
-                    //       context,
-                    //       PageRoutes.modifyProfile);
-                    //   getPrefs();
-                    // },
+                    onTap: () async {
+                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                      prefs.remove("isLoggedIn");
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => const HomePage()),
+                        );
+                    },
                     title: Text(
                       "Logout",
                       style: TextStyle(fontSize: 17.fSize, fontWeight: FontWeight.bold)

@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:klitchyapp/config/app_colors.dart';
 import 'package:klitchyapp/views/gestion_de_table.dart';
@@ -15,7 +15,7 @@ class CustomKeyboardButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
+
     return ElevatedButton(
       onPressed: onPressed,
       child: Text(
@@ -52,7 +52,7 @@ String PasswordBody = "";
 int? statusCode;
 Future<int> login(emailBody, PasswordBody) async {
   final url =
-      Uri.parse('https://erpnext-141144-0.cloudclusters.net/api/method/login');
+  Uri.parse('https://erpnext-141144-0.cloudclusters.net/api/method/login');
 
   // Create the request body
   final Map<String, String> requestBody = {
@@ -73,7 +73,6 @@ Future<int> login(emailBody, PasswordBody) async {
   if (response.statusCode == 200) {
     // Request was successful, handle the response here
     statusCode = response.statusCode;
-    
     return response.statusCode;
   } else {
     // Request failed, handle the error here
@@ -81,7 +80,6 @@ Future<int> login(emailBody, PasswordBody) async {
     statusCode = response.statusCode;
     return response.statusCode;
   }
-
 }
 
 Future<void> showBadPasswordAlert(BuildContext context, String msg, String title) async {
@@ -107,6 +105,11 @@ Future<void> showBadPasswordAlert(BuildContext context, String msg, String title
 class _WaiterWidgetState extends State<WaiterWidget> {
   TextEditingController _textEditingController = TextEditingController();
   String _inputText = '';
+  @override
+  void dispose() {
+    _textEditingController?.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -158,7 +161,8 @@ class _WaiterWidgetState extends State<WaiterWidget> {
                           result = await login(emailBody, PasswordBody);
                           if (result == 200) {
                             final SharedPreferences prefs =
-                                await SharedPreferences.getInstance();
+                            await SharedPreferences.getInstance();
+
                             prefs.setString('usr', emailBody);
                             prefs.setString('pwd', PasswordBody);
 
@@ -171,7 +175,8 @@ class _WaiterWidgetState extends State<WaiterWidget> {
                             _textEditingController.text = "";
                             showBadPasswordAlert(context,"wrong password",'Bad Password');
                           } else {
-                             showBadPasswordAlert(context,"Sorry there is a problem",'OOPS');
+                            showBadPasswordAlert(context,"Sorry there is a problem",'OOPS');
+
                           }
                         },
                       ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:klitchyapp/routes/routes.dart';
 import 'package:klitchyapp/utils/locator.dart';
+import 'package:klitchyapp/views/kitchen.dart';
 import 'package:klitchyapp/views/splashScreen.dart';
 import 'package:provider/provider.dart';
 import 'package:klitchyapp/utils/AppState.dart' as UtilAppState;
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         home: SplashScreen(),
+
         routes: PageRoutes().routes(),
         debugShowCheckedModeBanner: false,
       ),

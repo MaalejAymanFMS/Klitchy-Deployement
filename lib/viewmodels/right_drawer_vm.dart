@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:klitchyapp/utils/AppState.dart';
 import 'package:klitchyapp/viewmodels/right_drawer_interractor.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/orders.dart';
 import '../utils/constants.dart';
@@ -29,10 +30,12 @@ class RightDrawerVMState extends State<RightDrawerVM> implements RightDrawerInte
 
   @override
   Future<OrdersP2> addOrder(Map<String, dynamic> body) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString("token");
     final headers = {
       "Content-Type": "application/json; charset=utf-8",
       "Accept": "application/json; charset=utf-8",
-      "Authorization": "Token 82ad2e094492b3a:f24396cdd3d1c46"
+      "Authorization": "$token"
     };
     final response = await http
         .post(Uri.parse("$baseUrl/resource/Table%20Order"),
@@ -52,11 +55,13 @@ class RightDrawerVMState extends State<RightDrawerVM> implements RightDrawerInte
 
   @override
   Future<OrdersP1> retrieveTableOrderPart1(Map<String, dynamic> params) async {
-    final headers = {
-      "Content-Type": "application/json; charset=utf-8",
-      "Accept": "application/json; charset=utf-8",
-      "Authorization": "Token 82ad2e094492b3a:f24396cdd3d1c46"
-    };
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+final token = prefs.getString("token");
+final headers = {
+  "Content-Type": "application/json; charset=utf-8",
+  "Accept": "application/json; charset=utf-8",
+  "Authorization": "$token"
+};
 
     final Uri uri = Uri.parse("$baseUrl/resource/Table%20Order");
 
@@ -84,11 +89,13 @@ class RightDrawerVMState extends State<RightDrawerVM> implements RightDrawerInte
 
   @override
   Future<OrdersP2> retrieveTableOrderPart2(String id) async {
-    final headers = {
-      "Content-Type": "application/json; charset=utf-8",
-      "Accept": "application/json; charset=utf-8",
-      "Authorization": "Token 82ad2e094492b3a:f24396cdd3d1c46"
-    };
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+final token = prefs.getString("token");
+final headers = {
+  "Content-Type": "application/json; charset=utf-8",
+  "Accept": "application/json; charset=utf-8",
+  "Authorization": "$token"
+};
     final response = await http.get(
       Uri.parse("$baseUrl/resource/Table%20Order/$id"),
       headers: headers,
@@ -108,6 +115,30 @@ class RightDrawerVMState extends State<RightDrawerVM> implements RightDrawerInte
     } else {
       print('Failed to fetch data. Status Code: ${response.statusCode}');
       return OrdersP2();
+    }
+  }
+  @override
+  Future<OrdersP2> updateOrder(Map<String, dynamic> body, String id) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+final token = prefs.getString("token");
+final headers = {
+  "Content-Type": "application/json; charset=utf-8",
+  "Accept": "application/json; charset=utf-8",
+  "Authorization": "$token"
+};
+    final response = await http
+        .put(Uri.parse("$baseUrl/resource/Table%20Order/$id"),
+        headers: headers, body: json.encode(body));
+    print(response.statusCode);
+
+    if (response.statusCode == 200) {
+      final jsonResponse = json.decode(response.body);
+      final data = OrdersP2.fromJson(jsonResponse);
+      return data;
+    } else {
+      final jsonResponse = json.decode(response.body);
+      final data = OrdersP2.fromJson(jsonResponse);
+      return data;
     }
   }
 

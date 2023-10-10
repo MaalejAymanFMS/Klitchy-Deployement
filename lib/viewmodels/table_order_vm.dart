@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:klitchyapp/models/categories.dart';
 import 'package:klitchyapp/models/items.dart';
 import 'package:klitchyapp/viewmodels/table_order_interactor.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../utils/constants.dart';
 import '../views/table_order.dart';
 import 'package:http/http.dart' as http;
+
 class TablOrderPage extends StatefulWidget {
   const TablOrderPage({Key? key}) : super(key: key);
 
@@ -15,8 +17,8 @@ class TablOrderPage extends StatefulWidget {
   TablOrderPageState createState() => TablOrderPageState();
 }
 
-class TablOrderPageState extends State<TablOrderPage> implements TableOrderInteractor {
-
+class TablOrderPageState extends State<TablOrderPage>
+    implements TableOrderInteractor {
   @override
   Widget build(BuildContext context) {
     return Placeholder();
@@ -24,10 +26,12 @@ class TablOrderPageState extends State<TablOrderPage> implements TableOrderInter
 
   @override
   Future<Categories> retrieveCategories() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString("token");
     final headers = {
       "Content-Type": "application/json; charset=utf-8",
       "Accept": "application/json; charset=utf-8",
-      "Authorization": "Token 82ad2e094492b3a:f24396cdd3d1c46"
+      "Authorization": "$token"
     };
 
     try {
@@ -46,15 +50,16 @@ class TablOrderPageState extends State<TablOrderPage> implements TableOrderInter
     } catch (e) {
       return Categories();
     }
-
   }
 
   @override
   Future<Items> retrieveItems(Map<String, dynamic>? params) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString("token");
     final headers = {
       "Content-Type": "application/json; charset=utf-8",
       "Accept": "application/json; charset=utf-8",
-      "Authorization": "Token 82ad2e094492b3a:f24396cdd3d1c46"
+      "Authorization": "$token"
     };
 
     final Uri uri = Uri.parse("$baseUrl/resource/Item");
@@ -67,10 +72,11 @@ class TablOrderPageState extends State<TablOrderPage> implements TableOrderInter
     final Map<String, String> queryParams = {
       "fields": json.encode(params?['fields']),
       "filters": filtersJson,
-      "limit_page_length" : limitJson
+      "limit_page_length": limitJson
     };
 
-    final response = await http.get(uri.replace(queryParameters: queryParams), headers: headers);
+    final response = await http.get(uri.replace(queryParameters: queryParams),
+        headers: headers);
     print(response.statusCode);
     print(uri.replace(queryParameters: queryParams));
     if (response.statusCode == 200) {
@@ -81,6 +87,4 @@ class TablOrderPageState extends State<TablOrderPage> implements TableOrderInter
       return Items();
     }
   }
-
-
 }

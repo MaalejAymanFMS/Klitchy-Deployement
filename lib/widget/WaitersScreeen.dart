@@ -27,9 +27,9 @@ class WaitersScreeen extends StatelessWidget {
                 children: [
                   for (int j = i; j < i + 6 && j < waiters.length; j++)
                     WaiterWidget(
-                      name: waiters[j].name,
-                      email: waiters[j].email,
-                      imageAsset: waiters[j].image,
+                      name: waiters[j].name!,
+                      email: waiters[j].email!,
+                      imageAsset: waiters[j].image!,
                     ),
                 ],
               ),

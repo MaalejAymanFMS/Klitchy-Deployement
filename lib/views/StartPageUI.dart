@@ -217,6 +217,7 @@ class StartPageUIState extends State<StartPageUI> {
 
   @override
   void initState() {
+    fetchTables();
     super.initState();
   }
 

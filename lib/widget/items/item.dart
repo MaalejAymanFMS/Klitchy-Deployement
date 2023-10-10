@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:klitchyapp/models/orders.dart';
 import 'package:klitchyapp/utils/size_utils.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../config/app_colors.dart';
 import '../../utils/AppState.dart';
@@ -22,7 +23,8 @@ class Item extends StatefulWidget {
     required this.price,
     required this.stock,
     required this.image,
-    required this.appState, required this.code,
+    required this.appState,
+    required this.code,
   }) : super(key: key);
 
   @override
@@ -47,6 +49,7 @@ class ItemState extends State<Item> {
       });
     }
   }
+
   void test() {
     int updatedNumberOfItems = 0;
     if (widget.appState.orders.isNotEmpty) {
@@ -61,7 +64,18 @@ class ItemState extends State<Item> {
       numberOfItems = updatedNumberOfItems;
     });
   }
-
+  String token = "";
+  fetchPrefs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      token = prefs.getString("token")!;
+    });
+  }
+  @override
+  void initState() {
+    fetchPrefs();
+    super.initState();
+  }
   @override
   void didChangeDependencies() {
     test();
@@ -74,7 +88,7 @@ class ItemState extends State<Item> {
     final headers = {
       "Content-Type": "application/json; charset=utf-8",
       "Accept": "application/json; charset=utf-8",
-      "Authorization": "Token 82ad2e094492b3a:f24396cdd3d1c46"
+      "Authorization": "$token"
     };
     return GestureDetector(
       onTap: () {
@@ -89,20 +103,21 @@ class ItemState extends State<Item> {
             code: widget.code,
           ),
         );
-        appState.addEntryItem(numberOfItems.toDouble(), EntryItem(
-            identifier: "identifier",
-            parentfield: "entry_items",
-            parenttype: "Table Order",
-            item_code: widget.code,
-            status: "Attending",
-            notes: "",
-            qty: numberOfItems.toDouble(),
-            rate: widget.price,
-            price_list_rate: widget.price,
-            amount: numberOfItems * widget.price,
-            table_description: "${appState.choosenRoom["name"]} (Table)",
-            doctype: "Order Entry Item"
-        ));
+        appState.addEntryItem(
+            numberOfItems.toDouble(),
+            EntryItem(
+                identifier: "identifier",
+                parentfield: "entry_items",
+                parenttype: "Table Order",
+                item_code: widget.code,
+                status: "Attending",
+                notes: "",
+                qty: numberOfItems.toDouble(),
+                rate: widget.price,
+                price_list_rate: widget.price,
+                amount: numberOfItems * widget.price,
+                table_description: "${appState.choosenRoom["name"]} (Table)",
+                doctype: "Order Entry Item"));
       },
       child: Container(
         width: 274.h,
@@ -134,8 +149,9 @@ class ItemState extends State<Item> {
                   ),
                   Text(
                     "${widget.price} TND",
-                    style:
-                    TextStyle(color: AppColors.secondaryTextColor, fontSize: 15.fSize),
+                    style: TextStyle(
+                        color: AppColors.secondaryTextColor,
+                        fontSize: 15.fSize),
                   ),
                 ],
               ),
@@ -150,12 +166,17 @@ class ItemState extends State<Item> {
                         Radius.circular(7),
                       ),
                     ),
-                    child: widget.image != "null image" && widget.image.isNotEmpty
+                    child: widget.image != "null image" &&
+                            widget.image.isNotEmpty
                         ? Image(
-                      image: NetworkImage("$baseUrlImage${widget.image}", headers: headers),
-                      fit: BoxFit.fill,
-                    )
-                        : Image.asset("assets/images/shawarma.png", scale: 2.5.fSize,),
+                            image: NetworkImage("$baseUrlImage${widget.image}",
+                                headers: headers),
+                            fit: BoxFit.fill,
+                          )
+                        : Image.asset(
+                            "assets/images/shawarma.png",
+                            scale: 2.5.fSize,
+                          ),
                   ),
                 ],
               )

@@ -1,29 +1,43 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:klitchyapp/config/app_colors.dart';
+import 'package:http/http.dart' as http;
 
 bool isDone = false;
+List<Order> orders = [];
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: KitchenScreen(),
+    );
+  }
+}
 
 class Order {
-  final int tableNumber;
-  final List<EntryItem> items;
-  final int quantity;
-  bool isStarted = false;
+  final String? tableNumber;
+  final List<EntryItem>? items;
 
   Order({
-    required this.tableNumber,
-    required this.items,
-    required this.quantity,
+    this.tableNumber,
+    this.items,
   });
 }
 
 class EntryItem {
   String itemName;
   double amount;
+  int quantity;
+  String notes;
 
   EntryItem({
     required this.itemName,
     required this.amount,
+    required this.quantity,
+    required this.notes,
   });
 }
 
@@ -75,114 +89,100 @@ class KitchenScreen extends StatefulWidget {
 }
 
 class _KitchenScreenState extends State<KitchenScreen> {
+  Future<List<Order>> fetchOrder() async {
+    final response = await http.get(
+      Uri.parse(
+          'https://erpnext-141144-0.cloudclusters.net/api/resource/Table%20Order?fields=["name","table","table_description"]&filters=[["table_description", "LIKE", "T2"]]'),
+      headers: {'Authorization': 'token 82ad2e094492b3a:f24396cdd3d1c46'},
+    );
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = json.decode(response.body);
+      final List<dynamic> orderData = data['data'];
+
+      final List<String> orderNames = List<String>.from(
+          orderData.map((order) => order['name'] as String));
+
+      final List<Order> orders = [];
+
+      for (var orderName in orderNames) {
+        final orderResponse = await http.get(
+          Uri.parse(
+              'https://erpnext-141144-0.cloudclusters.net/api/resource/Table%20Order/$orderName'),
+          headers: {'Authorization': 'token 82ad2e094492b3a:f24396cdd3d1c46'},
+        );
+
+        if (orderResponse.statusCode == 200) {
+          final jsonBody = json.decode(orderResponse.body);
+          final dataDetails = jsonBody['data'];
+
+          final List<EntryItem> entryItems = (dataDetails['entry_items'] as List<dynamic>)
+              .map((item) {
+            return EntryItem(
+              itemName: item['item_name'] as String,
+              amount: item['amount'] as double,
+              quantity: item['qty'] as int,
+              notes: item['notes'] as String,
+            );
+          }).toList();
+
+          final order = Order(
+            tableNumber: dataDetails['table_description'] as String,
+            items: entryItems,
+          );
+
+          orders.add(order);
+        } else {
+          throw Exception('Failed to fetch order details: ${orderResponse.statusCode}');
+        }
+      }
+      return orders;
+    } else {
+      throw Exception('Failed to fetch order names: ${response.statusCode}');
+    }
+  }
+  void removeOrder(int index) {
+    setState(() {
+      orders.removeAt(index);
+    });
+  }
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<AppState>(
-      create: (context) => AppState(),
-      child: MaterialApp(
-        home: Scaffold(
-          body: OrderList(),
-        ),
-      ),
+    return FutureBuilder<List<Order>>(
+      future: fetchOrder(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else {
+          final List<Order> orders = snapshot.data ?? [];
+
+          return ChangeNotifierProvider<AppState>(
+            create: (context) => AppState(),
+            child: MaterialApp(
+              home: Scaffold(
+                body: OrderList(orders: orders,),
+              ),
+            ),
+          );
+        }
+      },
     );
   }
 }
 
 class OrderList extends StatelessWidget {
-  List<Order> orders = [
-    Order(
-      tableNumber: 1,
-      quantity: 2,
-      items: [
-        EntryItem(itemName: 'Salad', amount: 10.0),
-        EntryItem(itemName: 'Soda', amount: 2.0),
-        EntryItem(itemName: 'Pizza', amount: 15.0),
-        EntryItem(itemName: 'Pizza', amount: 15.0),
-        EntryItem(itemName: 'Pizza', amount: 15.0),
-        EntryItem(itemName: 'Pizza', amount: 15.0),
-        EntryItem(itemName: 'Pizza', amount: 15.0),
-        EntryItem(itemName: 'Pizza', amount: 15.0),
-        EntryItem(itemName: 'Pizza', amount: 15.0),
-        EntryItem(itemName: 'Pizza', amount: 15.0),
-        EntryItem(itemName: 'Pizza', amount: 15.0),
-        EntryItem(itemName: 'Pizza', amount: 15.0),
-      ],
-    ),
-    Order(
-      tableNumber: 1,
-      quantity: 2,
-      items: [
-        EntryItem(itemName: 'Salad', amount: 10.0),
-        EntryItem(itemName: 'Soda', amount: 2.0),
-        EntryItem(itemName: 'Pizza', amount: 15.0),
-      ],
-    ),
-    Order(
-      tableNumber: 1,
-      quantity: 2,
-      items: [
-        EntryItem(itemName: 'Salad', amount: 10.0),
-        EntryItem(itemName: 'Soda', amount: 2.0),
-        EntryItem(itemName: 'Pizza', amount: 15.0),
-      ],
-    ),
-    Order(
-      tableNumber: 1,
-      quantity: 2,
-      items: [
-        EntryItem(itemName: 'Salad', amount: 10.0),
-        EntryItem(itemName: 'Soda', amount: 2.0),
-        EntryItem(itemName: 'Pizza', amount: 15.0),
-      ],
-    ),
-    Order(
-      tableNumber: 1,
-      quantity: 2,
-      items: [
-        EntryItem(itemName: 'Salad', amount: 10.0),
-        EntryItem(itemName: 'Soda', amount: 2.0),
-        EntryItem(itemName: 'Pizza', amount: 15.0),
-      ],
-    ),
-    Order(
-      tableNumber: 1,
-      quantity: 2,
-      items: [
-        EntryItem(itemName: 'Salad', amount: 10.0),
-        EntryItem(itemName: 'Soda', amount: 2.0),
-        EntryItem(itemName: 'Pizza', amount: 15.0),
-      ],
-    ),
-    Order(
-      tableNumber: 1,
-      quantity: 2,
-      items: [
-        EntryItem(itemName: 'Salad', amount: 10.0),
-        EntryItem(itemName: 'Soda', amount: 2.0),
-        EntryItem(itemName: 'Pizza', amount: 15.0),
-      ],
-    ),
-    Order(
-      tableNumber: 3,
-      quantity: 1,
-      items: [
-        EntryItem(itemName: 'Burger', amount: 12.0),
-        EntryItem(itemName: 'Fries', amount: 5.0),
-      ],
-    ),
-    Order(
-      tableNumber: 4,
-      quantity: 4,
-      items: [
-        EntryItem(itemName: 'Pasta', amount: 14.0),
-        EntryItem(itemName: 'Wine', amount: 8.0),
-        EntryItem(itemName: 'Dessert', amount: 6.0),
-      ],
-    ),
-  ];
+  final List<Order> orders;
+
+  OrderList({
+    required this.orders,
+  });
 
   @override
   Widget build(BuildContext context) {
+    return Builder(builder: (context) {
+
     return Scaffold(
       backgroundColor: AppColors.primaryColor,
       body: Row(
@@ -204,7 +204,7 @@ class OrderList extends StatelessWidget {
                 Expanded(
                   child: GridView.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 6,
+                      crossAxisCount: 4,
                       crossAxisSpacing: 10.0,
                       mainAxisSpacing: 10.0,
                       childAspectRatio: 1.5,
@@ -213,40 +213,56 @@ class OrderList extends StatelessWidget {
                     itemBuilder: (BuildContext context, int index) {
                       return GestureDetector(
                         onTap: () {
-                          final appState = Provider.of<AppState>(context, listen: false);
-                          isDone = false;
-                          if (!isDone) {
-                            
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Text('Order Details'),
-                                  content: Container(
-                                    width: double.maxFinite,
-                                    child: SingleChildScrollView(
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          OrderCard(
-                                            order: orders[index],
-                                          ),
-                                        ],
+                          
+                            final appState =
+                                Provider.of<AppState>(context, listen: false);
+                            isDone = false;
+                            if (!isDone) {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  final order =
+                                      orders[index]; // Get the selected order
+                                  return AlertDialog(
+                                    title: Text(
+                                        'Order Details of table ${order.tableNumber}'),
+                                    content: Container(
+                                      width: double.maxFinite,
+                                      child: SingleChildScrollView(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: order.items!.map((item) {
+                                            return Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                    'Item Name: ${item.itemName}'),
+                                                Text('Notes: ${item.notes}'),
+                                                ElevatedButton(
+                                                  onPressed: null,
+                                                  child: Text("fuck"),
+                                                ),
+                                                Divider(), // Add a divider between items for better readability
+                                              ],
+                                            );
+                                          }).toList(),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  actions: [
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: Text('Close'),
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          }
+                                    actions: [
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text('Close'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            }
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -265,9 +281,9 @@ class OrderList extends StatelessWidget {
         ],
       ),
     );
-  }
+  },);
 }
-
+}
 class OrderCard extends StatefulWidget {
   final Order order;
 
@@ -295,10 +311,56 @@ class _OrderCardState extends State<OrderCard> {
       color: isDone ? Colors.black : AppColors.secondaryTextColor,
       child: SingleChildScrollView(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ListTile(
-              title: Text('Order Items:'),
+            Row(
+              children: [
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Text("Order of table : ${widget.order.tableNumber}"),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: ElevatedButton(
+                    onPressed: isButtonEnabled
+                        ? () {
+                      final appState =
+                      Provider.of<AppState>(context, listen: false);
+                      setState(() {
+                        if (buttonLabel == 'Start') {
+                          isDone = false;
+                          buttonLabel = 'Finish';
+                          appState.incrementNbreInprog();
+                          appState.setSelectedOrder(
+                              widget.order); // Set selected order here
+                        } else if (buttonLabel == 'Finish') {
+                          buttonLabel = 'Done';
+                          appState.incrementNbreDone();
+                          appState.decreaseNbreInprog();
+                          appState.updateIsDone(true);
+                          isButtonEnabled = false;
+                        }
+                      });
+                    }
+                        : null,
+                    style: ElevatedButton.styleFrom(
+                      primary: buttonColor,
+                      onPrimary: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        buttonLabel,
+                        style: TextStyle(fontSize: 16.0),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
             Container(
               constraints: BoxConstraints(
@@ -306,51 +368,19 @@ class _OrderCardState extends State<OrderCard> {
               ),
               child: ListView.builder(
                 shrinkWrap: true,
-                itemCount: widget.order.items.length,
+                itemCount: widget.order.items!.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Text(widget.order.items[index].itemName),
+                    child: Row(
+                      children: [
+                        Text(widget.order.items![index].quantity.toString() +
+                            " x "),
+                        Text(widget.order.items![index].itemName),
+                      ],
+                    ),
                   );
                 },
-              ),
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: ElevatedButton(
-                onPressed: isButtonEnabled
-                    ? () {
-                        final appState = Provider.of<AppState>(context, listen: false);
-                        setState(() {
-                          if (buttonLabel == 'Start') {
-                            isDone = false;
-                            buttonLabel = 'Finish';
-                            appState.incrementNbreInprog();
-                            appState.setSelectedOrder(widget.order); // Set selected order here
-                          } else if (buttonLabel == 'Finish') {
-                            buttonLabel = 'Done';
-                            appState.incrementNbreDone();
-                            appState.decreaseNbreInprog();
-                            appState.updateIsDone(true);
-                            isButtonEnabled = false;
-                          }
-                        });
-                      }
-                    : null,
-                style: ElevatedButton.styleFrom(
-                  primary: buttonColor,
-                  onPrimary: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    buttonLabel,
-                    style: TextStyle(fontSize: 16.0),
-                  ),
-                ),
               ),
             ),
           ],
@@ -376,7 +406,7 @@ class _CountBoxState extends State<CountBox> {
     final appState = Provider.of<AppState>(context);
 
     if (widget.title == "Commands") {
-      countText = "${OrderList().orders.length} ${widget.title}";
+      countText = "${orders.length} ${widget.title}";
     } else if (widget.title == "In progress") {
       countText = "${appState.nbreInprog} ${widget.title}";
     } else if (widget.title == "Done") {
@@ -417,41 +447,46 @@ class MyDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     final appState = Provider.of<AppState>(context);
     final selectedOrder = appState.selectedOrder;
-
+    final deviceSize = MediaQuery.of(context).size;
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
-          DrawerHeader(
-            decoration: BoxDecoration(
-              color: AppColors.blueColor,
-            ),
-            child: Text(
-              'Order list',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 24,
+          Container(
+            height: deviceSize.height * 0.1,
+            child: DrawerHeader(
+              decoration: BoxDecoration(
+                color: AppColors.blueColor,
+              ),
+              child: Text(
+                'Order list ',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                ),
               ),
             ),
           ),
           if (selectedOrder != null) ...[
             ListTile(
-              title: Text('Selected Order Items:'),
+              title: Text('Selected Order Items: ${selectedOrder.tableNumber}'),
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: selectedOrder.items
+                children: selectedOrder.items!
                     .map(
-                      (item) => Text(item.itemName),
-                    )
+                      (item) => Text("\n " +
+                      item.quantity.toString() +
+                      " x " +
+                      item.itemName +
+                      "\n " +
+                      item.notes),
+                )
                     .toList(),
               ),
             ),
           ],
-        
         ],
       ),
     );
   }
 }
-
-
