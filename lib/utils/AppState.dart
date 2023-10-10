@@ -18,7 +18,7 @@ class AppState extends ChangeNotifier {
   bool get isWidgetEnabled => _isWidgetEnabled;
 
   void toggleWidget() {
-    _isWidgetEnabled = !_isWidgetEnabled;
+    _isWidgetEnabled = true;
     notifyListeners();
   }
 

@@ -35,7 +35,6 @@ class _PinScreenState extends State<PinScreen> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
@@ -82,7 +81,7 @@ class _PinScreenState extends State<PinScreen> {
                   ],
                 ),
               ),
-              SizedBox(height: deviceSize.height * 0.02),
+              SizedBox(height: deviceSize.height * 0.01),
               Container(
                 // margin: const EdgeInsets.only(right: 10.0),
                 child: Row(
@@ -92,23 +91,32 @@ class _PinScreenState extends State<PinScreen> {
                   ],
                 ),
               ),
-              SizedBox(height: deviceSize.height * 0.02),
+              SizedBox(height: deviceSize.height * 0.01),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   for (int i = 7; i <= 9; i++) keyboardButton('$i'),
                 ],
               ),
-              SizedBox(height: deviceSize.height * 0.05),
+              SizedBox(height: deviceSize.height * 0.01),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  for (int i = 0; i <=0; i++) keyboardButton('$i'),
+                ],
+              ),
+              SizedBox(height: deviceSize.height * 0.02),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
                     onPressed: () async {
+                      print(pin);
                       // TODOO impliments services
                       final response = await interactor.retrieve(pin);
-                      if(response.email!.isNotEmpty) {
-                        SharedPreferences prefs = await SharedPreferences.getInstance();
+                      if (response.email!.isNotEmpty) {
+                        SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
                         final email = prefs.getString("email");
                         final password = prefs.getString("password");
                         Map<String, dynamic> body = {
@@ -116,12 +124,13 @@ class _PinScreenState extends State<PinScreen> {
                           "pwd": password,
                         };
                         final login = await interactor.login(body);
-                        if(login.message == "Logged In") {
-                          Navigator.pushReplacement(context, MaterialPageRoute(
-                              builder: (context) => GestionDeTable()));
+                        if (login.message == "Logged In") {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => GestionDeTable()));
                         }
                       }
-    
 
                       print(pin);
                     },
@@ -134,8 +143,9 @@ class _PinScreenState extends State<PinScreen> {
                     onPressed: () {
                       removePin();
                     },
-                    child: const Text('Delete', style: const TextStyle(fontSize: 20, color: AppColors.dark01Color)),
-
+                    child: const Text('Delete',
+                        style: const TextStyle(
+                            fontSize: 20, color: AppColors.dark01Color)),
                   ),
                 ],
               ),

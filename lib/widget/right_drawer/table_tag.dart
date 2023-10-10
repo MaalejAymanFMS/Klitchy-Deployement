@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:klitchyapp/utils/AppState.dart';
 import 'package:klitchyapp/utils/size_utils.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../config/app_colors.dart';
 import '../../models/orders.dart';
@@ -19,6 +20,21 @@ class TableTag extends StatefulWidget {
 class _TableTagState extends State<TableTag> {
   Color editColor = Colors.transparent;
   Color deleteColor = Colors.transparent;
+  String nameWaiter = "";
+
+  fetchPrefs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      nameWaiter = prefs.getString("full_name")!;
+    });
+  }
+
+  @override
+  void initState() {
+    fetchPrefs();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -58,7 +74,7 @@ class _TableTagState extends State<TableTag> {
                           height: 10.v,
                         ),
                         Text(
-                          "Samira A.",
+                          nameWaiter,
                           style: TextStyle(
                               color: AppColors.secondaryTextColor,
                               fontSize: 15.fSize),
@@ -93,13 +109,13 @@ class _TableTagState extends State<TableTag> {
             onTap: () {
               widget.appState.enableNotes();
               setState(() {
-                if(widget.appState.enabledNotes) {
+                if (widget.appState.enabledNotes) {
                   editColor = AppColors.redColor;
                 } else {
                   editColor = Colors.transparent;
                 }
               });
-              },
+            },
             child: Container(
               width: 64.h,
               height: 94.v,
@@ -121,27 +137,27 @@ class _TableTagState extends State<TableTag> {
             onTap: () {
               widget.appState.enableDelete();
               setState(() {
-                if(widget.appState.enabledDelete) {
+                if (widget.appState.enabledDelete) {
                   deleteColor = AppColors.redColor;
                 } else {
                   deleteColor = Colors.transparent;
-                  for(var order in widget.appState.orders) {
+                  for (var order in widget.appState.orders) {
                     widget.appState.addEntryItem(
-                        order.number.toDouble(), EntryItem(
-                        identifier: "identifier",
-                        parentfield: "entry_items",
-                        parenttype: "Table Order",
-                        item_code: order.code,
-                        status: "Attending",
-                        notes: "",
-                        qty: order.number.toDouble(),
-                        rate: order.price,
-                        price_list_rate: order.price,
-                        amount: order.price * order.number,
-                        table_description: "${widget.appState
-                            .choosenRoom["name"]} (Table)",
-                        doctype: "Order Entry Item"
-                    ));
+                        order.number.toDouble(),
+                        EntryItem(
+                            identifier: "identifier",
+                            parentfield: "entry_items",
+                            parenttype: "Table Order",
+                            item_code: order.code,
+                            status: "Attending",
+                            notes: "",
+                            qty: order.number.toDouble(),
+                            rate: order.price,
+                            price_list_rate: order.price,
+                            amount: order.price * order.number,
+                            table_description:
+                                "${widget.appState.choosenRoom["name"]} (Table)",
+                            doctype: "Order Entry Item"));
                   }
                   widget.delete!();
                 }
