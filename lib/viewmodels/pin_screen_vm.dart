@@ -28,7 +28,7 @@ class PinScreenVMState extends State<PinScreenVM> implements PinScreenInteractor
          .get(Uri.parse("https://prime-verified-pug.ngrok-free.app/user/get_user_by_pin/$pin")
         ,headers: {
           "Access-Control-Allow-Origin":"*"
-        }
+        });
     print(response.statusCode);
 
     if (response.statusCode == 200) {
