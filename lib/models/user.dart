@@ -20,16 +20,19 @@ class User {
   String? email;
   String? password;
   String? token;
+  String? role;
   User({
     this.email,
     this.password,
     this.token,
+    this.role,
   });
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
         email: json["email"],
         password: json["password"],
-        token: json["token"]
+        token: json["token"],
+        role: json["role"],
     );
   }
 }

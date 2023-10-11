@@ -38,9 +38,10 @@ class PinScreenVMState extends State<PinScreenVM> implements PinScreenInteractor
       prefs.setString('token', data.token!);
       prefs.setString('email', data.email!);
       prefs.setString('password', data.password!);
+      prefs.setString('role', data.role!);
       print(prefs.getString("email"));
       print(prefs.getString("password"));
-
+      print(prefs.getString("role"));
       return data;
     } else {
       final jsonResponse = json.decode(response.body);

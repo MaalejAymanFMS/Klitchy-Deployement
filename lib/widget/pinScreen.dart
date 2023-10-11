@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:klitchyapp/config/app_colors.dart';
 import 'package:klitchyapp/views/gestion_de_table.dart';
+import 'package:klitchyapp/views/kitchen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../utils/locator.dart';
@@ -119,16 +120,24 @@ class _PinScreenState extends State<PinScreen> {
                             await SharedPreferences.getInstance();
                         final email = prefs.getString("email");
                         final password = prefs.getString("password");
+                        final role = prefs.getString("role");
                         Map<String, dynamic> body = {
                           "usr": email,
                           "pwd": password,
                         };
                         final login = await interactor.login(body);
                         if (login.message == "Logged In") {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => GestionDeTable()));
+                          if(role == "waiter") {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => GestionDeTable()));
+                          } else if(role == "kitchen"){
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => KitchenScreen()));
+                          }
                         }
                       }
 
