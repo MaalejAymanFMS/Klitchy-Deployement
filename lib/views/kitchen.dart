@@ -93,7 +93,7 @@ class _KitchenScreenState extends State<KitchenScreen> {
   Future<List<Order>> fetchOrder() async {
     final response = await http.get(
       Uri.parse(
-          'https://erpnext-141144-0.cloudclusters.net/api/resource/Table%20Order?fields=["name","table","table_description"]&filters=[["table_description", "LIKE", "T2"]]'),
+          'https://erpnext-141144-0.cloudclusters.net/api/resource/Table%20Order?fields=["name","table","table_description"]'),
       headers: {'Authorization': 'token 82ad2e094492b3a:f24396cdd3d1c46'},
     );
 
