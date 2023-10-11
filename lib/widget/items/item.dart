@@ -86,6 +86,8 @@ class ItemState extends State<Item> {
   Widget build(BuildContext context) {
     final appState = Provider.of<AppState>(context);
     final headers = {
+      "Content-Type": "application/json; charset=utf-8",
+      "Accept": "application/json; charset=utf-8",
       "Authorization": token
     };
     return GestureDetector(

@@ -7,6 +7,7 @@ import 'package:klitchyapp/viewmodels/right_drawer_interractor.dart';
 import 'package:klitchyapp/widget/custom_button.dart';
 import 'package:klitchyapp/widget/right_drawer/buttom_component.dart';
 import 'package:klitchyapp/widget/right_drawer/table_tag.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:virtual_keyboard_2/virtual_keyboard_2.dart';
 
 import '../config/app_colors.dart';
@@ -36,6 +37,7 @@ class _RightDrawerState extends State<RightDrawer> {
   List<EntryItem> orders = [];
   String orderId = "";
   void fetchOrders() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     widget.appState.deleteAllOrders();
     Map<String, dynamic> params = {
       "fields": ["name","table","table_description"],
@@ -49,6 +51,7 @@ class _RightDrawerState extends State<RightDrawer> {
           orderP1.dataP1![0].name!);
       if(orderP2.dataP2!.entryItems!.isNotEmpty) {
         orderId = orderP1.dataP1![0].name!;
+        prefs.setString("orderId", orderId);
         orders = orderP2.dataP2!.entryItems!;
         for (var order in orders) {
           widget.appState.addOrder(

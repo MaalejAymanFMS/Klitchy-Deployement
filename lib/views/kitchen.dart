@@ -1,8 +1,7 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:klitchyapp/config/app_colors.dart';
+import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 
 bool isDone = false;
@@ -45,7 +44,7 @@ class AppState extends ChangeNotifier {
   int nbreCmd = 0;
   int nbreInprog = 0;
   int nbreDone = 0;
-  Order? selectedOrder; // Selected order
+  Order? selectedOrder;
 
   void updateIsDone(bool value) {
     isDone = value;
@@ -81,6 +80,8 @@ class AppState extends ChangeNotifier {
     selectedOrder = order;
     notifyListeners();
   }
+
+
 }
 
 class KitchenScreen extends StatefulWidget {
@@ -100,8 +101,8 @@ class _KitchenScreenState extends State<KitchenScreen> {
       final Map<String, dynamic> data = json.decode(response.body);
       final List<dynamic> orderData = data['data'];
 
-      final List<String> orderNames = List<String>.from(
-          orderData.map((order) => order['name'] as String));
+      final List<String> orderNames =
+          List<String>.from(orderData.map((order) => order['name'] as String));
 
       final List<Order> orders = [];
 
@@ -116,8 +117,8 @@ class _KitchenScreenState extends State<KitchenScreen> {
           final jsonBody = json.decode(orderResponse.body);
           final dataDetails = jsonBody['data'];
 
-          final List<EntryItem> entryItems = (dataDetails['entry_items'] as List<dynamic>)
-              .map((item) {
+          final List<EntryItem> entryItems =
+              (dataDetails['entry_items'] as List<dynamic>).map((item) {
             return EntryItem(
               itemName: item['item_name'] as String,
               amount: item['amount'] as double,
@@ -133,7 +134,8 @@ class _KitchenScreenState extends State<KitchenScreen> {
 
           orders.add(order);
         } else {
-          throw Exception('Failed to fetch order details: ${orderResponse.statusCode}');
+          throw Exception(
+              'Failed to fetch order details: ${orderResponse.statusCode}');
         }
       }
       return orders;
@@ -141,11 +143,7 @@ class _KitchenScreenState extends State<KitchenScreen> {
       throw Exception('Failed to fetch order names: ${response.statusCode}');
     }
   }
-  void removeOrder(int index) {
-    setState(() {
-      orders.removeAt(index);
-    });
-  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Order>>(
@@ -162,7 +160,9 @@ class _KitchenScreenState extends State<KitchenScreen> {
             create: (context) => AppState(),
             child: MaterialApp(
               home: Scaffold(
-                body: OrderList(orders: orders,),
+                body: OrderList(
+                  orders: orders,
+                ),
               ),
             ),
           );
@@ -172,7 +172,7 @@ class _KitchenScreenState extends State<KitchenScreen> {
   }
 }
 
-class OrderList extends StatelessWidget {
+class OrderList extends StatefulWidget {
   final List<Order> orders;
 
   OrderList({
@@ -180,115 +180,135 @@ class OrderList extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    return Builder(builder: (context) {
+  State<OrderList> createState() => _OrderListState();
+}
 
-    return Scaffold(
-      backgroundColor: AppColors.primaryColor,
-      body: Row(
-        children: [
-          Expanded(
-            child: Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      CountBox(title: "Commands"),
-                      CountBox(title: "In progress"),
-                      CountBox(title: "Done"),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 4,
-                      crossAxisSpacing: 10.0,
-                      mainAxisSpacing: 10.0,
-                      childAspectRatio: 1.5,
+class _OrderListState extends State<OrderList> {
+ void removeOrder(int index) {
+    setState(() {
+      widget.orders.removeAt(index);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final appState = Provider.of<AppState>(context, listen: false);
+    return Builder(
+      builder: (context) {
+        return Scaffold(
+          backgroundColor: AppColors.primaryColor,
+          body: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          CountBox(title: "Commands"),
+                          CountBox(title: "In progress"),
+                          CountBox(title: "Done"),
+                        ],
+                      ),
                     ),
-                    itemCount: orders.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return GestureDetector(
-                        onTap: () {
-                          
-                            final appState =
-                                Provider.of<AppState>(context, listen: false);
-                            isDone = false;
-                            if (!isDone) {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  final order =
-                                      orders[index]; // Get the selected order
-                                  return AlertDialog(
-                                    title: Text(
-                                        'Order Details of table ${order.tableNumber}'),
-                                    content: Container(
-                                      width: double.maxFinite,
-                                      child: SingleChildScrollView(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: order.items!.map((item) {
-                                            return Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                    'Item Name: ${item.itemName}'),
-                                                Text('Notes: ${item.notes}'),
-                                                ElevatedButton(
-                                                  onPressed: null,
-                                                  child: Text("fuck"),
-                                                ),
-                                                Divider(), // Add a divider between items for better readability
-                                              ],
-                                            );
-                                          }).toList(),
+                    Expanded(
+                      child: GridView.builder(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 4,
+                          crossAxisSpacing: 10.0,
+                          mainAxisSpacing: 10.0,
+                          childAspectRatio: 1.5,
+                        ),
+                        itemCount: widget.orders.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return GestureDetector(
+                            onTap: () {
+                              isDone = false;
+                              if (!isDone) {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    final order = widget.orders[index];
+                                    return AlertDialog(
+                                      title: Text(
+                                          'Order Details of table ${order.tableNumber}'),
+                                      content: Container(
+                                        width: double.maxFinite,
+                                        child: SingleChildScrollView(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: order.items!
+                                                .map((item) {
+                                              return Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                      'Item Name: ${item.itemName}'),
+                                                  Text('Notes: ${item.notes}'),
+                                                  Divider(),
+                                                ],
+                                              );
+                                            }).toList(),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    actions: [
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: Text('Close'),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
-                            }
+                                      actions: [
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Text('Close'),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              }
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: OrderCard(
+                                
+                                ordersList: widget.orders,
+                                appState: appState,
+                                order: widget.orders[index],
+                                index: widget.orders.indexOf(widget.orders[index]),
+                                 removeOrder: () => removeOrder(widget.orders.indexOf(widget.orders[index])),
+                              ),
+                            ),
+                          );
                         },
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: OrderCard(
-                            order: orders[index],
-                          ),
-                        ),
-                      );
-                    },
-                  ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+              MyDrawer(),
+            ],
           ),
-          MyDrawer(),
-        ],
-      ),
+        );
+      },
     );
-  },);
+  }
 }
-}
-class OrderCard extends StatefulWidget {
-  final Order order;
 
-  OrderCard({
+class OrderCard extends StatefulWidget {
+  final AppState appState;
+  final Order order;
+  final int index;
+  final List<Order> ordersList;
+   final VoidCallback removeOrder;
+
+  const OrderCard({
+    required this.appState,
     required this.order,
+    required this.index,
+    required this.ordersList,
+    required this.removeOrder,
   });
 
   @override
@@ -299,6 +319,8 @@ class _OrderCardState extends State<OrderCard> {
   String buttonLabel = 'Start';
   bool isButtonEnabled = true;
 
+
+
   @override
   Widget build(BuildContext context) {
     Color buttonColor = Colors.green;
@@ -308,7 +330,7 @@ class _OrderCardState extends State<OrderCard> {
     }
 
     return Card(
-      color: isDone ? Colors.black : AppColors.secondaryTextColor,
+      color: AppColors.secondaryTextColor,
       child: SingleChildScrollView(
         child: Column(
           children: [
@@ -325,24 +347,24 @@ class _OrderCardState extends State<OrderCard> {
                   child: ElevatedButton(
                     onPressed: isButtonEnabled
                         ? () {
-                      final appState =
-                      Provider.of<AppState>(context, listen: false);
-                      setState(() {
-                        if (buttonLabel == 'Start') {
-                          isDone = false;
-                          buttonLabel = 'Finish';
-                          appState.incrementNbreInprog();
-                          appState.setSelectedOrder(
-                              widget.order); // Set selected order here
-                        } else if (buttonLabel == 'Finish') {
-                          buttonLabel = 'Done';
-                          appState.incrementNbreDone();
-                          appState.decreaseNbreInprog();
-                          appState.updateIsDone(true);
-                          isButtonEnabled = false;
-                        }
-                      });
-                    }
+                            final appState =
+                                Provider.of<AppState>(context, listen: false);
+                            setState(() {
+                              if (buttonLabel == 'Start') {
+                                isDone = false;
+                                buttonLabel = 'Finish';
+                                appState.incrementNbreInprog();
+                                appState.setSelectedOrder(
+                                    widget.order);
+                              } else if (buttonLabel == 'Finish') {
+                               widget.removeOrder();
+                                
+                                appState.incrementNbreDone();
+                                appState.decreaseNbreInprog();
+                                appState.updateIsDone(true);
+                              }
+                            });
+                          }
                         : null,
                     style: ElevatedButton.styleFrom(
                       primary: buttonColor,
@@ -475,12 +497,12 @@ class MyDrawer extends StatelessWidget {
                 children: selectedOrder.items!
                     .map(
                       (item) => Text("\n " +
-                      item.quantity.toString() +
-                      " x " +
-                      item.itemName +
-                      "\n " +
-                      item.notes),
-                )
+                          item.quantity.toString() +
+                          " x " +
+                          item.itemName +
+                          "\n " +
+                          item.notes),
+                    )
                     .toList(),
               ),
             ),
