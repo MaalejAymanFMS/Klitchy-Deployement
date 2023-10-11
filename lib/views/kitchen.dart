@@ -12,6 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: KitchenScreen(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
@@ -150,7 +151,7 @@ class _KitchenScreenState extends State<KitchenScreen> {
       future: fetchOrder(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else {
@@ -164,6 +165,7 @@ class _KitchenScreenState extends State<KitchenScreen> {
                   orders: orders,
                 ),
               ),
+              debugShowCheckedModeBanner: false,
             ),
           );
         }

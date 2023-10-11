@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:klitchyapp/config/app_colors.dart';
+import 'package:klitchyapp/utils/size_utils.dart';
 import 'package:klitchyapp/views/gestion_de_table.dart';
 import 'package:klitchyapp/views/kitchen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -47,14 +48,14 @@ class _PinScreenState extends State<PinScreen> {
         margin: const EdgeInsets.all(16.0),
         child: Container(
           padding: const EdgeInsets.all(16.0),
-          width: deviceSize.width * 0.2,
+          width: deviceSize.width * 0.22,
           height: deviceSize.height * 0.5,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              const Text(
+              Text(
                 'Enter personal PIN:',
-                style: TextStyle(fontSize: 20, color: AppColors.lightColor),
+                style: TextStyle(fontSize: 20.fSize, color: AppColors.lightColor),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -62,8 +63,8 @@ class _PinScreenState extends State<PinScreen> {
                   for (int i = 0; i < 4; i++)
                     Container(
                       margin: const EdgeInsets.all(8.0),
-                      width: 30,
-                      height: 30,
+                      width: 30.h,
+                      height: 30.v,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: i < filledCircles
@@ -73,7 +74,7 @@ class _PinScreenState extends State<PinScreen> {
                     ),
                 ],
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20.v),
               Container(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -143,18 +144,18 @@ class _PinScreenState extends State<PinScreen> {
 
                       print(pin);
                     },
-                    child: const Text('Confirm',
-                        style: const TextStyle(
-                            fontSize: 20, color: AppColors.dark01Color)),
+                    child: Text('Confirm',
+                        style: TextStyle(
+                            fontSize: 20.fSize, color: AppColors.dark01Color)),
                   ),
-                  const SizedBox(width: 20),
+                  SizedBox(width: 20.h),
                   ElevatedButton(
                     onPressed: () {
                       removePin();
                     },
-                    child: const Text('Delete',
-                        style: const TextStyle(
-                            fontSize: 20, color: AppColors.dark01Color)),
+                    child: Text('Delete',
+                        style: TextStyle(
+                            fontSize: 20.fSize, color: AppColors.dark01Color)),
                   ),
                 ],
               ),
@@ -169,12 +170,11 @@ class _PinScreenState extends State<PinScreen> {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.lightColor,
-          padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-          textStyle:
-              const TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+          padding: EdgeInsets.symmetric(horizontal: 50.h, vertical: 20.v),
+          textStyle: TextStyle(fontSize: 30.fSize, fontWeight: FontWeight.bold)),
       onPressed: () => addPin(label),
       child: Text(label,
-          style: const TextStyle(fontSize: 30, color: AppColors.dark01Color)),
+          style: TextStyle(fontSize: 30.fSize, color: AppColors.dark01Color)),
     );
   }
 }

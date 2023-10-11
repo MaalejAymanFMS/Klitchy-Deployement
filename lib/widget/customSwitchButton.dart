@@ -46,24 +46,24 @@ class _CustomSwitchButtonState extends State<CustomSwitchButton> {
         ),
         child: Row(
           children: <Widget>[
-            Expanded(
-              child: Container(
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: _value
-                      ? AppColors.blueColor
-                      : AppColors.dark01Color, // Background color when selected
-                  borderRadius: BorderRadius.circular(2.0),
-                ),
-                child: Text(
-                  'USER LOGIN',
-                  style: TextStyle(
-                    color: AppColors.lightColor,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
+            // Expanded(
+            //   child: Container(
+            //     alignment: Alignment.center,
+            //     decoration: BoxDecoration(
+            //       color: _value
+            //           ? AppColors.blueColor
+            //           : AppColors.dark01Color, // Background color when selected
+            //       borderRadius: BorderRadius.circular(2.0),
+            //     ),
+            //     child: Text(
+            //       'USER LOGIN',
+            //       style: TextStyle(
+            //         color: AppColors.lightColor,
+            //         fontWeight: FontWeight.bold,
+            //       ),
+            //     ),
+            //   ),
+            // ),
             Expanded(
               child: Container(
                 alignment: Alignment.center,
