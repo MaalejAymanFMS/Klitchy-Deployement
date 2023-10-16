@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:klitchyapp/config/app_colors.dart';
+import 'package:klitchyapp/utils/size_utils.dart';
 
 class CustomSwitchButton extends StatefulWidget {
   final ValueChanged<bool> onChanged;
@@ -35,8 +36,8 @@ class _CustomSwitchButtonState extends State<CustomSwitchButton> {
         });
       },
       child: Container(
-        width: deviceSize.width * 0.2,
-        height: deviceSize.height * 0.05,
+        width: 200.h,
+        height: 50.v,
         decoration: BoxDecoration(
           border: Border.all(
             color: Colors.black,

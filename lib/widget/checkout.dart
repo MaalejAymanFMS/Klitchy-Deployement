@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:klitchyapp/config/app_colors.dart';
 import 'package:klitchyapp/utils/AppState.dart';
 import 'package:http/http.dart' as http;
+import 'package:klitchyapp/utils/size_utils.dart';
 import 'package:klitchyapp/views/gestion_de_table.dart';
-import 'package:klitchyapp/views/homePage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 //TODOO add payement methos
@@ -66,6 +66,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       amountGivenString += number;
       amountGiven = double.parse(amountGivenString);
     });
+    print(amountGivenString);
   }
 
   void clearAmountGiven() {
@@ -86,398 +87,662 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Color(0xFF060C18), // Background color
+      backgroundColor: Color(0x060C18),
       body: Container(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(
-              'Total Amount: ${totalAmount.toStringAsFixed(3)} TND',
-              style: TextStyle(
-                fontSize: 24.0,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFFf1eaff), // Font color
-              ),
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 16.0),
-            Text(
-              'Amount Given: ${amountGiven.toStringAsFixed(3)} TND',
-              style: TextStyle(
-                fontSize: 24.0,
-                color: Color(0xFFf1eaff), // Font color
-              ),
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 24.0),
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  //clear container
-
-                  InkWell(
-                    onTap: () => clearAmountGiven(),
-                    child: Container(
-                      height: deviceSize.height * 0.5,
-                      width: deviceSize.width * 0.07,
-                      decoration: BoxDecoration(
-                        color: AppColors.secondaryTextColor,
-                        border: Border.all(width: 2.0),
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Clear',
-                          style: TextStyle(
-                              fontSize: 18.0,
-                              color: AppColors.dark01Color,
-                              fontWeight: FontWeight.w900),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Center(
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  color: Color.fromARGB(255, 22, 26, 52),
+                  child: Column(
+                    children: [
+                      Container(
+                        width: deviceSize.width * 0.24,
+                        height: deviceSize.height * 0.08,
+                        color: Color.fromARGB(255, 134, 137, 154),
+                        child: Center(
+                          child: Text(
+                            'Total Amount: ${totalAmount.toStringAsFixed(3)} TND',
+                            style: TextStyle(
+                              fontSize: 24.0,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFFf1eaff), // Font color
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       ),
-                    ),
+                      SizedBox(
+                        height: deviceSize.height * 0.01,
+                      ),
+                      Container(
+                        width: deviceSize.width * 0.24,
+                        height: deviceSize.height * 0.08,
+                        color: Color.fromARGB(255, 134, 137, 154),
+                        child: Center(
+                          child: Text(
+                            'Amount Given: ${amountGiven.toStringAsFixed(3)} TND',
+                            style: TextStyle(
+                              fontSize: 24.0,
+                              color: Color(0xFFf1eaff), // Font color
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-
-                  Container(
-                    height: deviceSize.height * 0.5,
-                    width: deviceSize.width * 0.37,
-                    alignment: Alignment.center, // Adjust the width as needed
-                    padding: EdgeInsets.all(16.0),
-                    decoration: BoxDecoration(
-                      color: AppColors
-                          .secondaryTextColor, // Keypad background color
-                      borderRadius: BorderRadius.circular(10.0),
-                      // boxShadow: [
-                      //   BoxShadow(
-                      //     color: Colors.black.withOpacity(0.2),
-                      //     blurRadius: 6.0,
-                      //     spreadRadius: 2.0,
-                      //   ),
-                      // ],
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                ),
+              ),
+              SizedBox(
+                width: deviceSize.width * 0.1,
+              ),
+              Card(
+                elevation: 4,
+                shadowColor: Color.fromARGB(255, 22, 26, 52),
+                child: Container(
+                  color: Color.fromARGB(255, 22, 26, 52),
+                  padding: const EdgeInsets.all(16.0),
+                  child: Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
+                        Column(
                           children: [
-                            ElevatedButton(
-                              onPressed: () => onNumberKeyPressed("1"),
-                              child: Text(
-                                '1',
-                                style: TextStyle(
-                                    color: AppColors.dark01Color,
-                                    fontSize: deviceSize.width * 0.02),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.secondaryTextColor,
-                                minimumSize: Size(deviceSize.width * 0.1,
-                                    deviceSize.height * 0.07),
-                                padding: EdgeInsets.all(16.0),
-                                shape: RoundedRectangleBorder(),
+                            Container(
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.all(5),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        ElevatedButton(
+                                          onPressed: () =>
+                                              onNumberKeyPressed("1"),
+                                          child: Text(
+                                            '1',
+                                            style: TextStyle(
+                                                color: AppColors.dark01Color,
+                                                fontSize: 25),
+                                          ),
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor:
+                                                AppColors.secondaryTextColor,
+                                            minimumSize: Size(112.h, 77.v),
+                                            padding: EdgeInsets.all(16.0),
+                                            shape: RoundedRectangleBorder(),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                            width: deviceSize.width * 0.011),
+                                        ElevatedButton(
+                                          onPressed: () =>
+                                              onNumberKeyPressed("2"),
+                                          child: Text(
+                                            '2',
+                                            style: TextStyle(
+                                                color: AppColors.dark01Color,
+                                                fontSize: 25),
+                                          ),
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor:
+                                                AppColors.secondaryTextColor,
+                                            minimumSize: Size(112.h, 77.v),
+                                            padding: EdgeInsets.all(16.0),
+                                            shape: RoundedRectangleBorder(),
+                                          ),
+                                        ),
+                                       
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.all(5),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        ElevatedButton(
+                                          onPressed: () =>
+                                              onNumberKeyPressed("5"),
+                                          child: Text(
+                                            '5',
+                                            style: TextStyle(
+                                                color: AppColors.dark01Color,
+                                                fontSize: 25),
+                                          ),
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor:
+                                                AppColors.secondaryTextColor,
+                                            minimumSize: Size(112.h, 77.v),
+                                            padding: EdgeInsets.all(16.0),
+                                            shape: RoundedRectangleBorder(),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                            width: deviceSize.width * 0.011),
+                                        ElevatedButton(
+                                          onPressed: () =>
+                                              onNumberKeyPressed("10"),
+                                          child: Text(
+                                            '10',
+                                            style: TextStyle(
+                                                color: AppColors.dark01Color,
+                                                fontSize: 25),
+                                          ),
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor:
+                                                AppColors.secondaryTextColor,
+                                            minimumSize: Size(112.h, 77.v),
+                                            padding: EdgeInsets.all(16.0),
+                                            shape: RoundedRectangleBorder(),
+                                          ),
+                                        ),
+                                     
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.all(5),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        ElevatedButton(
+                                          onPressed: () =>
+                                              onNumberKeyPressed("20"),
+                                          child: Text(
+                                            '20',
+                                            style: TextStyle(
+                                                color: AppColors.dark01Color,
+                                                fontSize: 25),
+                                          ),
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor:
+                                                AppColors.secondaryTextColor,
+                                            minimumSize: Size(112.h, 77.v),
+                                            padding: EdgeInsets.all(16.0),
+                                            shape: RoundedRectangleBorder(),
+                                          ),
+                                        ),
+                                    SizedBox(
+                                            width: deviceSize.width * 0.011),
+                                        ElevatedButton(
+                                          onPressed: () =>
+                                              onNumberKeyPressed("50"),
+                                          child: Text(
+                                            '50',
+                                            style: TextStyle(
+                                                color: AppColors.dark01Color,
+                                                fontSize: 25),
+                                          ),
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor:
+                                                AppColors.secondaryTextColor,
+                                            minimumSize: Size(112.h, 77.v),
+                                            padding: EdgeInsets.all(16.0),
+                                            shape: RoundedRectangleBorder(),
+                                          ),
+                                        ),
+                                        
+                                      ],
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                            SizedBox(width: deviceSize.width * 0.020),
-                            ElevatedButton(
-                              onPressed: () => onNumberKeyPressed("2"),
-                              child: Text(
-                                '2',
-                                style: TextStyle(
-                                    color: AppColors.dark01Color,
-                                    fontSize: deviceSize.width * 0.02),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.secondaryTextColor,
-                                minimumSize: Size(deviceSize.width * 0.1,
-                                    deviceSize.height * 0.07),
-                                padding: EdgeInsets.all(16.0),
-                                shape: RoundedRectangleBorder(),
-                              ),
-                            ),
-                            SizedBox(width: deviceSize.width * 0.020),
-                            ElevatedButton(
-                              onPressed: () => onNumberKeyPressed("3"),
-                              child: Text(
-                                '3',
-                                style: TextStyle(
-                                    color: AppColors.dark01Color,
-                                    fontSize: deviceSize.width * 0.02),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.secondaryTextColor,
-                                minimumSize: Size(deviceSize.width * 0.1,
-                                    deviceSize.height * 0.07),
-                                padding: EdgeInsets.all(16.0),
-                                shape: RoundedRectangleBorder(),
+                            InkWell(
+                              onTap: () => clearAmountGiven(),
+                              child: Container(
+                                height: 77.v,
+                                width: 235.h,
+                                decoration: BoxDecoration(
+                                  color: AppColors.redColor,
+                                  border: Border.all(width: 2.0),
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    'Clear',
+                                    style: TextStyle(
+                                        fontSize: 18.0,
+                                        color: AppColors.dark01Color,
+                                        fontWeight: FontWeight.w900),
+                                  ),
+                                ),
                               ),
                             ),
                           ],
                         ),
-                        SizedBox(height: deviceSize.height * 0.01),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            ElevatedButton(
-                              onPressed: () => onNumberKeyPressed("4"),
-                              child: Text(
-                                '4',
-                                style: TextStyle(
-                                    color: AppColors.dark01Color,
-                                    fontSize: deviceSize.width * 0.02),
+                        //  SizedBox(width: deviceSize.width * 0.03),
+                        Container(
+                          //height: deviceSize.height * 0.4,
+                          // width: deviceSize.width * 0.27,
+                          alignment: Alignment.bottomCenter,
+                          padding: EdgeInsets.all(16.0),
+                          decoration: BoxDecoration(
+                            // Keypad background color
+                            borderRadius: BorderRadius.circular(10.0),
+                            // boxShadow: [
+                            //   BoxShadow(
+                            //     color: Colors.black.withOpacity(0.2),
+                            //     blurRadius: 6.0,
+                            //     spreadRadius: 2.0,
+                            //   ),
+                            // ],
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Container(
+                                margin: EdgeInsets.all(5),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: () => onNumberKeyPressed("1"),
+                                      child: Text(
+                                        '1',
+                                        style: TextStyle(
+                                            color: AppColors.dark01Color,
+                                            fontSize: 25),
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor:
+                                            AppColors.secondaryTextColor,
+                                        minimumSize: Size(
+                                            deviceSize.width * 0.072,
+                                            deviceSize.height * 0.067),
+                                        padding: EdgeInsets.all(16.0),
+                                        shape: RoundedRectangleBorder(),
+                                      ),
+                                    ),
+                                    SizedBox(width: deviceSize.width * 0.011),
+                                    ElevatedButton(
+                                      onPressed: () => onNumberKeyPressed("2"),
+                                      child: Text(
+                                        '2',
+                                        style: TextStyle(
+                                            color: AppColors.dark01Color,
+                                            fontSize: 25),
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor:
+                                            AppColors.secondaryTextColor,
+                                        minimumSize: Size(
+                                            deviceSize.width * 0.072,
+                                            deviceSize.height * 0.067),
+                                        padding: EdgeInsets.all(16.0),
+                                        shape: RoundedRectangleBorder(),
+                                      ),
+                                    ),
+                                    SizedBox(width: deviceSize.width * 0.011),
+                                    ElevatedButton(
+                                      onPressed: () => onNumberKeyPressed("3"),
+                                      child: Text(
+                                        '3',
+                                        style: TextStyle(
+                                            color: AppColors.dark01Color,
+                                            fontSize: 25),
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor:
+                                            AppColors.secondaryTextColor,
+                                        minimumSize: Size(
+                                            deviceSize.width * 0.072,
+                                            deviceSize.height * 0.067),
+                                        padding: EdgeInsets.all(16.0),
+                                        shape: RoundedRectangleBorder(),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.secondaryTextColor,
-                                minimumSize: Size(deviceSize.width * 0.1,
-                                    deviceSize.height * 0.07),
-                                padding: EdgeInsets.all(16.0),
-                                shape: RoundedRectangleBorder(),
+                              Container(
+                                margin: EdgeInsets.all(5),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: () => onNumberKeyPressed("4"),
+                                      child: Text(
+                                        '4',
+                                        style: TextStyle(
+                                            color: AppColors.dark01Color,
+                                            fontSize: 25),
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor:
+                                            AppColors.secondaryTextColor,
+                                        minimumSize: Size(
+                                            deviceSize.width * 0.072,
+                                            deviceSize.height * 0.067),
+                                        padding: EdgeInsets.all(16.0),
+                                        shape: RoundedRectangleBorder(),
+                                      ),
+                                    ),
+                                    SizedBox(width: deviceSize.width * 0.011),
+                                    ElevatedButton(
+                                      onPressed: () => onNumberKeyPressed("5"),
+                                      child: Text(
+                                        '5',
+                                        style: TextStyle(
+                                            color: AppColors.dark01Color,
+                                            fontSize: 25),
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor:
+                                            AppColors.secondaryTextColor,
+                                        minimumSize: Size(
+                                            deviceSize.width * 0.072,
+                                            deviceSize.height * 0.067),
+                                        padding: EdgeInsets.all(16.0),
+                                        shape: RoundedRectangleBorder(),
+                                      ),
+                                    ),
+                                    SizedBox(width: deviceSize.width * 0.011),
+                                    ElevatedButton(
+                                      onPressed: () => onNumberKeyPressed("6"),
+                                      child: Text(
+                                        '6',
+                                        style: TextStyle(
+                                            color: AppColors.dark01Color,
+                                            fontSize: 25),
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor:
+                                            AppColors.secondaryTextColor,
+                                        minimumSize: Size(
+                                            deviceSize.width * 0.072,
+                                            deviceSize.height * 0.067),
+                                        padding: EdgeInsets.all(16.0),
+                                        shape: RoundedRectangleBorder(),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            SizedBox(width: deviceSize.width * 0.020),
-                            ElevatedButton(
-                              onPressed: () => onNumberKeyPressed("5"),
-                              child: Text(
-                                '5',
-                                style: TextStyle(
-                                    color: AppColors.dark01Color,
-                                    fontSize: deviceSize.width * 0.02),
+                              Container(
+                                margin: EdgeInsets.all(5),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: () => onNumberKeyPressed("7"),
+                                      child: Text(
+                                        '7',
+                                        style: TextStyle(
+                                            color: AppColors.dark01Color,
+                                            fontSize: 25),
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor:
+                                            AppColors.secondaryTextColor,
+                                        minimumSize: Size(
+                                            deviceSize.width * 0.072,
+                                            deviceSize.height * 0.067),
+                                        padding: EdgeInsets.all(16.0),
+                                        shape: RoundedRectangleBorder(),
+                                      ),
+                                    ),
+                                    SizedBox(width: deviceSize.width * 0.01),
+                                    ElevatedButton(
+                                      onPressed: () => onNumberKeyPressed("8"),
+                                      child: Text(
+                                        '8',
+                                        style: TextStyle(
+                                            color: AppColors.dark01Color,
+                                            fontSize: 25),
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor:
+                                            AppColors.secondaryTextColor,
+                                        minimumSize: Size(
+                                            deviceSize.width * 0.072,
+                                            deviceSize.height * 0.067),
+                                        padding: EdgeInsets.all(16.0),
+                                        shape: RoundedRectangleBorder(),
+                                      ),
+                                    ),
+                                    SizedBox(width: deviceSize.width * 0.011),
+                                    ElevatedButton(
+                                      onPressed: () => onNumberKeyPressed("9"),
+                                      child: Text(
+                                        '9',
+                                        style: TextStyle(
+                                            color: AppColors.dark01Color,
+                                            fontSize: 25),
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor:
+                                            AppColors.secondaryTextColor,
+                                        minimumSize: Size(
+                                            deviceSize.width * 0.072,
+                                            deviceSize.height * 0.067),
+                                        padding: EdgeInsets.all(16.0),
+                                        shape: RoundedRectangleBorder(),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.secondaryTextColor,
-                                minimumSize: Size(deviceSize.width * 0.1,
-                                    deviceSize.height * 0.07),
-                                padding: EdgeInsets.all(16.0),
-                                shape: RoundedRectangleBorder(),
+                              Container(
+                                margin: EdgeInsets.all(5),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        if (!isTapCommar) {
+                                          onNumberKeyPressed(".");
+                                          isTapCommar = true;
+                                        }
+                                      },
+                                      child: Text(
+                                        ',',
+                                        style: TextStyle(
+                                            color: AppColors.dark01Color,
+                                            fontSize: 25),
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor:
+                                            // AppColors.secondaryTextColor,
+                                            AppColors.secondaryTextColor,
+                                        minimumSize: Size(
+                                            deviceSize.width * 0.072,
+                                            deviceSize.height * 0.067),
+                                        padding: EdgeInsets.all(16.0),
+                                        shape: RoundedRectangleBorder(),
+                                      ),
+                                    ),
+                                    SizedBox(width: deviceSize.width * 0.01),
+                                    ElevatedButton(
+                                      onPressed: () => onNumberKeyPressed("0"),
+                                      child: Text(
+                                        '0',
+                                        style: TextStyle(
+                                            color: AppColors.dark01Color,
+                                            fontSize: 25),
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor:
+                                            AppColors.secondaryTextColor,
+                                        minimumSize: Size(
+                                            deviceSize.width * 0.072,
+                                            deviceSize.height * 0.067),
+                                        padding: EdgeInsets.all(16.0),
+                                        shape: RoundedRectangleBorder(),
+                                      ),
+                                    ),
+                                    SizedBox(width: deviceSize.width * 0.011),
+                                    ElevatedButton(
+                                      onPressed: () => onNumberKeyPressed("00"),
+                                      child: Text(
+                                        '00',
+                                        style: TextStyle(
+                                            color: AppColors.dark01Color,
+                                            fontSize: 25),
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor:
+                                            AppColors.secondaryTextColor,
+                                        minimumSize: Size(
+                                            deviceSize.width * 0.072,
+                                            deviceSize.height * 0.067),
+                                        padding: EdgeInsets.all(16.0),
+                                        shape: RoundedRectangleBorder(),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            SizedBox(width: deviceSize.width * 0.020),
-                            ElevatedButton(
-                              onPressed: () => onNumberKeyPressed("6"),
-                              child: Text(
-                                '6',
-                                style: TextStyle(
-                                    color: AppColors.dark01Color,
-                                    fontSize: deviceSize.width * 0.02),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.secondaryTextColor,
-                                minimumSize: Size(deviceSize.width * 0.1,
-                                    deviceSize.height * 0.07),
-                                padding: EdgeInsets.all(16.0),
-                                shape: RoundedRectangleBorder(),
-                              ),
-                            ),
-                          ],
+
+                              //       ElevatedButton(
+                              //         onPressed: () => onNumberKeyPressed("00"),
+                              //         child: Text(
+                              //           '00',
+                              //           style: TextStyle(
+                              //               color: AppColors.dark01Color,
+                              //               fontSize: 25),
+                              //         ),
+                              //         style: ElevatedButton.styleFrom(
+                              //           backgroundColor:
+                              //               AppColors.secondaryTextColor,
+                              //           minimumSize: Size(
+                              //               deviceSize.width * 0.072,
+                              //               deviceSize.height * 0.067),
+                              //           padding: EdgeInsets.all(16.0),
+                              //           shape: RoundedRectangleBorder(),
+                              //         ),
+                              //       ),
+                              //       SizedBox(width: deviceSize.width * 0.020),
+                              //       ElevatedButton(
+                              //         onPressed: () {
+                              //           if (!isTapCommar) onNumberKeyPressed(".");
+                              //         },
+                              //         child: Text(
+                              //           ',',
+                              //           style: TextStyle(
+                              //               color: AppColors.dark01Color,
+                              //               fontSize: 25),
+                              //         ),
+                              //         style: ElevatedButton.styleFrom(
+                              //           backgroundColor:
+                              //               AppColors.secondaryTextColor,
+                              //           minimumSize: Size(
+                              //               deviceSize.width * 0.072,
+                              //               deviceSize.height * 0.067),
+                              //           padding: EdgeInsets.all(16.0),
+                              //           shape: RoundedRectangleBorder(),
+                              //         ),
+                              //       ),
+                            ],
+                          ),
                         ),
-                        SizedBox(height: deviceSize.height * 0.01),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            ElevatedButton(
-                              onPressed: () => onNumberKeyPressed("7"),
-                              child: Text(
-                                '7',
-                                style: TextStyle(
-                                    color: AppColors.dark01Color,
-                                    fontSize: deviceSize.width * 0.02),
+                        // checkout containner
+                        //  SizedBox(width: deviceSize.width * 0.03),
+                        Container(
+                          height: deviceSize.height * 0.3,
+                          width: deviceSize.width * 0.07,
+                          child: InkWell(
+                            onTap: () async {
+                              print(deviceSize.width);
+                              // Handle the checkout logic here
+                              change = amountGiven - totalAmount;
+                              if (change >= 0) {
+                                if (await payment() == 200) {
+                                  await payment();
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text(
+                                            'Change: \$${change.toStringAsFixed(3)}'),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.pushReplacement(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          GestionDeTable()));
+                                            },
+                                            child: Text('OK'),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                } else {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text('payment faild'),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: Text('OK'),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                }
+                              } else {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text('Insufficient amount given'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Text('OK'),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              }
+                            },
+                            child: Container(
+                              //  height: deviceSize.height * 0.5,
+                              //   width: deviceSize.width * 0.07,
+                              decoration: BoxDecoration(
+                                color: AppColors.greenColor,
+                                border: Border.all(width: 2.0),
+                                borderRadius: BorderRadius.circular(10.0),
                               ),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.secondaryTextColor,
-                                minimumSize: Size(deviceSize.width * 0.1,
-                                    deviceSize.height * 0.07),
-                                padding: EdgeInsets.all(16.0),
-                                shape: RoundedRectangleBorder(),
-                              ),
-                            ),
-                            SizedBox(width: deviceSize.width * 0.020),
-                            ElevatedButton(
-                              onPressed: () => onNumberKeyPressed("8"),
-                              child: Text(
-                                '8',
-                                style: TextStyle(
-                                    color: AppColors.dark01Color,
-                                    fontSize: deviceSize.width * 0.02),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.secondaryTextColor,
-                                minimumSize: Size(deviceSize.width * 0.1,
-                                    deviceSize.height * 0.07),
-                                padding: EdgeInsets.all(16.0),
-                                shape: RoundedRectangleBorder(),
-                              ),
-                            ),
-                            SizedBox(width: deviceSize.width * 0.020),
-                            ElevatedButton(
-                              onPressed: () => onNumberKeyPressed("9"),
-                              child: Text(
-                                '9',
-                                style: TextStyle(
-                                    color: AppColors.dark01Color,
-                                    fontSize: deviceSize.width * 0.02),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.secondaryTextColor,
-                                minimumSize: Size(deviceSize.width * 0.1,
-                                    deviceSize.height * 0.07),
-                                padding: EdgeInsets.all(16.0),
-                                shape: RoundedRectangleBorder(),
-                              ),
-                            ),
-                            SizedBox(width: deviceSize.width * 0.020),
-                          ],
-                        ),
-                        SizedBox(height: deviceSize.height * 0.01),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            ElevatedButton(
-                              onPressed: () => onNumberKeyPressed("0"),
-                              child: Text(
-                                '0',
-                                style: TextStyle(
-                                    color: AppColors.dark01Color,
-                                    fontSize: deviceSize.width * 0.02),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.secondaryTextColor,
-                                minimumSize: Size(deviceSize.width * 0.1,
-                                    deviceSize.height * 0.07),
-                                padding: EdgeInsets.all(16.0),
-                                shape: RoundedRectangleBorder(),
-                              ),
-                            ),
-                            SizedBox(width: deviceSize.width * 0.020),
-                            ElevatedButton(
-                              onPressed: () => onNumberKeyPressed("10"),
-                              child: Text(
-                                '10',
-                                style: TextStyle(
-                                    color: AppColors.dark01Color,
-                                    fontSize: deviceSize.width * 0.02),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.secondaryTextColor,
-                                minimumSize: Size(deviceSize.width * 0.1,
-                                    deviceSize.height * 0.07),
-                                padding: EdgeInsets.all(16.0),
-                                shape: RoundedRectangleBorder(),
+                              child: Center(
+                                child: Text(
+                                  'Done',
+                                  style: TextStyle(
+                                      fontSize: 18.0,
+                                      color: AppColors.dark01Color,
+                                      fontWeight: FontWeight.w900),
+                                ),
                               ),
                             ),
-                            SizedBox(width: deviceSize.width * 0.020),
-                            ElevatedButton(
-                              onPressed: () {
-                                if (!isTapCommar) onNumberKeyPressed(".");
-                              },
-                              child: Text(
-                                ',',
-                                style: TextStyle(
-                                    color: AppColors.dark01Color,
-                                    fontSize: deviceSize.width * 0.02),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.secondaryTextColor,
-                                minimumSize: Size(deviceSize.width * 0.1,
-                                    deviceSize.height * 0.07),
-                                padding: EdgeInsets.all(16.0),
-                                shape: RoundedRectangleBorder(),
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
                       ],
                     ),
                   ),
-                  // checkout containner
-                  InkWell(
-                    onTap: () async {
-                      print(deviceSize.width);
-                      // Handle the checkout logic here
-                      change = amountGiven - totalAmount;
-                      if (change >= 0) {
-                        if (await payment() == 200) {
-                          await payment();
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: Text(
-                                    'Change: \$${change.toStringAsFixed(3)}'),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  GestionDeTable()));
-                                    },
-                                    child: Text('OK'),
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        } else {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: Text('payment faild'),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: Text('OK'),
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        }
-                      } else {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text('Insufficient amount given'),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: Text('OK'),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      }
-                    },
-                    child: Container(
-                      height: deviceSize.height * 0.5,
-                      width: deviceSize.width * 0.07,
-                      decoration: BoxDecoration(
-                        color: AppColors.secondaryTextColor,
-                        border: Border.all(width: 2.0),
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Done',
-                          style: TextStyle(
-                              fontSize: 18.0,
-                              color: AppColors.dark01Color,
-                              fontWeight: FontWeight.w900),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

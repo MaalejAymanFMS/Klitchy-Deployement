@@ -27,22 +27,23 @@ class AvailableWaiters extends StatelessWidget {
               "$roomName : $tablesNumber Tables",
               style: TextStyle(
                   fontWeight: FontWeight.normal,
-                  color: AppColors.secondaryTextColor, fontSize: 15.fSize),
+                  color: AppColors.secondaryTextColor, fontSize: 20.fSize),
             ),
           ],
         ),
-        SizedBox(
-          width: 200.h,
-        ),
-        const WaiterTag(AppColors.secondaryTextColor, "JK.png", "Jamel K."),
-         SizedBox(
-          width: 50.h,
-        ),
-        const WaiterTag(AppColors.secondaryTextColor, "SA.png", "Samira A."),
-        SizedBox(
-          width: 50.h,
-        ),
-        const WaiterTag(AppColors.secondaryTextColor, "MH.png", "Maheb H."),
+        SizedBox(width: 825.h),
+        // SizedBox(
+        //   width: 200.h,
+        // ),
+        // const WaiterTag(AppColors.secondaryTextColor, "JK.png", "Jamel K."),
+        //  SizedBox(
+        //   width: 50.h,
+        // ),
+        // const WaiterTag(AppColors.secondaryTextColor, "SA.png", "Samira A."),
+        // SizedBox(
+        //   width: 50.h,
+        // ),
+        // const WaiterTag(AppColors.secondaryTextColor, "MH.png", "Maheb H."),
       ],
     );
   }

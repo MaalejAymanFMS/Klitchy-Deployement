@@ -21,12 +21,12 @@ class CurrentWaiter extends StatelessWidget {
               left: MediaQuery.of(context)
                   .size
                   .width -
-                  400.h,
-              right: 180.h,
-              top: 70.v,
+                  450.h,
+              right: 230.h,
+              top: 80.v,
               bottom: MediaQuery.of(context)
                   .size
-                  .height - 130.v
+                  .height - 140.v
             ),
             alignment: Alignment.bottomRight,
             shape: RoundedRectangleBorder(
@@ -34,38 +34,35 @@ class CurrentWaiter extends StatelessWidget {
               BorderRadius.circular(16),
             ),
             child: SizedBox(
-              width: 200.h,
+              width: 300.h,
               height: 100.v,
-              child: Column(
-                mainAxisAlignment:
-                MainAxisAlignment.center,
-                crossAxisAlignment:
-                CrossAxisAlignment.center,
-                children: [
-                  ListTile(
-                    dense: true,
-                    onTap: () async {
-                      SharedPreferences prefs = await SharedPreferences.getInstance();
-                      prefs.remove("isLoggedIn");
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(builder: (context) => const HomePage()),
-                        );
-                    },
-                    title: Text(
-                      "Logout",
-                      style: TextStyle(fontSize: 17.fSize, fontWeight: FontWeight.bold)
-                    ),
-                    trailing: Icon(Icons.logout, size: 30.fSize, color: AppColors.redColor,),
+              child: Center(
+                child: ListTile(
+                  dense: true,
+                  onTap: () async {
+                    SharedPreferences prefs = await SharedPreferences.getInstance();
+                    prefs.remove("isLoggedIn");
+                    prefs.remove("token");
+                    prefs.remove("email");
+                    prefs.remove("password");
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => const HomePage()),
+                      );
+                  },
+                  title: Text(
+                    "Logout",
+                    style: TextStyle(fontSize: 17.fSize, fontWeight: FontWeight.bold)
                   ),
-                ],
+                  trailing: Icon(Icons.logout, size: 30.fSize, color: AppColors.redColor,),
+                ),
               ),
             ),
           ),
         );
       },
       child: SizedBox(
-        width: 200.h,
+        width: 220.h,
         height: 50.v,
         child: Row(
           children: [
@@ -104,11 +101,7 @@ class CurrentWaiter extends StatelessWidget {
               ],
             ),
             const Spacer(),
-            Icon(
-              Icons.keyboard_arrow_down,
-              color: AppColors.secondaryTextColor,
-              size: 24.fSize,
-            ),
+            Icon(Icons.logout, size: 25.fSize, color: AppColors.redColor,),
           ],
         ),
       ),

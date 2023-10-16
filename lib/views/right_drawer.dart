@@ -152,7 +152,7 @@ class _RightDrawerState extends State<RightDrawer> {
         return AlertDialog(
           title: Text(order.name),
           content: SizedBox(
-            height: 550.v,
+            height: 570.v,
             child: Column(
               children: [
                 EntryField(
@@ -161,7 +161,7 @@ class _RightDrawerState extends State<RightDrawer> {
                   controller: orderNote,
                 ),
                 SizedBox(
-                  height: 100.v,
+                  height: 50.v,
                 ),
                 CustomButton(
                   text: "add note",
@@ -170,7 +170,9 @@ class _RightDrawerState extends State<RightDrawer> {
                     orderNote.clear();
                     Navigator.pop(context);
                   },
+                  backgroundColor: Colors.blueGrey,
                 ),
+                SizedBox(height: 20.v,),
                 const Spacer(),
                 Container(
                   color: AppColors.itemsColor,
@@ -188,7 +190,7 @@ class _RightDrawerState extends State<RightDrawer> {
           ),
           actions: <Widget>[
             TextButton(
-              child: const Text('Close'),
+              child: Text('Close', style: TextStyle(color: AppColors.redColor, fontSize: 20.fSize, fontWeight: FontWeight.w300),),
               onPressed: () {
                 orderNote.clear();
                 Navigator.of(context).pop();

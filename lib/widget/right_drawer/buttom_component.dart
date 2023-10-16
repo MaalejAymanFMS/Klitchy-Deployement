@@ -41,7 +41,7 @@ class _ButtomComponentState extends State<ButtomComponent> {
                   children: [
                     Icon(
                       Icons.remove_circle_outline,
-                      color: AppColors.pink,
+                      color: AppColors.pink.withOpacity(0.8),
                       size: 30.fSize,
                     ),
                     SizedBox(
@@ -49,7 +49,7 @@ class _ButtomComponentState extends State<ButtomComponent> {
                     ),
                     Text(
                       "Discount",
-                      style: TextStyle(color: AppColors.pink, fontSize: 15.fSize),
+                      style: TextStyle(color: AppColors.pink.withOpacity(0.8), fontSize: 20.fSize),
                     )
                   ],
                 ),
@@ -82,8 +82,8 @@ class _ButtomComponentState extends State<ButtomComponent> {
                         width: 10.h,
                       ),
                       Text(
-                        "Add amount",
-                        style: TextStyle(color: AppColors.turquoise, fontSize: 15.fSize),
+                        "Payment",
+                        style: TextStyle(color: AppColors.turquoise, fontSize: 20.fSize),
                       )
                     ],
                   ),
@@ -151,7 +151,7 @@ class _ButtomComponentState extends State<ButtomComponent> {
             child: CustomButton(
               backgroundColor: AppColors.greenColor,
               icon: "assets/images/arrow_forward.png",
-              text: "Start Orders",
+              text: "Send to kitchen",
               onTap: widget.onTap,
             ),
           )

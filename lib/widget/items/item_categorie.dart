@@ -51,17 +51,10 @@ class ItemCategorie extends StatelessWidget {
               child: Text(
                 name,
                 style: TextStyle(
-                    fontWeight: FontWeight.bold, color: Colors.white, fontSize: 15.fSize),
+                    fontWeight: FontWeight.bold, color: Colors.white, fontSize: 22.fSize),
               ),
             ),
-            const Spacer(),
-            // Padding(
-            //   padding: const EdgeInsets.all(8.0),
-            //   child: Text(
-            //     "$numberOfItems Items",
-            //     style: const TextStyle(color: Colors.white),
-            //   ),
-            // ),
+
           ],
         ),
       ),

@@ -48,14 +48,14 @@ class _PinScreenState extends State<PinScreen> {
         margin: const EdgeInsets.all(16.0),
         child: Container(
           padding: const EdgeInsets.all(16.0),
-          width: deviceSize.width * 0.22,
-          height: deviceSize.height * 0.5,
+          width: 450.h,
+          height: 570.v,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
                 'Enter personal PIN:',
-                style: TextStyle(fontSize: 20.fSize, color: AppColors.lightColor),
+                style: TextStyle(fontSize: 25.fSize, color: AppColors.lightColor),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -63,13 +63,13 @@ class _PinScreenState extends State<PinScreen> {
                   for (int i = 0; i < 4; i++)
                     Container(
                       margin: const EdgeInsets.all(8.0),
-                      width: 30.h,
-                      height: 30.v,
+                      width: 40.h,
+                      height: 40.v,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: i < filledCircles
                             ? AppColors.greenColor
-                            : AppColors.lightColor,
+                            : AppColors.lightColor.withOpacity(0.5),
                       ),
                     ),
                 ],
@@ -144,18 +144,26 @@ class _PinScreenState extends State<PinScreen> {
 
                       print(pin);
                     },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.lightColor,
+                      padding: EdgeInsets.symmetric(horizontal: 35.h, vertical: 20.v),
+                    ),
                     child: Text('Confirm',
                         style: TextStyle(
                             fontSize: 20.fSize, color: AppColors.dark01Color)),
                   ),
                   SizedBox(width: 20.h),
                   ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.lightColor,
+                        padding: EdgeInsets.symmetric(horizontal: 35.h, vertical: 20.v),
+                    ),
                     onPressed: () {
                       removePin();
                     },
                     child: Text('Delete',
                         style: TextStyle(
-                            fontSize: 20.fSize, color: AppColors.dark01Color)),
+                            fontSize: 20.fSize, color: AppColors.redColor)),
                   ),
                 ],
               ),
@@ -167,14 +175,17 @@ class _PinScreenState extends State<PinScreen> {
   }
 
   Widget keyboardButton(String label) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.lightColor,
-          padding: EdgeInsets.symmetric(horizontal: 50.h, vertical: 20.v),
-          textStyle: TextStyle(fontSize: 30.fSize, fontWeight: FontWeight.bold)),
-      onPressed: () => addPin(label),
-      child: Text(label,
-          style: TextStyle(fontSize: 30.fSize, color: AppColors.dark01Color)),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+            backgroundColor: AppColors.lightColor,
+            padding: EdgeInsets.symmetric(horizontal: 40.h, vertical: 20.v),
+            textStyle: TextStyle(fontSize: 30.fSize, fontWeight: FontWeight.bold)),
+        onPressed: () => addPin(label),
+        child: Text(label,
+            style: TextStyle(fontSize: 30.fSize, color: AppColors.dark01Color)),
+      ),
     );
   }
 }

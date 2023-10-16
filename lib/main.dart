@@ -25,6 +25,12 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
+            scrollbarTheme: ScrollbarThemeData(
+              thumbColor: MaterialStateProperty.all(Colors.white),
+              thumbVisibility: MaterialStateProperty.all(true),
+              trackColor:MaterialStateProperty.all(Colors.white38),
+              trackVisibility: MaterialStateProperty.all(true),
+            ),
         ),
         home: SplashScreen(),
 

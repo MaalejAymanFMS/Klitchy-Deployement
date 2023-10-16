@@ -61,10 +61,7 @@ class _LeftDrawerState extends State<LeftDrawer> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery
-          .of(context)
-          .size
-          .width / 5.6,
+      width: 200.h,
       color: AppColors.primaryColor,
       child: Padding(
         padding: EdgeInsets.only(top: 10.v),
@@ -102,10 +99,13 @@ class _LeftDrawerState extends State<LeftDrawer> {
                     widget.appState.switchCheckoutOrder();
                     print(widget.appState.choosenRoom);
                   },
-                  child: Room(
-                    room.title,
-                    room.id,
-                    selectedRoomIndex == index, // Pass isSelected
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10.v),
+                    child: Room(
+                      room.title,
+                      room.id,
+                      selectedRoomIndex == index, // Pass isSelected
+                    ),
                   ),
                 );
               }).toList(),

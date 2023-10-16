@@ -31,7 +31,7 @@ class RoomsState extends State<Rooms> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 5.v, horizontal: 10.h),
+      padding: EdgeInsets.symmetric(vertical: 10.v, horizontal: 20.h),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -40,13 +40,13 @@ class RoomsState extends State<Rooms> {
               Text(
                 "Rooms",
                 style:
-                    TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 15.fSize),
+                    TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 17.fSize),
               ),
               Text(
                 "${widget.numberOfRooms} rooms",
                 style: TextStyle(
                     fontWeight: FontWeight.normal,
-                    color: AppColors.secondaryTextColor, fontSize: 15.fSize),
+                    color: AppColors.secondaryTextColor, fontSize: 17.fSize),
               ),
             ],
           ),
@@ -57,9 +57,12 @@ class RoomsState extends State<Rooms> {
                   context: context,
                   builder: (_) {
                     return AlertDialog(
-                      title: Text("Rooms form", style: TextStyle(fontSize: 15.fSize),),
+                      title: Text("Rooms form", style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge!
+                          .copyWith(fontSize: 20, color: Colors.black),),
                       content: SizedBox(
-                          height: 550.v,
+                          height: 570.v,
                           child: Form(
                             key: _formkey,
                             child: Column(children: [
@@ -69,14 +72,15 @@ class RoomsState extends State<Rooms> {
                                 controller: widget.roomNameControllr,
                               ),
                               SizedBox(
-                                height: 70.v,
+                                height: 50.v,
                               ),
                               _isLoading
                                   ? const Center(
                                       child: CircularProgressIndicator())
                                   : CustomButton(
                                       text: "add room",
-                                      onTap: () async {
+                                  backgroundColor: Colors.blueGrey,
+                                  onTap: () async {
                                         if (_formkey.currentState!.validate()) {
                                           _formkey.currentState!.save();
                                           setState(() => _isLoading = true);
@@ -103,6 +107,7 @@ class RoomsState extends State<Rooms> {
                                           }
                                         }
                                       }),
+                              SizedBox(height: 20.v,),
                               const Spacer(),
                               Container(
                                 color: AppColors.itemsColor,

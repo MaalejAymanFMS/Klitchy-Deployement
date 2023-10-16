@@ -545,12 +545,12 @@ class StartPageUIState extends State<StartPageUI> {
           context: context,
           builder: (_) {
             return AlertDialog(
-              title: Text("Table menu", style: TextStyle(fontSize: 15.fSize),),
+              title: Text("Table menu", style: TextStyle(fontSize: 20.fSize),),
               content: SizedBox(
                 height: 300.v,
                 child: Column(
                   children: [
-                    Text("table number: ${index + 1}", style: TextStyle(fontSize: 15.fSize),),
+                    Text("table number: ${index + 1}", style: TextStyle(fontSize: 20.fSize),),
                     const Spacer(),
                     CustomButton(
                       text: "add order",
@@ -571,7 +571,7 @@ class StartPageUIState extends State<StartPageUI> {
                       widget.appState.deleteTable();
                       Navigator.pop(context);
                     },
-                    child: Text("delete", style: TextStyle(fontSize: 15.fSize),))
+                    child: Text("delete", style: TextStyle(fontSize: 20.fSize, color: Colors.red),))
               ],
             );
           },

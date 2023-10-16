@@ -97,7 +97,7 @@ class TableOrderState extends State<TableOrder> {
                   name: listCategories[index].name!,
                   color: selectedCategoryIndex == index
                       ? Colors.red
-                      : Colors.blueGrey,
+                      : Colors.lightBlueAccent,
                   numberOfItems: 14,
                   onTap: (params) {
                     fetchItems(params);
@@ -117,21 +117,24 @@ class TableOrderState extends State<TableOrder> {
           ),
         ),
         const Spacer(),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Find items in $categorieName",
-              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 15.fSize),
-            ),
-            SizedBox(
-              height: 10.v,
-            ),
-            Text(
-              "${listItems.length} Variation",
-              style: TextStyle(color: AppColors.secondaryTextColor, fontSize: 15.fSize),
-            ),
-          ],
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10.h),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Find items in $categorieName",
+                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 20.fSize),
+              ),
+              SizedBox(
+                height: 10.v,
+              ),
+              Text(
+                "${listItems.length} Variation",
+                style: TextStyle(color: AppColors.secondaryTextColor, fontSize: 20.fSize),
+              ),
+            ],
+          ),
         ),
         const Spacer(),
         SizedBox(

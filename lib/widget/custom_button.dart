@@ -75,7 +75,7 @@ class CustomButton extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: textStyle ??
                   Theme.of(context).textTheme.bodyText1?.copyWith(
-                    fontSize: 14.fSize,
+                    fontSize: 16.fSize,
                     color: backgroundColor !=
                         Theme.of(context).scaffoldBackgroundColor
                         ? Theme.of(context).scaffoldBackgroundColor

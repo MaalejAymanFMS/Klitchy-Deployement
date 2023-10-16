@@ -18,7 +18,7 @@ class Room extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
       ),
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 5.v, horizontal: 10.h),
+        padding: EdgeInsets.symmetric(vertical: 5.v, horizontal: 20.h),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -34,7 +34,7 @@ class Room extends StatelessWidget {
                 Text(
                   title,
                   style: TextStyle(
-                      fontWeight: FontWeight.bold, color: Colors.white, fontSize: 15.fSize),
+                      fontWeight: FontWeight.bold, color: Colors.white, fontSize: 17.fSize),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -51,13 +51,14 @@ class Room extends StatelessWidget {
                     Text("online",
                         style: TextStyle(
                             fontWeight: FontWeight.normal,
-                            color: AppColors.secondaryTextColor, fontSize: 15.fSize)),
+                            color: AppColors.secondaryTextColor, fontSize: 15.5.fSize)),
                   ],
                 ),
               ],
             ),
             const Spacer(),
-            Icon(Icons.arrow_forward_ios, color: Colors.white, size: 25.fSize),
+            Icon(Icons.arrow_forward_ios, color: Colors.grey, size: 25.fSize),
+
           ],
         ),
       ),

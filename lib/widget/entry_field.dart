@@ -48,14 +48,14 @@ class EntryField extends StatelessWidget {
             style: Theme.of(context)
                 .textTheme
                 .bodyLarge!
-                .copyWith(fontSize: 12, color: Colors.black),
+                .copyWith(fontSize: 18, color: Colors.black),
           ),
         if (label != null)  SizedBox(height: 16.h),
         TextFormField(
           textAlign: textAlign ?? TextAlign.start,
           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                 color: Colors.black,
-                fontSize: 12.fSize,
+                fontSize: 20.fSize,
               ),
           initialValue: initialValue,
           decoration: InputDecoration(
@@ -72,7 +72,7 @@ class EntryField extends StatelessWidget {
             // Theme.of(context).textTheme.bodySmall,
             contentPadding: EdgeInsets.symmetric(
               horizontal: 22.h,
-              vertical: 20.v,
+              vertical: 35.v,
             ),
           ),
           keyboardType: keyboardType,

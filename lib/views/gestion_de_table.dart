@@ -69,6 +69,7 @@ class _GestionDeTableState extends State<GestionDeTable> {
               ),
               appState.isWidgetEnabled
                   ? Drawer(
+                width: 300.h,
                       child: LeftDrawer(_handleDrawer,appState),
                     )
                   : const SizedBox(),
