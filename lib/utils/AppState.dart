@@ -54,6 +54,8 @@ class AppState extends ChangeNotifier {
   double get total => _total;
   double _tva = 0.0;
   double get tva => _tva;
+  double _discount = 0.0;
+  double get discount => _discount;
 
   void addOrder(int number, OrderComponent orderWidget) {
     if (number > 0) {
@@ -63,7 +65,7 @@ class AppState extends ChangeNotifier {
             widget.price == orderWidget.price,
       );
       if (existingWidgetIndex != -1) {
-        _subtotal -= _orders.elementAt(existingWidgetIndex).number * (orderWidget.price - _orders.elementAt(existingWidgetIndex).price* 0.19);
+        _subtotal -= _orders.elementAt(existingWidgetIndex).number * (orderWidget.price - _orders.elementAt(existingWidgetIndex).price* 0.07);
         _total -= _orders.elementAt(existingWidgetIndex).number * orderWidget.price;
         _orders.elementAt(existingWidgetIndex).number = number;
       } else {
@@ -72,7 +74,7 @@ class AppState extends ChangeNotifier {
       }
       _tva += orderWidget.price * 0.07 * orderWidget.number;
       _subtotal += number * (orderWidget.price - orderWidget.price * 0.07);
-      _total += number * orderWidget.price;
+      _total += (number * orderWidget.price)*(1-_discount/100);
       notifyListeners();
     }
   }
@@ -90,9 +92,9 @@ class AppState extends ChangeNotifier {
       _orders.removeAt(existingWidgetIndex);
     }
     }
-    _subtotal -= orderWidget.price - (orderWidget.price * 0.19);
-    _tva -= orderWidget.price * 0.19;
-    _total -= orderWidget.price;
+    _total -= orderWidget.price*(1-_discount/100);
+    _subtotal -= orderWidget.price - (orderWidget.price * 0.07);
+    _tva -= orderWidget.price * 0.07;
     if(_subtotal < 0){
       _subtotal = 0.0;
     }
@@ -109,6 +111,7 @@ class AppState extends ChangeNotifier {
     _tva = 0.0;
     _subtotal = 0.0;
     _total = 0.0;
+    _discount=0.0;
     _entryItems.clear();
     notifyListeners();
   }
