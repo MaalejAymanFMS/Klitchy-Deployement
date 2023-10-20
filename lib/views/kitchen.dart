@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:klitchyapp/config/app_colors.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 bool isDone = false;
 List<Order> orders = [];
@@ -92,10 +93,12 @@ class KitchenScreen extends StatefulWidget {
 
 class _KitchenScreenState extends State<KitchenScreen> {
   Future<List<Order>> fetchOrder() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString("token");
     final response = await http.get(
       Uri.parse(
           'https://erpnext-141144-0.cloudclusters.net/api/resource/Table%20Order?fields=["name","table","table_description"]&filters=[["table_description", "LIKE", "T2"]]'),
-      headers: {'Authorization': 'token 82ad2e094492b3a:f24396cdd3d1c46'},
+      headers: {'Authorization': '$token'},
     );
 
     if (response.statusCode == 200) {

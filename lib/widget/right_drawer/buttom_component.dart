@@ -114,7 +114,7 @@ class _ButtomComponentState extends State<ButtomComponent> {
             child: Row(
               children: [
                 Text(
-                  "TVA 19%",
+                  "TVA 7%",
                   style: TextStyle(
                       fontWeight: FontWeight.bold, color: AppColors.textItems, fontSize: 15.fSize),
                 ),

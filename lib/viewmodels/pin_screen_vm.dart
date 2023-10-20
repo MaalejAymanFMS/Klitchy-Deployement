@@ -29,7 +29,7 @@ class PinScreenVMState extends State<PinScreenVM> implements PinScreenInteractor
         ,headers: {
           "Access-Control-Allow-Origin":"*"
         });
-    print(response.statusCode);
+    debugPrint(response.statusCode.toString());
 
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body);
@@ -39,9 +39,9 @@ class PinScreenVMState extends State<PinScreenVM> implements PinScreenInteractor
       prefs.setString('email', data.email!);
       prefs.setString('password', data.password!);
       prefs.setString('role', data.role!);
-      print(prefs.getString("email"));
-      print(prefs.getString("password"));
-      print(prefs.getString("role"));
+      debugPrint(prefs.getString("email"));
+      debugPrint(prefs.getString("password"));
+      debugPrint(prefs.getString("role"));
       return data;
     } else {
       final jsonResponse = json.decode(response.body);
@@ -63,8 +63,8 @@ class PinScreenVMState extends State<PinScreenVM> implements PinScreenInteractor
     final response = await http
         .post(Uri.parse("$baseUrl/method/login"),
         headers: headers, body: json.encode(body));
-    print(response.statusCode);
-    print(response.body);
+    debugPrint(response.statusCode.toString());
+    debugPrint(response.body);
 
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body);

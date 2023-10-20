@@ -90,13 +90,15 @@ class _LeftDrawerState extends State<LeftDrawer> {
                 final index = entry.key;
                 final room = entry.value;
                 return InkWell(
-                  onTap: () {
+                  onTap: () async {
                     setState(() {
                       selectedRoomIndex = index;
                     });
                     widget.appState.chooseRoom(room.title, room.id);
                     widget.appState.switchRoom();
                     widget.appState.switchCheckoutOrder();
+                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                      prefs.remove("orderId");
                     print(widget.appState.choosenRoom);
                   },
                   child: Padding(

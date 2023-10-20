@@ -99,6 +99,7 @@ class ItemState extends State<Item> {
             price: widget.price,
             image: widget.image,
             code: widget.code,
+            status: "Attending",
           ),
         );
         appState.addEntryItem(

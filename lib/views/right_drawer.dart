@@ -15,10 +15,12 @@ import '../utils/AppState.dart';
 import '../utils/locator.dart';
 import '../widget/entry_field.dart';
 import '../widget/order_component.dart';
+
 class RightDrawer extends StatefulWidget {
   final String tableName;
   final String tableId;
   final AppState appState;
+
   const RightDrawer({
     required this.tableName,
     required this.tableId,
@@ -30,70 +32,110 @@ class RightDrawer extends StatefulWidget {
   State<RightDrawer> createState() => _RightDrawerState();
 }
 
-
 class _RightDrawerState extends State<RightDrawer> {
   final TextEditingController orderNote = TextEditingController();
   final interactor = getIt<RightDrawerInterractor>();
   List<EntryItem> orders = [];
   String orderId = "";
-  void fetchOrders() async{
+
+  void fetchOrders() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     widget.appState.deleteAllOrders();
     Map<String, dynamic> params = {
-      "fields": ["name","table","table_description"],
+      "fields": ["name", "table", "table_description"],
       "filters": [
-        ["table_description", "LIKE", "%${widget.tableId}%"],
+        ["table_description", "LIKE", (widget.tableId)],
+        ["status", "LIKE", "Attending"],
       ]
     };
     var orderP1 = await interactor.retrieveTableOrderPart1(params);
-    if(orderP1.dataP1!.isNotEmpty) {
-      var orderP2 = await interactor.retrieveTableOrderPart2(
-          orderP1.dataP1![0].name!);
-      if(orderP2.dataP2!.entryItems!.isNotEmpty) {
-        orderId = orderP1.dataP1![0].name!;
+    if (orderP1.dataP1!.isNotEmpty) {
+      var orderP2 =
+          await interactor.retrieveTableOrderPart2(orderP1.dataP1![0].name!);
+      if (orderP2.dataP2!.entryItems!.isNotEmpty) {
+        setState(() {
+          orderId = orderP1.dataP1![0].name!;
+        });
         prefs.setString("orderId", orderId);
         orders = orderP2.dataP2!.entryItems!;
         for (var order in orders) {
           widget.appState.addOrder(
             order.qty as int,
-          OrderComponent(
-            number: order.qty!.toInt(),
-            name: order.item_name!,
-            price: order.rate ?? 0,
-            image: "",
-            note: order.notes,
-            code: order.item_code!,
+            OrderComponent(
+              number: order.qty!.toInt(),
+              name: order.item_name!,
+              price: order.rate ?? 0,
+              image: "",
+              note: order.notes,
+              code: order.item_code!,
+              status: order.status!,
             ),
           );
+          widget.appState.addEntryItem(
+              order.qty!,
+              EntryItem(
+                  name: order.name,
+                  owner: order.owner,
+                  item_name: order.item_name,
+                  item_group: order.item_group,
+                  creation: order.creation,
+                  identifier: "identifier",
+                  parentfield: "entry_items",
+                  parenttype: "Table Order",
+                  item_code: order.item_code!,
+                  status: order.status!,
+                  notes: "",
+                  qty: order.qty!,
+                  rate: order.rate,
+                  price_list_rate: order.rate,
+                  amount: order.qty! * order.rate!,
+                  table_description:
+                      "${widget.appState.choosenRoom["name"]} (Table)",
+                  doctype: "Order Entry Item"));
         }
+        print(widget.appState.entryItems
+            .map((entryMap) => entryMap.toJson())
+            .toList());
       }
     }
   }
 
   void addOrders() async {
     Map<String, dynamic> body = {
-        "room": widget.appState.choosenRoom["id"],
-        "table": widget.tableName,
-        "table_description": widget.tableId,
-        "room_description": widget.appState.choosenRoom["name"],
-        "naming_series": "OR-.YYYY.-",
-        "status": "Attending",
-        "customer": "Defult Customer",
-        "pos_profile": "Caissier",
-        "selling_price_list": "Standard Selling",
-        "company": "Jumpark",
-        "doctype": "Table Order",
-        "entry_items": widget.appState.entryItems.map((entryMap) => entryMap.toJson()).toList(),
+      "room": widget.appState.choosenRoom["id"],
+      "table": widget.tableName,
+      "table_description": widget.tableId,
+      "room_description": widget.appState.choosenRoom["name"],
+      "naming_series": "OR-.YYYY.-",
+      "status": "Attending",
+      "customer": "Defult Customer",
+      "pos_profile": "Caissier",
+      "selling_price_list": "Standard Selling",
+      "company": "Jumpark",
+      "doctype": "Table Order",
+      "amount": widget.appState.total,
+      "tax": widget.appState.tva,
+      "entry_items": widget.appState.entryItems
+          .map((entryMap) => entryMap.toJson())
+          .toList(),
     };
     await interactor.addOrder(body);
   }
+
   void updateOrder() async {
+    for(var item in widget.appState.entryItems) {
+      widget.appState.updateEntryItemStatus(item.item_code!,"Sent");
+    }
     Map<String, dynamic> body = {
-      "entry_items": widget.appState.entryItems.map((entryMap) => entryMap.toJson()).toList(),
+      "amount": widget.appState.total,
+      "tax": widget.appState.tva,
+      "entry_items": widget.appState.entryItems
+          .map((entryMap) => entryMap.toJson())
+          .toList(),
     };
-    print("update asba: $orderId");
     await interactor.updateOrder(body, orderId);
   }
+
   @override
   void initState() {
     fetchOrders();
@@ -109,42 +151,49 @@ class _RightDrawerState extends State<RightDrawer> {
         padding: EdgeInsets.symmetric(vertical: 10.v),
         child: Column(
           children: [
-            TableTag(widget.appState,widget.tableName, orderId.isEmpty ? addOrders : updateOrder),
+            TableTag(widget.appState, widget.tableName,
+                orderId.isEmpty ? addOrders : updateOrder),
             Expanded(
               child: widget.appState.orders.isNotEmpty
                   ? SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Text(
-                      "Items",
-                      style: TextStyle(color: Colors.white, fontSize: 15.fSize),
-                    ),
-                    Column(
-                      children: widget.appState.orders.map((order) {
-                        return InkWell(
-                          onTap: () {
-                            if(widget.appState.enabledNotes) {
-                              showOrderDetails(order, widget.appState);
-                            }
-                            if(widget.appState.enabledDelete) {
-                              widget.appState.deleteOrder(order.number, order);
-                            }
-                          },
-                          child: order,
-                        );
-                      }).toList(),
-                    ),
-                  ],
-                ),
-              )
+                      child: Column(
+                        children: [
+                          Text(
+                            "Items",
+                            style: TextStyle(
+                                color: Colors.white, fontSize: 15.fSize),
+                          ),
+                          Column(
+                            children: widget.appState.orders.map((order) {
+                              return InkWell(
+                                onTap: () {
+                                  if (widget.appState.enabledNotes) {
+                                    showOrderDetails(order, widget.appState);
+                                  }
+                                  if (widget.appState.enabledDelete) {
+                                    widget.appState
+                                        .deleteOrder(order.number, order);
+                                  }
+                                },
+                                child: order,
+                              );
+                            }).toList(),
+                          ),
+                        ],
+                      ),
+                    )
                   : const SizedBox(),
             ),
-            ButtomComponent(onTap: orderId.isEmpty ? addOrders : updateOrder, appState: widget.appState,),
+            ButtomComponent(
+              onTap: orderId.isEmpty ? addOrders : updateOrder,
+              appState: widget.appState,
+            ),
           ],
         ),
       ),
     );
   }
+
   void showOrderDetails(OrderComponent order, AppState appState) {
     showDialog(
       context: context,
@@ -172,7 +221,9 @@ class _RightDrawerState extends State<RightDrawer> {
                   },
                   backgroundColor: Colors.blueGrey,
                 ),
-                SizedBox(height: 20.v,),
+                SizedBox(
+                  height: 20.v,
+                ),
                 const Spacer(),
                 Container(
                   color: AppColors.itemsColor,
@@ -190,7 +241,13 @@ class _RightDrawerState extends State<RightDrawer> {
           ),
           actions: <Widget>[
             TextButton(
-              child: Text('Close', style: TextStyle(color: AppColors.redColor, fontSize: 20.fSize, fontWeight: FontWeight.w300),),
+              child: Text(
+                'Close',
+                style: TextStyle(
+                    color: AppColors.redColor,
+                    fontSize: 20.fSize,
+                    fontWeight: FontWeight.w300),
+              ),
               onPressed: () {
                 orderNote.clear();
                 Navigator.of(context).pop();

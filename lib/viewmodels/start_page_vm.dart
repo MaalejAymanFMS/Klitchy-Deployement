@@ -84,6 +84,7 @@ class StartPageVMState extends State<StartPageVM>
     final Map<String, String> queryParams = {
       "fields": json.encode(params['fields']),
       "filters": filtersJson,
+      "limit_page_length": "None"
     };
 
     final response = await http.get(uri.replace(queryParameters: queryParams),

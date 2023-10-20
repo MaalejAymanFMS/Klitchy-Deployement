@@ -13,10 +13,12 @@ import 'package:klitchyapp/widget/tables/table_3.dart';
 import 'package:klitchyapp/widget/tables/table_6.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:virtual_keyboard_2/virtual_keyboard_2.dart';
 
 import '../config/app_colors.dart';
 import '../utils/locator.dart';
 import '../widget/custom_button.dart';
+import '../widget/entry_field.dart';
 import '../widget/tables/table_2.dart';
 import '../widget/tables/table_4.dart';
 import '../widget/tables/table_8.dart';
@@ -52,6 +54,8 @@ class StartPageUIState extends State<StartPageUI> {
   String tableId = '';
   bool _dataFetched = false;
   String _fetchedRoomName = "false";
+  final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+  final TextEditingController tableNameController = TextEditingController();
 
   double tableRotationFunction() {
     final rotation = tableRotation[currentIndex];
@@ -90,7 +94,9 @@ class StartPageUIState extends State<StartPageUI> {
     };
     await interactor.updateTable(body, id);
   }
+
   int i = 0;
+
   void fetchTables() async {
     i += 1;
     Map<String, dynamic> params = {
@@ -127,7 +133,8 @@ class StartPageUIState extends State<StartPageUI> {
                         id: response.data![i].name,
                         name: response.data![i].description!,
                       ),
-                      response.data![i].description!, response.data![i].name!),
+                      response.data![i].description!,
+                      response.data![i].name!),
                   onDraggableCanceled: (widget) =>
                       _handleDragCancelled(widget));
               widget.appState.addTableTimer(TableTimer(
@@ -145,7 +152,8 @@ class StartPageUIState extends State<StartPageUI> {
                         id: response.data![i].name,
                         name: response.data![i].description!,
                       ),
-                      response.data![i].description!, response.data![i].name!),
+                      response.data![i].description!,
+                      response.data![i].name!),
                   onDraggableCanceled: (widget) =>
                       _handleDragCancelled(widget));
               widget.appState.addTableTimer(TableTimer(
@@ -163,7 +171,8 @@ class StartPageUIState extends State<StartPageUI> {
                         id: response.data![i].name,
                         name: response.data![i].description!,
                       ),
-                      response.data![i].description!, response.data![i].name!),
+                      response.data![i].description!,
+                      response.data![i].name!),
                   onDraggableCanceled: (widget) =>
                       _handleDragCancelled(widget));
               widget.appState.addTableTimer(TableTimer(
@@ -180,7 +189,8 @@ class StartPageUIState extends State<StartPageUI> {
                           rotation: double.parse(parts[2]),
                           id: response.data![i].name,
                           name: response.data![i].description!),
-                      response.data![i].description!, response.data![i].name!),
+                      response.data![i].description!,
+                      response.data![i].name!),
                   onDraggableCanceled: (widget) =>
                       _handleDragCancelled(widget));
               widget.appState.addTableTimer(TableTimer(
@@ -197,7 +207,8 @@ class StartPageUIState extends State<StartPageUI> {
                           rotation: double.parse(parts[2]),
                           id: response.data![i].name,
                           name: response.data![i].description!),
-                      response.data![i].description!, response.data![i].name!),
+                      response.data![i].description!,
+                      response.data![i].name!),
                   onDraggableCanceled: (widget) =>
                       _handleDragCancelled(widget));
               widget.appState.addTableTimer(TableTimer(
@@ -217,25 +228,20 @@ class StartPageUIState extends State<StartPageUI> {
     }
   }
 
-  // @override
-  // void initState() {
-  //   fetchTables();
-  //   super.initState();
-  // }
-
   @override
   void didChangeDependencies() {
     if (!_dataFetched) {
       fetchTables();
       setState(() {
         _fetchedRoomName = widget.name;
-        if(i>=2) {
+        if (i >= 2) {
           _dataFetched = true;
         }
       });
-  }
+    }
     super.didChangeDependencies();
   }
+
   @override
   void didUpdateWidget(covariant StartPageUI oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -297,104 +303,154 @@ class StartPageUIState extends State<StartPageUI> {
                                                       title: const Text(
                                                           "Table menu"),
                                                       content: SizedBox(
-                                                        height: 300.v,
-                                                        width: 700.h,
-                                                        child: Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Text(
-                                                              "Choose number of places:",
-                                                              style: TextStyle(
-                                                                  fontSize: 24.fSize),
-                                                            ),
-                                                            Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .start,
-                                                              children: <Widget>[
-                                                                keyboardButton(
-                                                                    "2",
-                                                                    setState),
-                                                                SizedBox(
-                                                                  width: 10.h,
-                                                                ),
-                                                                keyboardButton(
-                                                                    "3",
-                                                                    setState),
-                                                                SizedBox(
-                                                                  width: 10.h,
-                                                                ),
-                                                                keyboardButton(
-                                                                    "4",
-                                                                    setState),
-                                                                SizedBox(
-                                                                  width: 10.h,
-                                                                ),
-                                                                keyboardButton(
-                                                                    "6",
-                                                                    setState),
-                                                                SizedBox(
-                                                                  width: 10.h,
-                                                                ),
-                                                                keyboardButton(
-                                                                    "8",
-                                                                    setState),
-                                                                SizedBox(
-                                                                  width: 50.h,
-                                                                ),
-                                                                this
-                                                                    .widget
-                                                                    .appState
-                                                                    .tableType,
-                                                              ],
-                                                            ),
-                                                            SizedBox(
-                                                              height: 20.v,
-                                                            ),
-                                                            Row(
-                                                              children: [
-                                                                Text(
-                                                                  "Choose the rotation: ",
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          24.fSize),
-                                                                ),
-                                                                IconButton(
-                                                                  onPressed:
-                                                                      () {
-                                                                    this
-                                                                        .widget
-                                                                        .appState
-                                                                        .changeTableRotation(
-                                                                            tableRotationFunction());
-                                                                    setState(
-                                                                        () {});
-                                                                  },
-                                                                  icon: Icon(
+                                                        height: 740.v,
+                                                        child: Form(
+                                                          key: _formkey,
+                                                          child: Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Text(
+                                                                "Choose number of places:",
+                                                                style: TextStyle(
+                                                                    fontSize: 24
+                                                                        .fSize),
+                                                              ),
+                                                              Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .start,
+                                                                children: <Widget>[
+                                                                  keyboardButton(
+                                                                      "2",
+                                                                      setState),
+                                                                  SizedBox(
+                                                                    width: 10.h,
+                                                                  ),
+                                                                  keyboardButton(
+                                                                      "3",
+                                                                      setState),
+                                                                  SizedBox(
+                                                                    width: 10.h,
+                                                                  ),
+                                                                  keyboardButton(
+                                                                      "4",
+                                                                      setState),
+                                                                  SizedBox(
+                                                                    width: 10.h,
+                                                                  ),
+                                                                  keyboardButton(
+                                                                      "6",
+                                                                      setState),
+                                                                  SizedBox(
+                                                                    width: 10.h,
+                                                                  ),
+                                                                  keyboardButton(
+                                                                      "8",
+                                                                      setState),
+                                                                  SizedBox(
+                                                                    width: 50.h,
+                                                                  ),
+                                                                  this
+                                                                      .widget
+                                                                      .appState
+                                                                      .tableType,
+                                                                ],
+                                                              ),
+                                                              SizedBox(
+                                                                height: 20.v,
+                                                              ),
+                                                              Row(
+                                                                children: [
+                                                                  Text(
+                                                                    "Choose the rotation: ",
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            24.fSize),
+                                                                  ),
+                                                                  IconButton(
+                                                                    onPressed:
+                                                                        () {
+                                                                      this
+                                                                          .widget
+                                                                          .appState
+                                                                          .changeTableRotation(
+                                                                              tableRotationFunction());
+                                                                      setState(
+                                                                          () {});
+                                                                    },
+                                                                    icon: Icon(
                                                                       Icons
-                                                                          .rotate_90_degrees_ccw, size: 30.fSize,),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                            const Spacer(),
-                                                            CustomButton(
-                                                              text:
-                                                                  "Place table",
-                                                              onTap: () {
-                                                                // this.widget.appState.switchOrder();
-                                                                _handleAccept(
-                                                                    this
-                                                                        .widget
+                                                                          .rotate_90_degrees_ccw,
+                                                                      size: 30
+                                                                          .fSize,
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              EntryField(
+                                                                label:
+                                                                    "Table Name",
+                                                                hintText:
+                                                                    "name",
+                                                                controller:
+                                                                    tableNameController,
+                                                              ),
+                                                              SizedBox(
+                                                                height: 50.v,
+                                                              ),
+                                                              CustomButton(
+                                                                text:
+                                                                    "Place table",
+                                                                onTap: () {
+                                                                  if (_formkey
+                                                                      .currentState!
+                                                                      .validate()) {
+                                                                    _formkey
+                                                                        .currentState!
+                                                                        .save();
+                                                                    if(this.widget
                                                                         .appState
-                                                                        .tableType,
-                                                                    index);
-                                                                Navigator.pop(
-                                                                    context);
-                                                              },
-                                                            ),
-                                                          ],
+                                                                        .tableType.runtimeType != Container) {
+                                                                      _handleAccept(
+                                                                          this
+                                                                              .widget
+                                                                              .appState
+                                                                              .tableType,
+                                                                          index,
+                                                                          tableNameController
+                                                                              .text);
+                                                                      Navigator
+                                                                          .pop(
+                                                                          context);
+                                                                    }
+                                                                  }
+                                                                },
+                                                              ),
+                                                              SizedBox(
+                                                                height: 20.v,
+                                                              ),
+                                                              const Spacer(),
+                                                              Container(
+                                                                color: AppColors
+                                                                    .itemsColor,
+                                                                child: VirtualKeyboard(
+                                                                    height:
+                                                                        300.v,
+                                                                    textColor:
+                                                                        Colors
+                                                                            .white,
+                                                                    type: VirtualKeyboardType
+                                                                        .Alphanumeric,
+                                                                    textController:
+                                                                        tableNameController),
+                                                              ),
+                                                              SizedBox(
+                                                                height: 20.v,
+                                                              )
+                                                            ],
+                                                          ),
                                                         ),
                                                       ),
                                                     );
@@ -403,7 +459,10 @@ class StartPageUIState extends State<StartPageUI> {
                                               },
                                             );
                                           },
-                                          icon: Icon(Icons.add, size: 30.fSize,),
+                                          icon: Icon(
+                                            Icons.add,
+                                            size: 30.fSize,
+                                          ),
                                         ),
                                 ),
                               ),
@@ -425,12 +484,14 @@ class StartPageUIState extends State<StartPageUI> {
                       },
                     )
                   : !widget.appState.checkout
-                      ? TableOrder(appState: appState,)
-                      : CheckoutScreen(appState: appState,)),
+                      ? TableOrder(
+                          appState: appState,
+                        )
+                      : CheckoutScreen(
+                          appState: appState,
+                        )),
           SizedBox(
-            width: appState.isWidgetEnabled
-                ? 12.h
-                : 12.h,
+            width: appState.isWidgetEnabled ? 12.h : 12.h,
           ),
           !widget.room
               ? RightDrawerVM(tableName, tableId, appState)
@@ -444,28 +505,53 @@ class StartPageUIState extends State<StartPageUI> {
     );
   }
 
-  void _handleAccept(Widget data, int index) {
+  void _handleAccept(Widget data, int index, String tableName) {
     setState(() {
       _gridChildren[index] = DraggableTable(data,
           onDraggableCanceled: (widget) => _handleDragCancelled(widget));
     });
     setState(() {
-    if (data is TableTwo) {
-      addTable("T2-$index-${data.rotation}-${widget.appState.choosenRoom["name"]}", index, index, 2, widget.name,
-          widget.id);
-    } else if (data is TableThree) {
-      addTable("T3-$index-${data.rotation}-${widget.appState.choosenRoom["name"]}", index, index, 3, widget.name,
-          widget.id);
-    } else if (data is TableFour) {
-      addTable("T4-$index-${data.rotation}-${widget.appState.choosenRoom["name"]}", index, index, 4, widget.name,
-          widget.id);
-    } else if (data is TableSix) {
-      addTable("T6-$index-${data.rotation}-${widget.appState.choosenRoom["name"]}", index, index, 6, widget.name,
-          widget.id);
-    } else if (data is TableEight) {
-      addTable("T8-$index-${data.rotation}-${widget.appState.choosenRoom["name"]}", index, index, 8, widget.name,
-          widget.id);
-    }
+      if (data is TableTwo) {
+        addTable(
+            "T2-$index-${data.rotation}-${widget.appState.choosenRoom["name"]}",
+            index,
+            index,
+            2,
+            widget.name,
+            widget.id);
+      } else if (data is TableThree) {
+        addTable(
+            "T3-$index-${data.rotation}-${widget.appState.choosenRoom["name"]}",
+            index,
+            index,
+            3,
+            widget.name,
+            widget.id);
+      } else if (data is TableFour) {
+        addTable(
+            "T4-$index-${data.rotation}-${widget.appState.choosenRoom["name"]}",
+            index,
+            index,
+            4,
+            widget.name,
+            widget.id);
+      } else if (data is TableSix) {
+        addTable(
+            "T6-$index-${data.rotation}-${widget.appState.choosenRoom["name"]}",
+            index,
+            index,
+            6,
+            widget.name,
+            widget.id);
+      } else if (data is TableEight) {
+        addTable(
+            "T8-$index-${data.rotation}-${widget.appState.choosenRoom["name"]}",
+            index,
+            index,
+            8,
+            widget.name,
+            widget.id);
+      }
     });
   }
 
@@ -515,9 +601,7 @@ class StartPageUIState extends State<StartPageUI> {
     setState(() {
       if (res?.message == "ok") {
         _gridChildren[index] = Container();
-      } else if(res?.message == "You can't delete this table") {
-
-      }
+      } else if (res?.message == "You can't delete this table") {}
     });
   }
 
@@ -534,7 +618,8 @@ class StartPageUIState extends State<StartPageUI> {
     );
   }
 
-  GestureDetector gestureDetector(int index, Widget child, String id, String name) {
+  GestureDetector gestureDetector(
+      int index, Widget child, String id, String name) {
     return GestureDetector(
       onDoubleTap: () {
         _handleDelete(index, child);
@@ -545,12 +630,18 @@ class StartPageUIState extends State<StartPageUI> {
           context: context,
           builder: (_) {
             return AlertDialog(
-              title: Text("Table menu", style: TextStyle(fontSize: 20.fSize),),
+              title: Text(
+                "Table menu",
+                style: TextStyle(fontSize: 20.fSize),
+              ),
               content: SizedBox(
                 height: 300.v,
                 child: Column(
                   children: [
-                    Text("table number: ${index + 1}", style: TextStyle(fontSize: 20.fSize),),
+                    Text(
+                      "table number: ${index + 1}",
+                      style: TextStyle(fontSize: 20.fSize),
+                    ),
                     const Spacer(),
                     CustomButton(
                       text: "add order",
@@ -571,7 +662,10 @@ class StartPageUIState extends State<StartPageUI> {
                       widget.appState.deleteTable();
                       Navigator.pop(context);
                     },
-                    child: Text("delete", style: TextStyle(fontSize: 20.fSize, color: Colors.red),))
+                    child: Text(
+                      "delete",
+                      style: TextStyle(fontSize: 20.fSize, color: Colors.red),
+                    ))
               ],
             );
           },

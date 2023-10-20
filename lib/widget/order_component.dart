@@ -11,7 +11,8 @@ class OrderComponent extends StatelessWidget {
   final String image;
   String? note;
   final String code;
-  OrderComponent({Key? key, required this.number, required this.name, required this.price, required this.image, this.note, required this.code,}) : super (key: key);
+  final String status;
+  OrderComponent({Key? key, required this.number, required this.name, required this.price, required this.image, this.note, required this.code, required this.status}) : super (key: key);
 
 
   @override
@@ -35,7 +36,7 @@ class OrderComponent extends StatelessWidget {
                     ),
                     color: AppColors.turquoise.withOpacity(0.4)
                   ),
-                  child: Icon(Icons.shopping_cart_outlined, color: Colors.white, size: 30.fSize,),
+                  child: Icon(status == "Sent" ? Icons.soup_kitchen_rounded : Icons.shopping_cart_outlined, color: Colors.white, size: 30.fSize,),
                 ),
                 SizedBox(width: 30.h,),
                 Column(

@@ -70,8 +70,8 @@ class AppState extends ChangeNotifier {
         _orders.add(orderWidget);
 
       }
-      _tva += orderWidget.price * 0.19;
-      _subtotal += number * (orderWidget.price - orderWidget.price * 0.19);
+      _tva += orderWidget.price * 0.07 * orderWidget.number;
+      _subtotal += number * (orderWidget.price - orderWidget.price * 0.07);
       _total += number * orderWidget.price;
       notifyListeners();
     }
@@ -327,5 +327,13 @@ class AppState extends ChangeNotifier {
       }
       notifyListeners();
     }
+  }
+
+  void updateEntryItemStatus(String entryItemCode, String status) {
+    final entryItemToUpdate = _entryItems.firstWhere(
+          (entryItem) => entryItem.item_code == entryItemCode,
+    );
+    entryItemToUpdate.status = status;
+    notifyListeners();
   }
 }
