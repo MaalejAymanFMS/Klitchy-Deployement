@@ -73,7 +73,8 @@ class StartPageVMState extends State<StartPageVM>
     final headers = {
       "Content-Type": "application/json; charset=utf-8",
       "Accept": "application/json; charset=utf-8",
-      "Authorization": "$token"
+      "Authorization": "$token",
+      "limit_page_length": "None"
     };
 
     final Uri uri = Uri.parse("$baseUrl/resource/Restaurant%20Object");

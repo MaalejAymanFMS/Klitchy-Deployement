@@ -104,7 +104,7 @@ class StartPageUIState extends State<StartPageUI> {
       "filters": [
         ["room_description", "LIKE", "%${widget.name}%"],
         ["type", "LIKE", "Table"]
-      ]
+      ],"limit_page_length": "None"
     };
     var response = await interactor.retrieveListOfTables(params);
     if (response.data!.isNotEmpty) {

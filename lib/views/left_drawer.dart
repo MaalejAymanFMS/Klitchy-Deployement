@@ -29,6 +29,7 @@ class _LeftDrawerState extends State<LeftDrawer> {
     Map<String, dynamic> params = {
       "fields": ["name","description", "type"],
       "filters": [["type", "LIKE", "Room"]],
+      "limit_page_length": "None"
     };
     var response = await interactor.getAllRooms(params);
     for (var i = 0; i < response.data!.length; i++) {

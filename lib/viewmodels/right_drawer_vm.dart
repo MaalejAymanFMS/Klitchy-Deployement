@@ -65,7 +65,8 @@ class RightDrawerVMState extends State<RightDrawerVM>
     final headers = {
       "Content-Type": "application/json; charset=utf-8",
       "Accept": "application/json; charset=utf-8",
-      "Authorization": "$token"
+      "Authorization": "$token",
+      "limit_page_length": "None"
     };
 
     final Uri uri = Uri.parse("$baseUrl/resource/Table%20Order");
