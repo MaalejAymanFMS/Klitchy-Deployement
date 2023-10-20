@@ -64,8 +64,7 @@ class RoomVMState extends State<RoomVM> implements RoomInteractor {
     final headers = {
       "Content-Type": "application/json; charset=utf-8",
       "Accept": "application/json; charset=utf-8",
-      "Authorization": "$token",
-      "limit_page_length": "None"
+      "Authorization": "$token"
     };
 
     final Uri uri = Uri.parse("$baseUrl/resource/Restaurant%20Object");

@@ -46,7 +46,7 @@ class _RightDrawerState extends State<RightDrawer> {
       "filters": [
         ["table_description", "LIKE", (widget.tableId)],
         ["status", "LIKE", "Attending"],
-      ],"limit_page_length": "None"
+      ]
     };
     var orderP1 = await interactor.retrieveTableOrderPart1(params);
     if (orderP1.dataP1!.isNotEmpty) {
