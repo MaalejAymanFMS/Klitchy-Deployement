@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:klitchyapp/utils/AppState.dart';
 import 'package:klitchyapp/utils/size_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:virtual_keyboard_2/virtual_keyboard_2.dart';
 
 import '../../config/app_colors.dart';
 import '../../models/orders.dart';
+import '../custom_button.dart';
+import '../entry_field.dart';
 
 class TableTag extends StatefulWidget {
   final AppState appState;
@@ -21,6 +24,8 @@ class _TableTagState extends State<TableTag> {
   Color editColor = Colors.transparent;
   Color deleteColor = Colors.transparent;
   String nameWaiter = "";
+  final TextEditingController orderDiscount = TextEditingController();
+
 
   fetchPrefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -91,18 +96,31 @@ class _TableTagState extends State<TableTag> {
               ],
             ),
           ),
-          Container(
-            width: 64.h,
-            height: 94.v,
-            decoration: BoxDecoration(
-                border: Border.all(
-              color: AppColors.primaryColor,
-              width: 1.h,
-            )),
-            child: Image.asset(
-              "assets/images/tag.png",
-              color: Colors.white,
-              scale: 2.2.fSize,
+          InkWell(
+            onTap: () {
+              widget.appState.enableDiscount();
+              setState(() {
+                if (widget.appState.enabledDiscount) {
+                  showOrderDiscount(widget.appState);
+                }
+              });
+            },
+            child: Container(
+                width: 64.h,
+                height: 94.v,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: AppColors.primaryColor,
+                    width: 1.h,
+                  ),
+                  color: widget.appState.enableColorDiscount,
+                ),
+              child: Center(child: Text("%", style: TextStyle(color: Colors.white, fontSize: 20.fSize),))
+              // Image.asset(
+              //   "assets/images/tag.png",
+              //   color: Colors.white,
+              //   scale: 2.2.fSize,
+              // ),
             ),
           ),
           InkWell(
@@ -186,6 +204,74 @@ class _TableTagState extends State<TableTag> {
           ),
         ],
       ),
+    );
+  }
+  void showOrderDiscount(AppState appState) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Discount"),
+          content: SizedBox(
+            height: 570.v,
+            width: 500.h,
+            child: Column(
+              children: [
+                EntryField(
+                  label: "Discount %:",
+                  hintText: "0.0%",
+                  controller: orderDiscount,
+                ),
+                SizedBox(
+                  height: 50.v,
+                ),
+                CustomButton(
+                  text: "confirm discount",
+                  onTap: () {
+                    appState.addDiscount(orderDiscount.text as double);
+                    widget.delete!();
+                    widget.appState.enableDiscount();
+                    orderDiscount.clear();
+                    Navigator.pop(context);
+                  },
+                  backgroundColor: Colors.blueGrey,
+                ),
+                SizedBox(
+                  height: 20.v,
+                ),
+                const Spacer(),
+                Container(
+                  color: AppColors.itemsColor,
+                  child: VirtualKeyboard(
+                      height: 300.v,
+                      textColor: Colors.white,
+                      type: VirtualKeyboardType.Numeric,
+                      textController: orderDiscount),
+                ),
+                SizedBox(
+                  height: 20.v,
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text(
+                'Close',
+                style: TextStyle(
+                    color: AppColors.redColor,
+                    fontSize: 20.fSize,
+                    fontWeight: FontWeight.w300),
+              ),
+              onPressed: () {
+                orderDiscount.clear();
+                widget.appState.enableDiscount();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

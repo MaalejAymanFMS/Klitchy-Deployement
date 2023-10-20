@@ -96,7 +96,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         "total": widget.appState.total,
         "net_total": widget.appState.subtotal,
         "apply_discount_on": "Grand Total",
-        "additional_discount_percentage": 0.0,//this is the discount persentage (type réel)
+        "additional_discount_percentage": widget.appState.discount,
         "grand_total": widget.appState.total,
         "paid_amount": amountGiven,
         "change_amount": change,

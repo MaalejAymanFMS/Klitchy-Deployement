@@ -54,8 +54,6 @@ class AppState extends ChangeNotifier {
   double get total => _total;
   double _tva = 0.0;
   double get tva => _tva;
-  double _discount = 0.0;
-  double get discount => _discount;
 
   void addOrder(int number, OrderComponent orderWidget) {
     if (number > 0) {
@@ -65,7 +63,7 @@ class AppState extends ChangeNotifier {
             widget.price == orderWidget.price,
       );
       if (existingWidgetIndex != -1) {
-        _subtotal -= _orders.elementAt(existingWidgetIndex).number * (orderWidget.price - _orders.elementAt(existingWidgetIndex).price* 0.07);
+        _subtotal -= _orders.elementAt(existingWidgetIndex).number * (orderWidget.price - _orders.elementAt(existingWidgetIndex).price* 0.19);
         _total -= _orders.elementAt(existingWidgetIndex).number * orderWidget.price;
         _orders.elementAt(existingWidgetIndex).number = number;
       } else {
@@ -74,7 +72,7 @@ class AppState extends ChangeNotifier {
       }
       _tva += orderWidget.price * 0.07 * orderWidget.number;
       _subtotal += number * (orderWidget.price - orderWidget.price * 0.07);
-      _total += (number * orderWidget.price)*(1-_discount/100);
+      _total += number * orderWidget.price;
       notifyListeners();
     }
   }
@@ -92,9 +90,9 @@ class AppState extends ChangeNotifier {
       _orders.removeAt(existingWidgetIndex);
     }
     }
-    _total -= orderWidget.price*(1-_discount/100);
-    _subtotal -= orderWidget.price - (orderWidget.price * 0.07);
-    _tva -= orderWidget.price * 0.07;
+    _subtotal -= orderWidget.price - (orderWidget.price * 0.19);
+    _tva -= orderWidget.price * 0.19;
+    _total -= orderWidget.price;
     if(_subtotal < 0){
       _subtotal = 0.0;
     }
@@ -111,8 +109,16 @@ class AppState extends ChangeNotifier {
     _tva = 0.0;
     _subtotal = 0.0;
     _total = 0.0;
-    _discount=0.0;
     _entryItems.clear();
+    _discount = 0.0;
+    notifyListeners();
+  }
+
+  ///discount
+  double _discount = 0.0;
+  double get discount => _discount;
+  void addDiscount(double discountNumber) {
+    _discount = discountNumber / 100;
     notifyListeners();
   }
   ///notes
@@ -132,8 +138,10 @@ class AppState extends ChangeNotifier {
     _enabledNotes = !_enabledNotes;
     if(_enabledNotes){
       _enabledDelete = false;
+      _enabledDiscount = false;
       _enableColorNotes = AppColors.redColor;
       _enableColorDelete = Colors.transparent;
+      _enableColorDiscount = Colors.transparent;
     } else {
       _enableColorNotes = Colors.transparent;
     }
@@ -147,10 +155,29 @@ class AppState extends ChangeNotifier {
     _enabledDelete = !_enabledDelete;
     if(_enabledDelete){
       _enabledNotes = false;
+      _enabledDiscount = false;
       _enableColorDelete = AppColors.redColor;
       _enableColorNotes = Colors.transparent;
+      _enableColorDiscount = Colors.transparent;
     }else {
       _enableColorDelete = Colors.transparent;
+    }
+    notifyListeners();
+  }
+  Color _enableColorDiscount = Colors.transparent;
+  Color get enableColorDiscount => _enableColorDiscount;
+  bool _enabledDiscount = false;
+  bool get enabledDiscount => _enabledDiscount;
+  void enableDiscount() {
+    _enabledDiscount = !_enabledDiscount;
+    if(_enabledDiscount){
+      _enabledNotes = false;
+      _enabledDelete = false;
+      _enableColorDelete = Colors.transparent;
+      _enableColorNotes = Colors.transparent;
+      _enableColorDiscount = AppColors.redColor;
+    }else {
+      _enableColorDiscount = Colors.transparent;
     }
     notifyListeners();
   }

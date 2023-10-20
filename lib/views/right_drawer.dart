@@ -123,7 +123,7 @@ class _RightDrawerState extends State<RightDrawer> {
           .toList(),
     };
     await interactor.addOrder(body);
-  fetchOrders();
+fetchOrders();
   }
 
   void updateOrder() async {
@@ -133,12 +133,13 @@ class _RightDrawerState extends State<RightDrawer> {
     Map<String, dynamic> body = {
       "amount": widget.appState.total,
       "tax": widget.appState.tva,
+      "discount" : widget.appState.discount,
       "entry_items": widget.appState.entryItems
           .map((entryMap) => entryMap.toJson())
           .toList(),
     };
     await interactor.updateOrder(body, orderId);
-    fetchOrders();
+fetchOrders();
   }
 
   @override
