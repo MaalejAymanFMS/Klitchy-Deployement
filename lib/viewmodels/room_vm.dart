@@ -72,10 +72,12 @@ class RoomVMState extends State<RoomVM> implements RoomInteractor {
 
     final filters = params['filters'];
     final filtersJson = json.encode(filters);
-
+    final limit = params?['limit_page_length'];
+    final limitJson = json.encode(limit);
     final Map<String, String> queryParams = {
       "fields": json.encode(params['fields']),
       "filters": filtersJson,
+      "limit_page_length": limitJson
     };
 
     final response = await http.get(uri.replace(queryParameters: queryParams),
