@@ -140,7 +140,6 @@ class RightDrawerVMState extends State<RightDrawerVM>
         headers: headers,
         body: json.encode(body));
     print(response.statusCode);
-
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body);
       final data = OrdersP2.fromJson(jsonResponse);

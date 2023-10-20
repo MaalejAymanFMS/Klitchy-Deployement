@@ -179,19 +179,20 @@ fetchOrders();
                                   if (widget.appState.enabledDelete) {
                                     widget.appState
                                         .deleteOrder(order.number, order);
-                                    widget.appState.addEntryItem(order.number.toDouble(), EntryItem(
-                                        identifier: "identifier",
-                                        parentfield: "entry_items",
-                                        parenttype: "Table Order",
-                                        item_code: order.code,
-                                        status: "Attending",
-                                        notes: "",
-                                        qty: order.number.toDouble(),
-                                        rate: order.price / order.number,
-                                        price_list_rate: order.price,
-                                        amount: order.price,
-                                        table_description: "${widget.appState.choosenRoom["name"]} (Table)",
-                                        doctype: "Order Entry Item"));
+                                    print("order number ${order.number}");
+                                    // widget.appState.addEntryItem(order.number.toDouble(), EntryItem(
+                                    //     identifier: "identifier",
+                                    //     parentfield: "entry_items",
+                                    //     parenttype: "Table Order",
+                                    //     item_code: order.code,
+                                    //     status: "Attending",
+                                    //     notes: "",
+                                    //     qty: order.number.toDouble(),
+                                    //     rate: order.price / order.number,
+                                    //     price_list_rate: order.price,
+                                    //     amount: order.price,
+                                    //     table_description: "${widget.appState.choosenRoom["name"]} (Table)",
+                                    //     doctype: "Order Entry Item"));
                                   }
                                 },
                                 child: order,

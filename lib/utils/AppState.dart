@@ -63,7 +63,7 @@ class AppState extends ChangeNotifier {
             widget.price == orderWidget.price,
       );
       if (existingWidgetIndex != -1) {
-        _subtotal -= _orders.elementAt(existingWidgetIndex).number * (orderWidget.price - _orders.elementAt(existingWidgetIndex).price* 0.19);
+        _subtotal -= _orders.elementAt(existingWidgetIndex).number * (orderWidget.price - _orders.elementAt(existingWidgetIndex).price* 0.07);
         _total -= _orders.elementAt(existingWidgetIndex).number * orderWidget.price;
         _orders.elementAt(existingWidgetIndex).number = number;
       } else {
@@ -90,8 +90,8 @@ class AppState extends ChangeNotifier {
       _orders.removeAt(existingWidgetIndex);
     }
     }
-    _subtotal -= orderWidget.price - (orderWidget.price * 0.19);
-    _tva -= orderWidget.price * 0.19;
+    _subtotal -= orderWidget.price - (orderWidget.price * 0.07);
+    _tva -= orderWidget.price * 0.07;
     _total -= orderWidget.price;
     if(_subtotal < 0){
       _subtotal = 0.0;
@@ -119,11 +119,11 @@ class AppState extends ChangeNotifier {
   double get discount => _discount;
   void addDiscount(double discountNumber) {
     _discount = discountNumber / 100;
-    if(_discount > 0.0) {
-      _tva -= _tva * _discount;
-      _subtotal -= _subtotal * discount;
-      _total -= _total * discount;
-    }
+    // if(_discount > 0.0) {
+    //   _tva -= _tva * _discount;
+    //   _subtotal -= _subtotal * discount;
+    //   _total -= _total * discount;
+    // }
     notifyListeners();
   }
   ///notes
@@ -358,11 +358,24 @@ class AppState extends ChangeNotifier {
       print("item_code: ${entryItem.item_code}");
       if (existingWidgetIndex != -1) {
         _entryItems.elementAt(existingWidgetIndex).qty = number;
-      } else {
+      }
+      else {
         _entryItems.add(entryItem);
       }
-      notifyListeners();
+      print("_entryItems: $_entryItems");
+
     }
+    // else {
+    //   final existingWidgetIndex = _entryItems.indexWhere(
+    //         (widget) =>
+    //     widget.name == entryItem.name &&
+    //         widget.item_code == entryItem.item_code,
+    //   );
+    //   print(entryItems);
+    //   _entryItems.removeAt(existingWidgetIndex);
+    //   print(entryItems);
+    // }
+    notifyListeners();
   }
 
   void deleteEntryItems() {
