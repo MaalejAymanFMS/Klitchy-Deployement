@@ -153,6 +153,7 @@ class   EntryItem {
   int? has_serial_no;
   String? serial_no;
   String? doctype;
+  String? warehouse;
 
   EntryItem({
     this.name,
@@ -187,6 +188,7 @@ class   EntryItem {
     this.has_serial_no,
     this.serial_no,
     this.doctype,
+    this.warehouse,
   });
 
   factory EntryItem.fromJson(Map<String, dynamic>? json) {
@@ -258,6 +260,7 @@ class   EntryItem {
       'has_serial_no': has_serial_no,
       'serial_no': serial_no,
       'doctype': doctype,
+      'warehouse': warehouse,
     };
   }
 }

@@ -109,6 +109,7 @@ class AppState extends ChangeNotifier {
     _tva = 0.0;
     _subtotal = 0.0;
     _total = 0.0;
+    _entryItems.clear();
     notifyListeners();
   }
   ///notes
@@ -329,11 +330,24 @@ class AppState extends ChangeNotifier {
     }
   }
 
+  void deleteEntryItems() {
+    _entryItems = [];
+    notifyListeners();
+  }
+
   void updateEntryItemStatus(String entryItemCode, String status) {
     final entryItemToUpdate = _entryItems.firstWhere(
           (entryItem) => entryItem.item_code == entryItemCode,
     );
     entryItemToUpdate.status = status;
+    notifyListeners();
+  }
+  void updateEntryItemDocType(String entryItemCode, String docType, String warehouse) {
+    final entryItemToUpdate = _entryItems.firstWhere(
+          (entryItem) => entryItem.item_code == entryItemCode,
+    );
+    entryItemToUpdate.doctype = docType;
+    entryItemToUpdate.warehouse = warehouse;
     notifyListeners();
   }
 }

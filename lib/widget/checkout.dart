@@ -50,6 +50,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       if (response.statusCode == 200) {
         print('Table Order status updated successfully');
         print("response.statusCode" + response.statusCode.toString());
+        createInvoice();
         printTicket();
         return response.statusCode;
       } else {
@@ -64,11 +65,18 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   }
 
   void createInvoice() async {
+    print("createInvoice");
     SharedPreferences prefs = await SharedPreferences.getInstance();
     const String url =
         'https://erpnext-141144-0.cloudclusters.net/api/resource/POS%20Invoice';
     try {
       final token = prefs.getString("token");
+      for(var item in widget.appState.entryItems) {
+        if(item.status == "Sent") {
+          widget.appState.updateEntryItemDocType(
+              item.item_code!, "POS Invoice Item", "Stores - GP");
+        }
+      }
       Map<String, dynamic> body = {
         "docstatus": 1,
         "modified_by": prefs.getString("email"),//tetbaddel bel waiter
@@ -85,19 +93,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         "plc_conversion_rate": 1.0,
         "set_warehouse": "Stores - GP",
         "update_stock": 1,
-        "base_total": 7.0,
-        "base_net_total": 7.0,
-        "total": 7.0,
-        "net_total": 7.0,
+        "total": widget.appState.total,
+        "net_total": widget.appState.subtotal,
         "apply_discount_on": "Grand Total",
         "additional_discount_percentage": 0.0,//this is the discount persentage (type réel)
-        "base_grand_total": 7.0,
-        "grand_total": 7.0,
-        "rounded_total": 7.0,
-        "base_paid_amount": 7.0,
-        "paid_amount": 7.0,
-        "base_change_amount": 0.0,
-        "change_amount": 0.0,
+        "grand_total": widget.appState.total,
+        "paid_amount": amountGiven,
+        "change_amount": change,
         "account_for_change_amount": "Cash - GP",
         "write_off_account": "Sales - GP",
         "write_off_cost_center": "Main - GP",
@@ -111,18 +113,16 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         "payments": [
           {
             "owner": "caissier@gameprod.com",
-            "modified_by": "caissier@gameprod.com",//tetbaddel
-            "parent": "ACC-PSINV-2023-00016",
+            "modified_by": prefs.getString("email"),
             "parentfield": "payments",
             "parenttype": "POS Invoice",
             "idx": 1,
             "docstatus": 1,
             "default": 0,
             "mode_of_payment": "Cash",
-            "amount": 7.0,//tetbaddel
+            "amount": widget.appState.total,//tetbaddel
             "account": "Cash - GP",
             "type": "Cash",
-            "base_amount": 7.0,//tetbaddel
             "doctype": "Sales Invoice Payment"
           }
         ]
@@ -130,9 +130,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       final response = await http.post(Uri.parse(url),headers: {
       'Content-Type': 'application/json',
       'Authorization': '$token'
-      }, body: body);
+      }, body: jsonEncode(body));
+      print("asbaaa ${response.statusCode}");
       if(response.statusCode == 200) {
-
+        print("asbaaa: ${response.body}");
       } else {
         print(
             'Failed to update Table Order status. Status code: ${response.statusCode}');
@@ -688,7 +689,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         change = amountGiven - totalAmount;
                         if (change >= 0) {
                           if (await payment() == 200) {
-                            await payment();
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {

@@ -25,12 +25,13 @@ class ItemCategorie extends StatelessWidget {
         if(name != "All Item Groups") {
            params = {
             "fields": ["item_name", "image", "standard_rate","item_code"],
-            "filters": [["item_group", "LIKE", "%$name%"]],
+            "filters": [["item_group", "LIKE", "%$name%"],["disabled","=","0"]],
             "limit_page_length": "None"
           };
         } else {
           params = {
             "fields": ["item_name", "image", "standard_rate","item_code"],
+            "filters": [["disabled","=","0"]],
             "limit_page_length": "None"
           };
         }

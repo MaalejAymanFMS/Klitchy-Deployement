@@ -101,6 +101,9 @@ class _RightDrawerState extends State<RightDrawer> {
   }
 
   void addOrders() async {
+    for(var item in widget.appState.entryItems) {
+      widget.appState.updateEntryItemStatus(item.item_code!,"Sent");
+    }
     Map<String, dynamic> body = {
       "room": widget.appState.choosenRoom["id"],
       "table": widget.tableName,
@@ -173,6 +176,19 @@ class _RightDrawerState extends State<RightDrawer> {
                                   if (widget.appState.enabledDelete) {
                                     widget.appState
                                         .deleteOrder(order.number, order);
+                                    widget.appState.addEntryItem(order.number.toDouble(), EntryItem(
+                                        identifier: "identifier",
+                                        parentfield: "entry_items",
+                                        parenttype: "Table Order",
+                                        item_code: order.code,
+                                        status: "Attending",
+                                        notes: "",
+                                        qty: order.number.toDouble(),
+                                        rate: order.price / order.number,
+                                        price_list_rate: order.price,
+                                        amount: order.price,
+                                        table_description: "${widget.appState.choosenRoom["name"]} (Table)",
+                                        doctype: "Order Entry Item"));
                                   }
                                 },
                                 child: order,
