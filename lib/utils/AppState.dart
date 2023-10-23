@@ -117,13 +117,13 @@ class AppState extends ChangeNotifier {
   ///discount
   double _discount = 0.0;
   double get discount => _discount;
-  void addDiscount(double discountNumber) {
-    _discount = discountNumber / 100;
-    // if(_discount > 0.0) {
-    //   _tva -= _tva * _discount;
-    //   _subtotal -= _subtotal * discount;
-    //   _total -= _total * discount;
-    // }
+  void addDiscount(String discountNumber) {
+    _discount = double.parse(discountNumber) / 100;
+    if(_discount > 0.0) {
+      _tva -= _tva * _discount;
+      _subtotal -= _subtotal * discount;
+      _total -= _total * discount;
+    }
     notifyListeners();
   }
   ///notes

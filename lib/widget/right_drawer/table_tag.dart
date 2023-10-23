@@ -229,7 +229,7 @@ class _TableTagState extends State<TableTag> {
                 CustomButton(
                   text: "confirm discount",
                   onTap: () {
-                    appState.addDiscount(orderDiscount.text as double);
+                    appState.addDiscount(orderDiscount.text);
                     widget.delete!();
                     widget.appState.enableDiscount();
                     orderDiscount.clear();
