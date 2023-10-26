@@ -123,7 +123,6 @@ class _RightDrawerState extends State<RightDrawer> {
           .toList(),
     };
     await interactor.addOrder(body);
-fetchOrders();
   }
 
   void updateOrder() async {
@@ -139,7 +138,6 @@ fetchOrders();
           .toList(),
     };
     await interactor.updateOrder(body, orderId);
-fetchOrders();
   }
 
   @override
