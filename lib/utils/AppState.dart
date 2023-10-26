@@ -70,9 +70,9 @@ class AppState extends ChangeNotifier {
         _orders.add(orderWidget);
 
       }
-      _tva += orderWidget.price * 0.07 * orderWidget.number;
-      _subtotal += number * (orderWidget.price - orderWidget.price * 0.07);
-      _total += number * orderWidget.price;
+      _tva += orderWidget.price * 0.07 * orderWidget.number* (1-discount);
+      _subtotal += number * (orderWidget.price - orderWidget.price * 0.07)* (1-discount);
+      _total += number * orderWidget.price* (1-discount);
       notifyListeners();
     }
   }
@@ -120,9 +120,9 @@ class AppState extends ChangeNotifier {
   void addDiscount(String discountNumber) {
     _discount = double.parse(discountNumber) / 100;
     if(_discount > 0.0) {
-      _tva -= _tva * _discount;
-      _subtotal -= _subtotal * discount;
-      _total -= _total * discount;
+      _tva -= _tva * (1-discount);
+      _subtotal -= _subtotal * (1-discount);
+      _total -= _total * (1-discount);
     }
     notifyListeners();
   }
