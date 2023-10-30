@@ -1,4 +1,6 @@
 import 'package:get_it/get_it.dart';
+import 'package:klitchyapp/viewmodels/kitchen_interactor.dart';
+import 'package:klitchyapp/viewmodels/kitchen_vm.dart';
 import 'package:klitchyapp/viewmodels/pin_screen_interactor.dart';
 import 'package:klitchyapp/viewmodels/pin_screen_vm.dart';
 import 'package:klitchyapp/viewmodels/right_drawer_interractor.dart';
@@ -18,4 +20,5 @@ void setupLocator() {
   getIt.registerSingleton<StartPageInterractor>(StartPageVMState());
   getIt.registerSingleton<RightDrawerInterractor>(RightDrawerVMState());
   getIt.registerSingleton<PinScreenInteractor>(PinScreenVMState());
+  getIt.registerSingleton<KitchenInteractor>(KitchenVMState());
 }

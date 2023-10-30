@@ -8,6 +8,8 @@ import 'package:klitchyapp/widget/tables/table_3.dart';
 import 'package:klitchyapp/widget/tables/table_4.dart';
 import 'package:klitchyapp/widget/tables/table_6.dart';
 import 'package:klitchyapp/widget/tables/table_8.dart';
+import  'package:klitchyapp/models/kitchenOrders.dart' as kitchenOrderAppState;
+
 
 import '../config/app_colors.dart';
 
@@ -398,4 +400,51 @@ class AppState extends ChangeNotifier {
     entryItemToUpdate.warehouse = warehouse;
     notifyListeners();
   }
+
+
+
+  // Kitchen 
+  int nbreCmd = 0;
+  int nbreInprog = 0;
+  int nbreDone = 0;
+  bool isDone = false;
+  kitchenOrderAppState.Order? selectedOrder;
+
+
+  void updateIsDone(bool value) {
+    isDone = value;
+    notifyListeners();
+  }
+
+  void incrementNbreCmd() {
+    nbreCmd++;
+    notifyListeners();
+  }
+
+  void incrementNbreInprog() {
+    nbreInprog++;
+    notifyListeners();
+  }
+
+  void decreaseNbreInprog() {
+    nbreInprog--;
+    notifyListeners();
+  }
+
+  int totalnbreCmd(int orderListLength) {
+    notifyListeners();
+    return orderListLength;
+  }
+
+  void incrementNbreDone() {
+    nbreDone++;
+    notifyListeners();
+  }
+
+  void setSelectedOrder(kitchenOrderAppState.Order order) {
+    print(order.items![0]);
+    selectedOrder = order;
+    notifyListeners();
+  }
+
 }
