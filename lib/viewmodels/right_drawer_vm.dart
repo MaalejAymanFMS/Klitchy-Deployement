@@ -50,6 +50,13 @@ class RightDrawerVMState extends State<RightDrawerVM>
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body);
       final data = OrdersP2.fromJson(jsonResponse);
+      await http.post(
+        Uri.parse("https://prime-verified-pug.ngrok-free.app/api/orders/"),
+        headers: headers,
+        body: json.encode({
+          "order_id": data.dataP2?.name,
+          "status_kds":"wannaStart"
+        }));
       return data;
     } else {
       final jsonResponse = json.decode(response.body);

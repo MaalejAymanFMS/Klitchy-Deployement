@@ -22,17 +22,17 @@ class KitchenVMState extends State<KitchenVM> implements KitchenInteractor {
   Future<List<Order>> fetchOrder() async {
     final response = await http.get(
       Uri.parse(
-          'https://erpnext-141144-0.cloudclusters.net/api/resource/Table%20Order?fields=["name","table","table_description"]&limit_page_length=10'),
-      headers: {'Authorization': 'token 82ad2e094492b3a:f24396cdd3d1c46'},
+          'https://prime-verified-pug.ngrok-free.app/orders/orders-by-status/wannaStart/'),
     );
 
     if (response.statusCode == 200) {
       fetchInProgressOrders();
+      fetchDoneOrders();
       final Map<String, dynamic> data = json.decode(response.body);
-      final List<dynamic> orderData = data['data'];
+      final List<dynamic> orderData = data['orders'];
 
-      final List<String> orderNames =
-          List<String>.from(orderData.map((order) => order['name'] as String));
+      final List<String> orderNames = List<String>.from(
+          orderData.map((order) => order['order_id'] as String));
 
       for (var orderName in orderNames) {
         final orderResponse = await http.get(
@@ -61,8 +61,11 @@ class KitchenVMState extends State<KitchenVM> implements KitchenInteractor {
             name: dataDetails['name'] as String,
             items: entryItems,
           );
-            postOrder(order);
-          
+          final test = orders.firstWhere((element) => element.name==dataDetails['name'] as String, orElse: () => new Order());
+          if (test.name==null) {
+            orders.add(order);
+            print(orders.contains(order));
+          }
         } else {
           throw Exception(
               'Failed to fetch order details: ${orderResponse.statusCode}');
@@ -79,7 +82,6 @@ class KitchenVMState extends State<KitchenVM> implements KitchenInteractor {
     String url = 'https://prime-verified-pug.ngrok-free.app/api/orders/$id/';
     Map<String, String> headers = {
       'Content-Type': 'application/json',
-      'Authorization': 'token 82ad2e094492b3a:f24396cdd3d1c46',
     };
 
     Map<String, String> requestBody = {
@@ -120,14 +122,23 @@ class KitchenVMState extends State<KitchenVM> implements KitchenInteractor {
           tableNumber: dataDetails['table_description'] as String,
           items: entryItems,
         );
-
+        orders.remove(order);
         inPrgressOrders.add(order);
         print('POST request was successful: ${response.body}');
+                
+
+        
+
+
+        /*fetchOrder();
+        fetchInProgressOrders();
+        fetchDoneOrders();*/
       } else {
         print('POST request failed with status: ${response.statusCode}');
+        
       }
     } else {
-      print('POST request was failed: ${response.body}');
+      print('POST request was failed: ${response.statusCode}');
     }
 
     // Handle any exceptions
@@ -138,7 +149,7 @@ class KitchenVMState extends State<KitchenVM> implements KitchenInteractor {
     Set<Order> uniqueOrders = <Order>{};
     final response = await http.get(
       Uri.parse(
-          'https://prime-verified-pug.ngrok-free.app/orders/orders-by-status/pending/'),
+          'https://prime-verified-pug.ngrok-free.app/orders/orders-by-status/progress/'),
     );
 
     if (response.statusCode == 200) {
@@ -195,7 +206,68 @@ class KitchenVMState extends State<KitchenVM> implements KitchenInteractor {
       throw Exception('Failed to fetch order names: ${response.statusCode}');
     }
   }
+  @override
+  Future<void> fetchDoneOrders() async {
+    Set<Order> uniqueOrders = <Order>{};
+    final response = await http.get(
+      Uri.parse(
+          'https://prime-verified-pug.ngrok-free.app/orders/orders-by-status/done/'),
+    );
 
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data =
+          json.decode(response.body) as Map<String, dynamic>;
+
+      if (data.containsKey('orders') && data['orders'] is List<dynamic>) {
+        final List<dynamic> ordersData = data['orders'] as List<dynamic>;
+
+        for (final orderData in ordersData) {
+          if (orderData is Map<String, dynamic>) {
+            final order_id = orderData['order_id'] as String?;
+            if (order_id != null) {
+              final orderResponse = await http.get(
+                Uri.parse(
+                    'https://erpnext-141144-0.cloudclusters.net/api/resource/Table%20Order/$order_id'),
+                headers: {
+                  'Authorization': 'token 82ad2e094492b3a:f24396cdd3d1c46'
+                },
+              );
+
+              if (orderResponse.statusCode == 200) {
+                final Map<String, dynamic> orderData =
+                    json.decode(orderResponse.body) as Map<String, dynamic>;
+                final itemsList =
+                    (orderData['data']['entry_items'] as List<dynamic>?)
+                        ?.map((item) => EntryItem(
+                              itemName: item['item_name'] as String? ?? "",
+                              amount:
+                                  (item['amount'] as num?)?.toDouble() ?? 0.0,
+                              quantity: (item['qty'] as num?)?.toInt() ?? 0,
+                              notes: item['notes'] as String? ?? "",
+                            ))
+                        .toList();
+
+                final order = Order(
+                  status: "done",
+                  name: order_id,
+                  tableNumber:
+                      orderData['data']['table_description'] as String? ?? "",
+                  items: itemsList,
+                );
+                uniqueOrders.add(order);
+                finishedOrders = uniqueOrders.toList();
+              } else {
+                throw Exception(
+                    'Failed to fetch order details: ${orderResponse.statusCode}');
+              }
+            }
+          }
+        }
+      }
+    } else {
+      throw Exception('Failed to fetch order names: ${response.statusCode}');
+    }
+  }
   @override
   Future<void> updateStatusOrder(String id) async {
     print(id);
@@ -208,7 +280,7 @@ class KitchenVMState extends State<KitchenVM> implements KitchenInteractor {
 
     Map<String, String> requestBody = {
       'order_id': id,
-      'status_kds': 'preparing',
+      'status_kds': "done",
     };
 
     String requestBodyJson = json.encode(requestBody);
@@ -245,11 +317,15 @@ class KitchenVMState extends State<KitchenVM> implements KitchenInteractor {
           tableNumber: dataDetails['table_description'] as String,
           items: entryItems,
         );
-        inPrgressOrders.remove(order);
+        print(order);
+                inPrgressOrders.remove(order);
 
         finishedOrders.add(order);
 
-        print(order);
+
+        /*fetchOrder();
+        fetchInProgressOrders();
+        fetchDoneOrders();*/
       } else {
         print('Failed to update order: ${response.statusCode}');
       }
@@ -269,12 +345,11 @@ class KitchenVMState extends State<KitchenVM> implements KitchenInteractor {
       body: json.encode(data),
     );
 
-    if (response.statusCode == 200) {
-orders.add(order);
+    if (response.statusCode == 200 || response.statusCode == 400) {
+      orders.add(order);
       print("POST request successful!");
     } else {
-      print(
-          "Failed to make the POST request. Status code: ${response}");
+      print("Failed to make the POST request. Status code: ${response}");
     }
   }
 }
