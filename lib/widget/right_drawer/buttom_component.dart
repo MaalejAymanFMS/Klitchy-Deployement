@@ -26,71 +26,7 @@ class _ButtomComponentState extends State<ButtomComponent> {
       ),
       child: Column(
         children: [
-          Row(
-            children: [
-              Container(
-                width: 191.5.h,
-                height: 41.v,
-                decoration: BoxDecoration(
-                    border: Border.all(
-                  color: AppColors.primaryColor,
-                  width: 1.h,
-                )),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.remove_circle_outline,
-                      color: AppColors.pink.withOpacity(0.8),
-                      size: 30.fSize,
-                    ),
-                    SizedBox(
-                      width: 10.h,
-                    ),
-                    Text(
-                      "Discount",
-                      style: TextStyle(color: AppColors.pink.withOpacity(0.8), fontSize: 20.fSize),
-                    )
-                  ],
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  if(widget.appState.checkout) {
-                    widget.appState.switchCheckoutOrder();
-                  } else {
-                    widget.appState.switchCheckout();
-                  }
-                },
-                child: Container(
-                  width: 191.5.h,
-                  height: 41.v,
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                    color: AppColors.primaryColor,
-                    width: 1.h,
-                  )),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.add_card_outlined,
-                        color: AppColors.turquoise,
-                        size: 30.fSize,
-                      ),
-                      SizedBox(
-                        width: 10.h,
-                      ),
-                      Text(
-                        "Payment",
-                        style: TextStyle(color: AppColors.turquoise, fontSize: 20.fSize),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
+          
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: Row(
@@ -145,16 +81,78 @@ class _ButtomComponentState extends State<ButtomComponent> {
               ],
             ),
           ),
-          const Spacer(),
+          
           Padding(
-            padding: EdgeInsets.only(left: 20.h, right: 20.h, bottom: 20.v),
-            child: CustomButton(
-              backgroundColor: AppColors.greenColor,
-              icon: "assets/images/arrow_forward.png",
-              text: "Send to kitchen",
-              onTap: widget.onTap,
-            ),
-          )
+            padding: EdgeInsets.only( bottom: 20.v),
+            child: Row(
+            children: [GestureDetector(onTap: widget.onTap,
+              child:
+              Container(
+                width: 191.5.h,
+                height: 100.v,
+                decoration: BoxDecoration(
+                  color: AppColors.lightColor,
+                    border: Border.all(
+                  color: AppColors.primaryColor,
+                  width: 2.h,
+                )),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.arrow_back,
+                      color: AppColors.greenColor.withOpacity(0.8),
+                      size: 30.fSize,
+                    ),
+                    SizedBox(
+                      width: 10.h,
+                    ),
+                    Text(
+                      "Send to Kitchen",
+                      style: TextStyle(color: AppColors.greenColor.withOpacity(0.8), fontSize: 20.fSize),
+                    )
+                  ],
+                ),
+              ),),
+              GestureDetector(
+                onTap: () {
+                  if(widget.appState.checkout) {
+                    widget.appState.switchCheckoutOrder();
+                  } else {
+                    widget.appState.switchCheckout();
+                  }
+                },
+                child: Container(
+                  width: 191.5.h,
+                  height: 100.v,
+                  decoration: BoxDecoration(
+                    color: AppColors.lightColor,
+                      border: Border.all(
+                    color: AppColors.primaryColor,
+                    width: 2.h,
+                  )),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.add_card_outlined,
+                        color: AppColors.turquoise,
+                        size: 30.fSize,
+                      ),
+                      SizedBox(
+                        width: 10.h,
+                      ),
+                      Text(
+                        "Payment",
+                        style: TextStyle(color: AppColors.turquoise, fontSize: 20.fSize),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          ),
         ],
       ),
     );

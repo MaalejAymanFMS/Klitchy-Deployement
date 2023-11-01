@@ -79,14 +79,13 @@ class _GestionDeTableState extends State<GestionDeTable> {
             width: 15.h,
           ),
            Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Padding(
                 padding: const EdgeInsets.all(15),
                 child: Row(
                   children: [
-                    AvailableWaiters(appState.numberOfTables, appState.choosenRoom["name"] ?? "choose Room"),
-                    SizedBox(width: 200.h,),
+                    //AvailableWaiters(appState.numberOfTables, appState.choosenRoom["name"] ?? "choose Room"),
                     CurrentWaiter(name: nameWaiter,)
                   ],
                 ),
