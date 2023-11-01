@@ -26,8 +26,7 @@ class KitchenVMState extends State<KitchenVM> implements KitchenInteractor {
     );
 
     if (response.statusCode == 200) {
-      fetchInProgressOrders();
-      fetchDoneOrders();
+      orders=[];
       final Map<String, dynamic> data = json.decode(response.body);
       final List<dynamic> orderData = data['orders'];
 
@@ -61,10 +60,11 @@ class KitchenVMState extends State<KitchenVM> implements KitchenInteractor {
             name: dataDetails['name'] as String,
             items: entryItems,
           );
-          final test = orders.firstWhere((element) => element.name==dataDetails['name'] as String, orElse: () => new Order());
-          if (test.name==null) {
+          final test = orders.firstWhere(
+              (element) => element.name == dataDetails['name'] as String,
+              orElse: () => new Order());
+          if (test.name == null) {
             orders.add(order);
-            print(orders.contains(order));
           }
         } else {
           throw Exception(
@@ -122,20 +122,20 @@ class KitchenVMState extends State<KitchenVM> implements KitchenInteractor {
           tableNumber: dataDetails['table_description'] as String,
           items: entryItems,
         );
-        orders.remove(order);
-        inPrgressOrders.add(order);
+        //orders.remove(order);
+        //inPrgressOrders.add(order);
         print('POST request was successful: ${response.body}');
-                
 
+        await fetchDoneOrders();
+        await fetchInProgressOrders();
         
+        await fetchOrder();
 
-
-        /*fetchOrder();
-        fetchInProgressOrders();
+        /*
+        
         fetchDoneOrders();*/
       } else {
         print('POST request failed with status: ${response.statusCode}');
-        
       }
     } else {
       print('POST request was failed: ${response.statusCode}');
@@ -155,7 +155,7 @@ class KitchenVMState extends State<KitchenVM> implements KitchenInteractor {
     if (response.statusCode == 200) {
       final Map<String, dynamic> data =
           json.decode(response.body) as Map<String, dynamic>;
-
+inPrgressOrders = uniqueOrders.toList();
       if (data.containsKey('orders') && data['orders'] is List<dynamic>) {
         final List<dynamic> ordersData = data['orders'] as List<dynamic>;
 
@@ -206,6 +206,7 @@ class KitchenVMState extends State<KitchenVM> implements KitchenInteractor {
       throw Exception('Failed to fetch order names: ${response.statusCode}');
     }
   }
+
   @override
   Future<void> fetchDoneOrders() async {
     Set<Order> uniqueOrders = <Order>{};
@@ -268,6 +269,7 @@ class KitchenVMState extends State<KitchenVM> implements KitchenInteractor {
       throw Exception('Failed to fetch order names: ${response.statusCode}');
     }
   }
+
   @override
   Future<void> updateStatusOrder(String id) async {
     print(id);
@@ -318,14 +320,14 @@ class KitchenVMState extends State<KitchenVM> implements KitchenInteractor {
           items: entryItems,
         );
         print(order);
-                inPrgressOrders.remove(order);
+        //inPrgressOrders.remove(order);
 
-        finishedOrders.add(order);
+        //finishedOrders.add(order);
 
-
-        /*fetchOrder();
-        fetchInProgressOrders();
-        fetchDoneOrders();*/
+        await fetchOrder();
+        await fetchDoneOrders();
+        
+        
       } else {
         print('Failed to update order: ${response.statusCode}');
       }

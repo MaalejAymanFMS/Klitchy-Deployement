@@ -9,7 +9,6 @@ import 'package:klitchyapp/widget/CountBox.dart';
 import 'package:klitchyapp/widget/OrderCard.dart';
 import 'package:klitchyapp/widget/drawer/kitchen.dart';
 import 'package:provider/provider.dart';
-
 class OrderList extends StatefulWidget {
   List<Order> orders;
 
@@ -51,10 +50,11 @@ class _OrderListState extends State<OrderList> {
                             orderLenght: orders.length,
                             orderInProgressLenght: orderInProgressLenght,
                             orderFinishLenght: orderFinishLenght,
-                            getList: () {
-                              orderInProgressLenght = widget.orders.length;
+                            getList: () async{
+                               await interactor.fetchOrder();
                               setState(() {
                                 widget.orders = [];
+                               
                                 widget.orders = orders;
                               });
                             },
@@ -66,11 +66,15 @@ class _OrderListState extends State<OrderList> {
                             orderLenght: orders.length,
                             orderInProgressLenght: orderInProgressLenght,
                             orderFinishLenght: orderFinishLenght,
-                            getList: () {
+                            getList: () async {await interactor.fetchInProgressOrders();
                               setState(() {
                                 widget.orders = [];
+                                
                                 widget.orders = inPrgressOrders;
+                                
                               });
+                              orderInProgressLenght = widget.orders.length;
+                              
                             },
                           ),
                           CountBox(
@@ -80,11 +84,14 @@ class _OrderListState extends State<OrderList> {
                             orderLenght: orders.length,
                             orderInProgressLenght: orderInProgressLenght,
                             orderFinishLenght: orderFinishLenght,
-                            getList: () {
-                              setState(() {
+                            getList: () async {
+                              await interactor.fetchDoneOrders();
+                              setState(()  {
                                 widget.orders = [];
-                                widget.orders = finishedOrders;
+                                 widget.orders = finishedOrders;
                               });
+                              
+                              orderFinishLenght = widget.orders.length;
                             },
                           ),
                         ],
@@ -143,8 +150,10 @@ class _OrderListState extends State<OrderList> {
                                           onPressed: () async {
                                             await interactor
                                                 .startOrder(order.name!);
-
+                                            var ordersGot = await interactor.fetchOrder();
                                             setState(() {
+                                              widget.orders = ordersGot;
+                            
                                               orderInProgressLenght =
                                                   inPrgressOrders.length;
                                               appState.setSelectedOrder(order);
@@ -159,13 +168,15 @@ class _OrderListState extends State<OrderList> {
                                             // TODOO update the codez with get by status_kds to can get only inProg list and finishedOrder list wait CW
                                             await interactor
                                                 .updateStatusOrder(order.name!);
-
-                                            setState(() {
+                                                await interactor.fetchInProgressOrders();
+                                                  setState(() {
                                               orderInProgressLenght =
                                                   inPrgressOrders.length - 1;
                                               widget.orders = [];
-                                              widget.orders = finishedOrders;
+                                              widget.orders = inPrgressOrders;
                                             });
+
+                                            
 
                                             Navigator.of(context).pop();
                                           },
