@@ -3,12 +3,14 @@ import 'package:klitchyapp/config/app_colors.dart';
 import 'package:klitchyapp/models/kitchenOrders.dart';
 import 'package:klitchyapp/utils/AppState.dart';
 import 'package:klitchyapp/utils/locator.dart';
+import 'package:klitchyapp/utils/size_utils.dart';
 import 'package:klitchyapp/viewmodels/kitchen_interactor.dart';
 import 'package:klitchyapp/views/kitchen.dart';
 import 'package:klitchyapp/widget/CountBox.dart';
 import 'package:klitchyapp/widget/OrderCard.dart';
 import 'package:klitchyapp/widget/drawer/kitchen.dart';
 import 'package:provider/provider.dart';
+
 class OrderList extends StatefulWidget {
   List<Order> orders;
 
@@ -39,7 +41,7 @@ class _OrderListState extends State<OrderList> {
                 child: Column(
                   children: [
                     Padding(
-                      padding: EdgeInsets.all(16.0),
+                      padding: const EdgeInsets.all(16.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
@@ -50,11 +52,11 @@ class _OrderListState extends State<OrderList> {
                             orderLenght: orders.length,
                             orderInProgressLenght: orderInProgressLenght,
                             orderFinishLenght: orderFinishLenght,
-                            getList: () async{
-                               await interactor.fetchOrder();
+                            getList: () async {
+                              await interactor.fetchOrder();
                               setState(() {
                                 widget.orders = [];
-                               
+
                                 widget.orders = orders;
                               });
                             },
@@ -66,15 +68,14 @@ class _OrderListState extends State<OrderList> {
                             orderLenght: orders.length,
                             orderInProgressLenght: orderInProgressLenght,
                             orderFinishLenght: orderFinishLenght,
-                            getList: () async {await interactor.fetchInProgressOrders();
+                            getList: () async {
+                              await interactor.fetchInProgressOrders();
                               setState(() {
                                 widget.orders = [];
-                                
+
                                 widget.orders = inPrgressOrders;
-                                
                               });
                               orderInProgressLenght = widget.orders.length;
-                              
                             },
                           ),
                           CountBox(
@@ -86,11 +87,11 @@ class _OrderListState extends State<OrderList> {
                             orderFinishLenght: orderFinishLenght,
                             getList: () async {
                               await interactor.fetchDoneOrders();
-                              setState(()  {
+                              setState(() {
                                 widget.orders = [];
-                                 widget.orders = finishedOrders;
+                                widget.orders = finishedOrders;
                               });
-                              
+
                               orderFinishLenght = widget.orders.length;
                             },
                           ),
@@ -99,7 +100,8 @@ class _OrderListState extends State<OrderList> {
                     ),
                     Expanded(
                       child: GridView.builder(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 4,
                           crossAxisSpacing: 10.0,
                           mainAxisSpacing: 10.0,
@@ -117,10 +119,13 @@ class _OrderListState extends State<OrderList> {
                                     index = index;
                                     final order = widget.orders[index];
                                     return AlertDialog(
+                                      shape: const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10.0))),
                                       title: Text(
                                           'Order Details of table ${order.tableNumber}'),
                                       content: Container(
-                                        width: double.maxFinite,
+                                        width: 400.v,
                                         child: SingleChildScrollView(
                                           child: Column(
                                             crossAxisAlignment:
@@ -133,16 +138,21 @@ class _OrderListState extends State<OrderList> {
                                                   Text(
                                                       'Item Name: ${item.itemName}'),
                                                   Text('Notes: ${item.notes}'),
-                                                  Divider(),
+                                                  const Divider(),
                                                 ],
                                               );
                                             }).toList(),
                                           ),
                                         ),
                                       ),
+                                      actionsAlignment:
+                                          MainAxisAlignment.center,
                                       actions: [
                                         ElevatedButton(
                                           style: ButtonStyle(
+                                            minimumSize:
+                                                MaterialStateProperty.all<Size>(
+                                                    Size(100.h, 100.v)),
                                             backgroundColor:
                                                 MaterialStateProperty.all<
                                                     Color>(Colors.green),
@@ -150,10 +160,11 @@ class _OrderListState extends State<OrderList> {
                                           onPressed: () async {
                                             await interactor
                                                 .startOrder(order.name!);
-                                            var ordersGot = await interactor.fetchOrder();
+                                            var ordersGot =
+                                                await interactor.fetchOrder();
                                             setState(() {
                                               widget.orders = ordersGot;
-                            
+
                                               orderInProgressLenght =
                                                   inPrgressOrders.length;
                                               appState.setSelectedOrder(order);
@@ -161,29 +172,36 @@ class _OrderListState extends State<OrderList> {
 
                                             Navigator.of(context).pop();
                                           },
-                                          child: Text('Start Order'),
+                                          child: const Text('Start Order'),
                                         ),
                                         ElevatedButton(
+                                          style: ButtonStyle(
+                                            minimumSize:
+                                                MaterialStateProperty.all<Size>(
+                                                    Size(100.h, 100.v)),
+                                          ),
                                           onPressed: () async {
                                             // TODOO update the codez with get by status_kds to can get only inProg list and finishedOrder list wait CW
                                             await interactor
                                                 .updateStatusOrder(order.name!);
-                                                await interactor.fetchInProgressOrders();
-                                                  setState(() {
+                                            await interactor
+                                                .fetchInProgressOrders();
+                                            setState(() {
                                               orderInProgressLenght =
                                                   inPrgressOrders.length - 1;
                                               widget.orders = [];
                                               widget.orders = inPrgressOrders;
                                             });
 
-                                            
-
                                             Navigator.of(context).pop();
                                           },
-                                          child: Text('finish Order'),
+                                          child: const Text('finish Order'),
                                         ),
                                         ElevatedButton(
                                           style: ButtonStyle(
+                                            minimumSize:
+                                                MaterialStateProperty.all<Size>(
+                                                    Size(100.h, 100.v)),
                                             backgroundColor:
                                                 MaterialStateProperty.all<
                                                     Color>(Colors.red),
@@ -194,7 +212,7 @@ class _OrderListState extends State<OrderList> {
                                               appState.setSelectedOrder(order);
                                             });
                                           },
-                                          child: Text('Close'),
+                                          child: const Text('Close'),
                                         ),
                                       ],
                                     );
