@@ -151,8 +151,8 @@ class _RightDrawerState extends State<RightDrawer> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 383.h,
-      height: 887.v,
+      width: 500.h,
+      height: 900.v,
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 10.v),
         child: Column(

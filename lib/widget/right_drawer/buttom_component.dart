@@ -23,7 +23,7 @@ class _ButtomComponentState extends State<ButtomComponent> {
   Widget build(BuildContext context) {
     return Container(
       width: 383.h,
-      height: 252.v,
+      height: 300.v,
       decoration: BoxDecoration(
         color: AppColors.itemsColor,
         borderRadius: BorderRadius.circular(10),
