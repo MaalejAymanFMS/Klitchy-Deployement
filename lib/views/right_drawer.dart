@@ -37,8 +37,9 @@ class _RightDrawerState extends State<RightDrawer> {
   final interactor = getIt<RightDrawerInterractor>();
   List<EntryItem> orders = [];
   String orderId = "";
+  bool isUpdating = false;
 
-  void fetchOrders() async {
+  Future<void> fetchOrders() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     widget.appState.deleteAllOrders();
     Map<String, dynamic> params = {
@@ -100,9 +101,9 @@ class _RightDrawerState extends State<RightDrawer> {
     }
   }
 
-  void addOrders() async {
-    for(var item in widget.appState.entryItems) {
-      widget.appState.updateEntryItemStatus(item.item_code!,"Sent");
+  Future<void> addOrders() async {
+    for (var item in widget.appState.entryItems) {
+      widget.appState.updateEntryItemStatus(item.item_code!, "Sent");
     }
     Map<String, dynamic> body = {
       "room": widget.appState.choosenRoom["id"],
@@ -125,19 +126,20 @@ class _RightDrawerState extends State<RightDrawer> {
     await interactor.addOrder(body);
   }
 
-  void updateOrder() async {
-    for(var item in widget.appState.entryItems) {
-      widget.appState.updateEntryItemStatus(item.item_code!,"Sent");
+  Future<void> updateOrder() async {
+    for (var item in widget.appState.entryItems) {
+      widget.appState.updateEntryItemStatus(item.item_code!, "Sent");
     }
     Map<String, dynamic> body = {
       "amount": widget.appState.total,
       "tax": widget.appState.tva,
-      "discount" : widget.appState.discount,
+      "discount": widget.appState.discount,
       "entry_items": widget.appState.entryItems
           .map((entryMap) => entryMap.toJson())
           .toList(),
     };
     await interactor.updateOrder(body, orderId);
+
   }
 
   @override
@@ -203,7 +205,20 @@ class _RightDrawerState extends State<RightDrawer> {
                   : const SizedBox(),
             ),
             ButtomComponent(
-              onTap:orderId.isEmpty ? addOrders : updateOrder
+
+              onTap: () async {
+
+                if (orderId.isEmpty) {
+                  await addOrders();
+                  await fetchOrders();
+                } else {
+                  await updateOrder();
+                  await fetchOrders();
+                }
+
+
+              }
+              //orderId.isEmpty ? addOrders : updateOrder
               ,
               appState: widget.appState,
             ),

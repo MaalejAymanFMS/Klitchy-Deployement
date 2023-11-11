@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:klitchyapp/models/tables.dart';
 import 'package:klitchyapp/utils/AppState.dart';
@@ -16,7 +18,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:virtual_keyboard_2/virtual_keyboard_2.dart';
 
 import '../config/app_colors.dart';
+import '../models/tables.dart';
+import '../utils/constants.dart';
 import '../utils/locator.dart';
+import '../viewmodels/start_page_vm.dart';
 import '../widget/custom_button.dart';
 import '../widget/entry_field.dart';
 import '../widget/tables/table_2.dart';
@@ -86,6 +91,7 @@ class StartPageUIState extends State<StartPageUI> {
       "production_center_group": []
     };
     await interactor.addTable(body);
+    fetchTables();
   }
 
   void updateTable(String description, String id) async {
@@ -410,9 +416,12 @@ class StartPageUIState extends State<StartPageUI> {
                                                                     _formkey
                                                                         .currentState!
                                                                         .save();
-                                                                    if(this.widget
-                                                                        .appState
-                                                                        .tableType.runtimeType != Container) {
+                                                                    if (this
+                                                                            .widget
+                                                                            .appState
+                                                                            .tableType
+                                                                            .runtimeType !=
+                                                                        Container) {
                                                                       _handleAccept(
                                                                           this
                                                                               .widget
@@ -421,9 +430,9 @@ class StartPageUIState extends State<StartPageUI> {
                                                                           index,
                                                                           tableNameController
                                                                               .text);
-                                                                      Navigator
-                                                                          .pop(
+                                                                      Navigator.pop(
                                                                           context);
+
                                                                     }
                                                                   }
                                                                 },
