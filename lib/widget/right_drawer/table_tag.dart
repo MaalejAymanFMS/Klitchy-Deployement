@@ -153,31 +153,35 @@ class _TableTagState extends State<TableTag> {
           ),
           InkWell(
             onTap: () {
+
               widget.appState.enableDelete();
               setState(() {
                 if (widget.appState.enabledDelete) {
+                  widget.appState.addDiscount("-1");
                   deleteColor = AppColors.redColor;
+
                 } else {
                   deleteColor = Colors.transparent;
+
                   widget.appState.deleteEntryItems();
-                  for (var order in widget.appState.orders) {
-                    widget.appState.addEntryItem(
-                        order.number.toDouble(),
-                        EntryItem(
-                            identifier: "identifier",
-                            parentfield: "entry_items",
-                            parenttype: "Table Order",
-                            item_code: order.code,
-                            status: "Attending",
-                            notes: "",
-                            qty: order.number.toDouble(),
-                            rate: order.price,
-                            price_list_rate: order.price,
-                            amount: order.price * order.number,
-                            table_description:
-                                "${widget.appState.choosenRoom["name"]} (Table)",
-                            doctype: "Order Entry Item"));
-                  }
+                  // for (var order in widget.appState.orders) {
+                  //   widget.appState.addEntryItem(
+                  //       order.number.toDouble(),
+                  //       EntryItem(
+                  //           identifier: "identifier",
+                  //           parentfield: "entry_items",
+                  //           parenttype: "Table Order",
+                  //           item_code: order.code,
+                  //           status: "Attending",
+                  //           notes: "",
+                  //           qty: order.number.toDouble(),
+                  //           rate: order.price,
+                  //           price_list_rate: order.price,
+                  //           amount: order.price * order.number,
+                  //           table_description:
+                  //               "${widget.appState.choosenRoom["name"]} (Table)",
+                  //           doctype: "Order Entry Item"));
+                  // }
                   widget.delete!();
                 }
               });
