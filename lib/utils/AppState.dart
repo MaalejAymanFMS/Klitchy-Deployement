@@ -76,6 +76,7 @@ class AppState extends ChangeNotifier {
       _subtotal += number * (orderWidget.price - orderWidget.price * 0.07);
       _total += number * orderWidget.price;
       notifyListeners();
+
     }
   }
 

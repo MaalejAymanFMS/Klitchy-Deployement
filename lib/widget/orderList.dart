@@ -141,7 +141,7 @@ class _OrderListState extends State<OrderList> {
                                                   const Divider(),
                                                 ],
                                               );
-                                            }).toList(),
+                                            }).toList(), 
                                           ),
                                         ),
                                       ),

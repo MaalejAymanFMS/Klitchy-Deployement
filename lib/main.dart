@@ -6,10 +6,14 @@ import 'package:klitchyapp/views/splashScreen.dart';
 import 'package:provider/provider.dart';
 import 'package:klitchyapp/utils/AppState.dart' as UtilAppState;
 
-void main() {
+void main() async {
+
   WidgetsFlutterBinding.ensureInitialized();
   setupLocator();
   runApp(const MyApp());
+
+
+
 }
 
 class MyApp extends StatelessWidget {

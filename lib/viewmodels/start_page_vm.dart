@@ -2,13 +2,13 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:klitchyapp/models/tables.dart' as tb;
-import 'package:klitchyapp/utils/AppState.dart';
 import 'package:klitchyapp/viewmodels/start_page_interractor.dart';
 import 'package:http/http.dart' as http;
 import 'package:klitchyapp/views/StartPageUI.dart';
 import 'package:klitchyapp/widget/waiterWidget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../utils/AppState.dart';
 import '../utils/constants.dart';
 
 class StartPageVM extends StatefulWidget {
