@@ -74,24 +74,33 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       for (var item in widget.appState.entryItems) {
         if (item.status == "Sent") {
           widget.appState.updateEntryItemDocType(
-              item.item_code!, "POS Invoice Item", "Stores - GP");
+              item.item_code!, "POS Invoice Item", "Stores - JP");
         }
       }
       Map<String, dynamic> body = {
         "docstatus": 1,
         "modified_by": prefs.getString("email"), //tetbaddel bel waiter
-        "title": "Default Customer",
         "naming_series": "ACC-PSINV-.YYYY.-",
-        "customer": "Defult Customer",
-        "pos_profile": "Caissier",
+        "customer": "default",
+        "customer_name": "default ",
+        "pos_profile": "caissier",
         "is_pos": 1,
-        "territory": "Tunisia",
+        "is_return": 0,
+        "update_billed_amount_in_sales_order": 0,
+        "company": "Jumpark",
+        "posting_date": DateTime.now().year.toString()+"-"+DateTime.now().month.toString()+"-"+DateTime.now().day.toString(),
+        "posting_time": DateTime.now().hour.toString()+":"+DateTime.now().minute.toString(),
+        "set_posting_time": 0,
+        "due_date": DateTime.now().year.toString()+"-"+DateTime.now().month.toString()+"-"+DateTime.now().day.toString(),
+        "territory": "Rest Of The World",
+        "shipping_address_name": "",
         "currency": "TND",
         "conversion_rate": 1.0,
         "selling_price_list": "Standard Selling",
         "price_list_currency": "TND",
         "plc_conversion_rate": 1.0,
-        "set_warehouse": "Stores - GP",
+        "ignore_pricing_rule": 0,
+        "set_warehouse": "Stores - JP",
         "update_stock": 1,
         "total": widget.appState.total,
         "net_total": widget.appState.subtotal,
@@ -100,19 +109,23 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         "grand_total": widget.appState.total,
         "paid_amount": amountGiven,
         "change_amount": change,
-        "account_for_change_amount": "Cash - GP",
-        "write_off_account": "Sales - GP",
-        "write_off_cost_center": "Main - GP",
-        "status": "Consolidated",
-        "debit_to": "Debtors - GP",
+        "account_for_change_amount": "Cash - JP",
+        "write_off_account": "Sales - JP",
+        "write_off_cost_center": "Main - JP",
+        "language": "fr",
+        "customer_group": "Individual",
+        "status": "Paid",
+        "debit_to": "Debtors - JP",
         "party_account_currency": "TND",
+        "is_opening": "No",
+        "c_form_applicable": "No",
         "doctype": "POS Invoice",
         "items": widget.appState.entryItems
             .map((entryMap) => entryMap.toJson())
             .toList(),
         "payments": [
           {
-            "owner": "caissier@gameprod.com",
+            "owner": prefs.getString("email"),
             "modified_by": prefs.getString("email"),
             "parentfield": "payments",
             "parenttype": "POS Invoice",
@@ -121,7 +134,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             "default": 0,
             "mode_of_payment": "Cash",
             "amount": widget.appState.total, //tetbaddel
-            "account": "Cash - GP",
+            "account": "Cash - JP",
             "type": "Cash",
             "doctype": "Sales Invoice Payment"
           }
