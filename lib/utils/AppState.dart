@@ -156,7 +156,7 @@ class AppState extends ChangeNotifier {
     _tva = 0.0;
     _subtotal = 0.0;
     _total = 0.0;
-    _subtotalInitial;
+    _subtotalInitial = 0.0;
     _tvaInitial = 0.0;
     _initialTotal = 0.0;
     _entryItems.clear();
@@ -176,8 +176,9 @@ class AppState extends ChangeNotifier {
     if (discount >= 0.0) {
       _discountTotal = discount;
       double discountAmount = _initialTotal * discount;
-      _subtotal = _subtotalInitial - discountAmount;
-      _total = _subtotal + _tvaInitial;
+      _subtotal = _subtotalInitial *(1-discount);
+      _tva=_tvaInitial*(1-discount);
+      _total = _subtotal + _tva;
     }
     if(discountNumber == "-1"){
       _discountTotal = 0.0;
@@ -190,8 +191,9 @@ class AppState extends ChangeNotifier {
          _subtotalInitial =_initialTotal -tva;
 
          double discountAmount = _initialTotal * discount;
-         _subtotal = _subtotalInitial - discountAmount;
-         _total = _subtotal + _tvaInitial;
+        _subtotal = _subtotalInitial *(1-discount);
+        _tva=_tvaInitial*(1-discount);
+        _total = _subtotal + _tva;
          _total = double.parse(_total.toStringAsFixed(2));
        }
     }
