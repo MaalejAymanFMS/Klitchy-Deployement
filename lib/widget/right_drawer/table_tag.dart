@@ -26,7 +26,6 @@ class _TableTagState extends State<TableTag> {
   String nameWaiter = "";
   final TextEditingController orderDiscount = TextEditingController();
 
-
   fetchPrefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -43,8 +42,8 @@ class _TableTagState extends State<TableTag> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 383.h,
-      height: 94.v,
+      width: MediaQuery.of(context).size.width * 0.2,
+      height: MediaQuery.of(context).size.height * 0.09,
       decoration: BoxDecoration(
         color: AppColors.itemsColor,
         borderRadius: BorderRadius.circular(8),
@@ -63,7 +62,7 @@ class _TableTagState extends State<TableTag> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: SizedBox(
-                    width: 140.1.h,
+                    width: MediaQuery.of(context).size.width * 0.05,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -115,13 +114,17 @@ class _TableTagState extends State<TableTag> {
                   ),
                   color: widget.appState.enableColorDiscount,
                 ),
-              child: Center(child: Text("%", style: TextStyle(color: Colors.white, fontSize: 20.fSize),))
-              // Image.asset(
-              //   "assets/images/tag.png",
-              //   color: Colors.white,
-              //   scale: 2.2.fSize,
-              // ),
-            ),
+                child: Center(
+                    child: Text(
+                  "%",
+                  style: TextStyle(color: Colors.white, fontSize: 20.fSize),
+                ))
+                // Image.asset(
+                //   "assets/images/tag.png",
+                //   color: Colors.white,
+                //   scale: 2.2.fSize,
+                // ),
+                ),
           ),
           InkWell(
             onTap: () {
@@ -153,13 +156,11 @@ class _TableTagState extends State<TableTag> {
           ),
           InkWell(
             onTap: () {
-
               widget.appState.enableDelete();
               setState(() {
                 if (widget.appState.enabledDelete) {
                   widget.appState.addDiscount("-1");
                   deleteColor = AppColors.redColor;
-
                 } else {
                   deleteColor = Colors.transparent;
 
@@ -211,6 +212,7 @@ class _TableTagState extends State<TableTag> {
       ),
     );
   }
+
   void showOrderDiscount(AppState appState) {
     showDialog(
       context: context,
@@ -218,8 +220,8 @@ class _TableTagState extends State<TableTag> {
         return AlertDialog(
           title: const Text("Discount"),
           content: SizedBox(
-            height: 570.v,
-            width: 500.h,
+            height: MediaQuery.of(context).size.height * 0.5,
+            width: MediaQuery.of(context).size.width * 0.3,
             child: Column(
               children: [
                 EntryField(
@@ -248,7 +250,7 @@ class _TableTagState extends State<TableTag> {
                 Container(
                   color: AppColors.itemsColor,
                   child: VirtualKeyboard(
-                      height: 300.v,
+                      height: MediaQuery.of(context).size.height * 0.22,
                       textColor: Colors.white,
                       type: VirtualKeyboardType.Numeric,
                       textController: orderDiscount),

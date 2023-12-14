@@ -139,7 +139,6 @@ class _RightDrawerState extends State<RightDrawer> {
           .toList(),
     };
     await interactor.updateOrder(body, orderId);
-
   }
 
   @override
@@ -205,9 +204,7 @@ class _RightDrawerState extends State<RightDrawer> {
                   : const SizedBox(),
             ),
             ButtomComponent(
-
               onTap: () async {
-
                 if (orderId.isEmpty) {
                   await addOrders();
                   await fetchOrders();
@@ -215,8 +212,6 @@ class _RightDrawerState extends State<RightDrawer> {
                   await updateOrder();
                   await fetchOrders();
                 }
-
-
               }
               //orderId.isEmpty ? addOrders : updateOrder
               ,
@@ -235,7 +230,7 @@ class _RightDrawerState extends State<RightDrawer> {
         return AlertDialog(
           title: Text(order.name),
           content: SizedBox(
-            height: 570.v,
+            height: MediaQuery.of(context).size.height * 0.7,
             child: Column(
               children: [
                 EntryField(
@@ -262,7 +257,7 @@ class _RightDrawerState extends State<RightDrawer> {
                 Container(
                   color: AppColors.itemsColor,
                   child: VirtualKeyboard(
-                      height: 300.v,
+                      height: MediaQuery.of(context).size.height * 0.33,
                       textColor: Colors.white,
                       type: VirtualKeyboardType.Alphanumeric,
                       textController: orderNote),

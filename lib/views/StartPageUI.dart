@@ -283,8 +283,8 @@ class StartPageUIState extends State<StartPageUI> {
                       itemBuilder: (BuildContext context, int index) {
                         Widget widget = _gridChildren[index];
                         return SizedBox(
-                          width: 130.h,
-                          height: 130.v,
+                          width: MediaQuery.of(context).size.width * 0.2,
+                          height: MediaQuery.of(context).size.height * 0.2,
                           child: Stack(
                             alignment: Alignment.center,
                             children: [
@@ -432,7 +432,6 @@ class StartPageUIState extends State<StartPageUI> {
                                                                               .text);
                                                                       Navigator.pop(
                                                                           context);
-
                                                                     }
                                                                   }
                                                                 },

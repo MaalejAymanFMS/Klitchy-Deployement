@@ -13,6 +13,7 @@ import '../utils/AppState.dart';
 import '../utils/locator.dart';
 import '../widget/entry_field.dart';
 import '../widget/order_component.dart';
+
 class TableRightDrawer extends StatefulWidget {
   final String? tableId;
   final AppState? appState;
@@ -26,10 +27,7 @@ class TableRightDrawer extends StatefulWidget {
   State<TableRightDrawer> createState() => _TableRightDrawerState();
 }
 
-
 class _TableRightDrawerState extends State<TableRightDrawer> {
-
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -37,31 +35,33 @@ class _TableRightDrawerState extends State<TableRightDrawer> {
       height: 887.v,
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 10.v),
-        child: Column(
+        child: ListView(
+          shrinkWrap: true,
           children: [
             Expanded(
               child: widget.appState!.tableTimer.isNotEmpty
                   ? SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      "List of tables",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    Column(
-                      children: widget.appState!.tableTimer.map((tableTimer) {
-                        return InkWell(
-                          onTap: () {
-                            // showOrderDetails(order, appState);
-                          },
-                          child: tableTimer,
-                        );
-                      }).toList(),
-                    ),
-                  ],
-                ),
-              )
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            "List of tables",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          Column(
+                            children:
+                                widget.appState!.tableTimer.map((tableTimer) {
+                              return InkWell(
+                                onTap: () {
+                                  // showOrderDetails(order, appState);
+                                },
+                                child: tableTimer,
+                              );
+                            }).toList(),
+                          ),
+                        ],
+                      ),
+                    )
                   : const SizedBox(),
             ),
           ],
