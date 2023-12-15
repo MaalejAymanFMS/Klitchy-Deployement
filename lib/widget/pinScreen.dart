@@ -47,8 +47,8 @@ class _PinScreenState extends State<PinScreen> {
         elevation: 8.0,
         child: Flexible(
           child: SizedBox(
-            width: MediaQuery.of(context).size.width * 0.8,
-            height: MediaQuery.of(context).size.height * 0.8,
+            width: 450.h,
+            height: 570.v,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
